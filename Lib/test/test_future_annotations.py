@@ -81,7 +81,7 @@ class DataclassTest(AnnotationsOutputTest):
         self.assertEqual(annotations, expected_annotations)
 
 
-class DataclassSubclassTest(AnnotationsOutputTest):
+class DataclassSubclassOfDataclassTest(AnnotationsOutputTest):
     @dataclass
     class FooDataclassSubclass(_typing_imports_helper.FooDataclass):
         b: int
@@ -100,6 +100,27 @@ class DataclassSubclassTest(AnnotationsOutputTest):
         annotations = get_type_hints(self.FooDataclassSubclass.__init__)
         from collections import OrderedDict
         expected_annotations = {'a': OrderedDict, 'b': int, 'return': type(None)}
+        self.assertEqual(annotations, expected_annotations)
+
+
+class StandardSubclassOfDataclassTest(AnnotationsOutputTest):
+    class FooDataclassSubclass(_typing_imports_helper.FooDataclass):
+        b: int
+
+    def test_dataclass(self):
+        annotations = get_type_hints(self.FooDataclassSubclass)
+        from collections import OrderedDict
+        expected_annotations = {'a': OrderedDict, 'b': int}
+        self.assertEqual(annotations, expected_annotations)
+
+    def test_dataclass_new(self):
+        annotations = get_type_hints(self.FooDataclassSubclass.__new__)
+        self.assertEqual(annotations, {})
+
+    def test_dataclass_init(self):
+        annotations = get_type_hints(self.FooDataclassSubclass.__init__)
+        from collections import OrderedDict
+        expected_annotations = {'a': OrderedDict, 'return': type(None)}
         self.assertEqual(annotations, expected_annotations)
 
 
