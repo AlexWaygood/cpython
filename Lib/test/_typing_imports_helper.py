@@ -14,5 +14,8 @@ class FooNamedTuple(NamedTuple):
 class FooDataclass:
     a: OrderedDict
 
-class FooStandardClass:
+class FooStandardClassInitAnnotations:
     def __init__(self, a: OrderedDict) -> None: ...
+
+class FooStandardClassClassAnnotations:
+    a: OrderedDict
