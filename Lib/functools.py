@@ -843,7 +843,7 @@ def singledispatch(func):
         Registers a new implementation for the given *cls* on a *generic_func*.
 
         """
-        nonlocal cache_token
+        nonlocal cache_token, wrapper
         if func is None:
             if isinstance(cls, type):
                 return lambda f: register(cls, f)
@@ -868,6 +868,14 @@ def singledispatch(func):
         if cache_token is None and hasattr(cls, '__abstractmethods__'):
             cache_token = get_cache_token()
         dispatch_cache.clear()
+        
+        if (func_doc := func.__doc__) is not None:
+            if (current_doc := wrapper.__doc__) is None:
+                wrapper.__doc__ = func_doc
+            else:
+                from inspect import cleandoc
+                wrapper.__doc__ = f'{cleandoc(current_doc)}\n{func_doc}'
+        
         return func
 
     def wrapper(*args, **kw):
@@ -917,6 +925,7 @@ class singledispatchmethod:
         _method.__isabstractmethod__ = self.__isabstractmethod__
         _method.register = self.register
         update_wrapper(_method, self.func)
+        _method.__doc__ = self.dispatcher.__doc__
         return _method
 
     @property

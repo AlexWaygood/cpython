@@ -2526,6 +2526,79 @@ class TestSingleDispatch(unittest.TestCase):
         with self.assertRaisesRegex(TypeError, msg):
             f()
 
+    expected_docstring_for_flip = """\
+Flip an object between the `str` and `int` data types.
+
+When given a string, return an int.
+When given an int, return a string."""
+
+    def test_docstring_accumulation(self):
+        @functools.singledispatch
+        def flip(x: str) -> int:
+            """Flip an object between the `str` and `int` data types.
+
+            When given a string, return an int.
+            """
+            return int(x)
+
+        @flip.register
+        def _(x: int) -> str:
+            """When given an int, return a string."""
+            return str(x)
+
+        self.assertEqual(flip.__doc__, self.expected_docstring_for_flip)
+
+    def test_docstring_accumulation_for_methods(self):
+        class Foo:
+            @functools.singledispatchmethod
+            def flip(self, x: str) -> int:
+                """Flip an object between the `str` and `int` data types.
+
+                When given a string, return an int.
+                """
+                return int(x)
+            
+            @flip.register
+            def _(self, x: int) -> str:
+                """When given an int, return a string."""
+                return str(x)
+            
+            @functools.singledispatchmethod
+            @classmethod
+            def cls_flip(cls, x: str) -> int:
+                """Flip an object between the `str` and `int` data types.
+
+                When given a string, return an int.
+                """
+                return int(x)
+            
+            @cls_flip.register
+            @classmethod
+            def _(cls, x: int) -> str:
+                """When given an int, return a string."""
+                return str(x)
+            
+            @functools.singledispatchmethod
+            @staticmethod
+            def static_flip(x: str) -> int:
+                """Flip an object between the `str` and `int` data types.
+
+                When given a string, return an int.
+                """
+                return int(x)
+            
+            @static_flip.register
+            @staticmethod
+            def _(x: int) -> str:
+                """When given an int, return a string."""
+                return str(x)
+
+        expected_docstring = self.expected_docstring_for_flip
+
+        for method in (Foo.flip, Foo.cls_flip, Foo.static_flip):
+            with self.subTest(method_name=method.__name__):
+                self.assertEqual(method.__doc__, expected_docstring)
+
 
 class CachedCostItem:
     _cost = 1
