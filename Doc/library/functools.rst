@@ -528,6 +528,39 @@ The :mod:`functools` module defines the following functions:
    .. versionchanged:: 3.7
       The :func:`register` attribute supports using type annotations.
 
+   .. versionchanged:: 3.11
+      ``@singledispatch`` will now accumulate docstrings:
+
+      .. code-block:: python
+
+         >>> from functools import singledispatch
+         >>> @singledispatch
+         ... def flip(x: str) -> int:
+         ...     """Flip an object between the `str` and `int` data types.
+         ...
+         ...     When given a string, return an int.
+         ...     """
+         ...     return int(x)
+         >>>
+         >>> @flip.register
+         ... def _(x: int) -> str:
+         ...     """When given an int, return a string."""
+         ...     return str(x)
+         >>>
+         >>> print(flip.__doc__)
+         Flip an object between the `str` and `int` data types.
+
+         When given a string, return an int.
+         When given an int, return a string.
+         >>> help(flip)
+         Help on function flip in module __main__:
+
+         flip(x: str) -> int
+             Flip an object between the `str` and `int` data types.
+
+             When given a string, return an int.
+             When given an int, return a string.
+
 
 .. class:: singledispatchmethod(func)
 
@@ -576,6 +609,10 @@ The :mod:`functools` module defines the following functions:
    ``abstractmethod``, and others.
 
    .. versionadded:: 3.8
+
+   .. versionchanged:: 3.11
+      ``@singledispatchmethod`` will now accumulate docstrings. See the
+      documentation for :func:`@singledispatch<singledispatch>` for details.
 
 
 .. function:: update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)

@@ -2557,12 +2557,12 @@ When given an int, return a string."""
                 When given a string, return an int.
                 """
                 return int(x)
-            
+
             @flip.register
             def _(self, x: int) -> str:
                 """When given an int, return a string."""
                 return str(x)
-            
+
             @functools.singledispatchmethod
             @classmethod
             def cls_flip(cls, x: str) -> int:
@@ -2571,13 +2571,13 @@ When given an int, return a string."""
                 When given a string, return an int.
                 """
                 return int(x)
-            
+
             @cls_flip.register
             @classmethod
             def _(cls, x: int) -> str:
                 """When given an int, return a string."""
                 return str(x)
-            
+
             @functools.singledispatchmethod
             @staticmethod
             def static_flip(x: str) -> int:
@@ -2586,7 +2586,7 @@ When given an int, return a string."""
                 When given a string, return an int.
                 """
                 return int(x)
-            
+
             @static_flip.register
             @staticmethod
             def _(x: int) -> str:

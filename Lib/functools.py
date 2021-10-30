@@ -868,14 +868,14 @@ def singledispatch(func):
         if cache_token is None and hasattr(cls, '__abstractmethods__'):
             cache_token = get_cache_token()
         dispatch_cache.clear()
-        
+
         if (func_doc := func.__doc__) is not None:
             if (current_doc := wrapper.__doc__) is None:
                 wrapper.__doc__ = func_doc
             else:
                 from inspect import cleandoc
                 wrapper.__doc__ = f'{cleandoc(current_doc)}\n{func_doc}'
-        
+
         return func
 
     def wrapper(*args, **kw):
