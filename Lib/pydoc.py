@@ -37,7 +37,7 @@ This can be overridden by setting the PYTHONDOCS environment variable
 to a different URL or to a local directory containing the Library
 Reference Manual pages.
 """
-__all__ = ['help']
+#__all__ = ['help']
 __author__ = "Ka-Ping Yee <ping@lfw.org>"
 __date__ = "26 February 2001"
 
@@ -71,6 +71,7 @@ import sysconfig
 import time
 import tokenize
 import types
+import typing
 import urllib.parse
 import warnings
 from collections import deque
@@ -323,6 +324,14 @@ def sort_attributes(attrs, object):
         field_order = {}
     keyfunc = lambda attr: (field_order.get(attr[0], 0), attr[0])
     attrs.sort(key=keyfunc)
+
+def _get_funcdefs(func):
+    """"
+    If func is an overloaded function,
+    return a sequence containing all overloads associated with that function.
+    Otherwise, return a sequence with `func` as the sole item in the sequence.
+    """
+    return typing.get_overloads(func) or [func]
 
 # ----------------------------------------------------- module manipulation
 
@@ -933,6 +942,7 @@ class HTMLDoc(Doc):
                         push('<dl><dt>%s%s</dl>\n' % (base, doc))
                     push('\n')
             return attrs
+        breakpoint()
 
         attrs = [(name, kind, cls, value)
                  for name, kind, cls, value in classify_class_attrs(object)
@@ -1004,18 +1014,19 @@ class HTMLDoc(Doc):
             title = title + '(%s)' % ', '.join(parents)
 
         decl = ''
-        try:
-            signature = inspect.signature(object)
-        except (ValueError, TypeError):
-            signature = None
-        if signature:
-            argspec = str(signature)
-            if argspec and argspec != '()':
-                decl = name + self.escape(argspec) + '\n\n'
+        for funcdef in _get_funcdefs(object):
+            try:
+                signature = inspect.signature(funcdef)
+            except (ValueError, TypeError):
+                signature = None
+            if signature:
+                argspec = str(signature)
+                if argspec and argspec != '()':
+                    decl += (name + self.escape(argspec) + '\n')
 
         doc = getdoc(object)
         if decl:
-            doc = decl + (doc or '')
+            doc = decl + '\n' + (doc or '')
         doc = self.markup(doc, self.preformat, funcs, classes, mdict)
         doc = doc and '<span class="code">%s<br>&nbsp;</span>' % doc
 
@@ -1062,24 +1073,27 @@ class HTMLDoc(Doc):
                 reallink = realname
             title = '<a name="%s"><strong>%s</strong></a> = %s' % (
                 anchor, name, reallink)
-        argspec = None
+        argspecs = []
         if inspect.isroutine(object):
-            try:
-                signature = inspect.signature(object)
-            except (ValueError, TypeError):
-                signature = None
-            if signature:
-                argspec = str(signature)
-                if realname == '<lambda>':
-                    title = '<strong>%s</strong> <em>lambda</em> ' % name
-                    # XXX lambda's won't usually have func_annotations['return']
-                    # since the syntax doesn't support but it is possible.
-                    # So removing parentheses isn't truly safe.
-                    argspec = argspec[1:-1] # remove parentheses
-        if not argspec:
-            argspec = '(...)'
+            for funcdef in _get_funcdefs(object):
+                try:
+                    signature = inspect.signature(funcdef)
+                except (ValueError, TypeError):
+                    signature = None
+                if signature:
+                    spec = str(signature)
+                    if realname == '<lambda>':
+                        title = '<strong>%s</strong> <em>lambda</em> ' % name
+                        # XXX lambda's won't usually have func_annotations['return']
+                        # since the syntax doesn't support but it is possible.
+                        # So removing parentheses isn't truly safe.
+                        spec = spec[1:-1] # remove parentheses
+                    argspecs.append(spec)
+        if not argspecs:
+            argspecs.append('(...)')
 
-        decl = asyncqualifier + title + self.escape(argspec) + (note and
+        fullspec = '\n'.join(argspecs)
+        decl = asyncqualifier + title + self.escape(fullspec) + (note and
                self.grey('<span class="heading-text">%s</span>' % note))
 
         if skipdocs:
@@ -1322,15 +1336,15 @@ location listed above.
 
         contents = []
         push = contents.append
-
-        try:
-            signature = inspect.signature(object)
-        except (ValueError, TypeError):
-            signature = None
-        if signature:
-            argspec = str(signature)
-            if argspec and argspec != '()':
-                push(name + argspec + '\n')
+        for funcdef in _get_funcdefs(object):
+            try:
+                signature = inspect.signature(funcdef)
+            except (ValueError, TypeError):
+                signature = None
+            if signature:
+                argspec = str(signature)
+                if argspec and argspec != '()':
+                    push(name + argspec + '\n')
 
         doc = getdoc(object)
         if doc:
@@ -1491,24 +1505,27 @@ location listed above.
             if cl and inspect.getattr_static(cl, realname, []) is object:
                 skipdocs = 1
             title = self.bold(name) + ' = ' + realname
-        argspec = None
-
+        argspecs = []
         if inspect.isroutine(object):
-            try:
-                signature = inspect.signature(object)
-            except (ValueError, TypeError):
-                signature = None
-            if signature:
-                argspec = str(signature)
-                if realname == '<lambda>':
-                    title = self.bold(name) + ' lambda '
-                    # XXX lambda's won't usually have func_annotations['return']
-                    # since the syntax doesn't support but it is possible.
-                    # So removing parentheses isn't truly safe.
-                    argspec = argspec[1:-1] # remove parentheses
-        if not argspec:
-            argspec = '(...)'
-        decl = asyncqualifier + title + argspec + note
+            for funcdef in _get_funcdefs(object):
+                try:
+                    signature = inspect.signature(funcdef)
+                except (ValueError, TypeError):
+                    signature = None
+                if signature:
+                    spec = str(signature)
+                    if realname == '<lambda>':
+                        title = '<strong>%s</strong> <em>lambda</em> ' % name
+                        # XXX lambda's won't usually have func_annotations['return']
+                        # since the syntax doesn't support but it is possible.
+                        # So removing parentheses isn't truly safe.
+                        spec = spec[1:-1] # remove parentheses
+                    argspecs.append(spec)
+        if not argspecs:
+            argspecs.append('(...)')
+
+        fullspec = '\n'.join(argspecs)
+        decl = asyncqualifier + title + fullspec + note
 
         if skipdocs:
             return decl + '\n'
