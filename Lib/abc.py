@@ -41,6 +41,25 @@ class abstractclassmethod(classmethod):
     __isabstractmethod__ = True
 
     def __init__(self, callable):
+        import warnings
+        warnings.warn(
+            (
+                "abc.abstractclassmethod is deprecated since Python 3.3 "
+                "and scheduled for removal in Python 3.13. "
+                "Use @classmethod stacked on top of @abstractmethod instead."
+            ),
+            DeprecationWarning
+        )
+            
+#        warnings._deprecated(
+#            "abc.abstractclassmethod",
+#            (
+#                "{name!r} is deprecated since Python 3.3 "
+#                "and scheduled for removal in Python {remove}. "
+#                "Use @classmethod stacked on top of @abstractmethod instead."
+#            ),
+#            remove=(3, 13)
+#        )
         callable.__isabstractmethod__ = True
         super().__init__(callable)
 
@@ -61,6 +80,16 @@ class abstractstaticmethod(staticmethod):
     __isabstractmethod__ = True
 
     def __init__(self, callable):
+        import warnings
+        warnings._deprecated(
+            "abc.abstractstaticmethod",
+            (
+                "{name!r} is deprecated since Python 3.3 "
+                "and scheduled for removal in Python {remove}. "
+                "Use @staticmethod stacked on top of @abstractmethod instead."
+            ),
+            remove=(3, 13)
+        )
         callable.__isabstractmethod__ = True
         super().__init__(callable)
 
@@ -77,6 +106,19 @@ class abstractproperty(property):
                 ...
 
     """
+
+    def __init__(self, *args, **kwargs):
+        import warnings
+        warnings._deprecated(
+            "abc.abstractproperty",
+            (
+                "{name!r} is deprecated since Python 3.3 "
+                "and scheduled for removal in Python {remove}. "
+                "Use @property stacked on top of @abstractmethod instead."
+            ),
+            remove=(3, 13)
+        )
+        super().__init__(*args, **kwargs)
 
     __isabstractmethod__ = True
 
