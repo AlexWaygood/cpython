@@ -237,7 +237,7 @@ values but should not rebind them):
 .. data:: garbage
 
    A list of objects which the collector found to be unreachable but could
-   not be freed (uncollectable objects).  Starting with Python 3.4, this
+   not be freed (uncollectable objects).  This
    list should be empty most of the time, except when using instances of
    C extension types with a non-``NULL`` ``tp_del`` slot.
 

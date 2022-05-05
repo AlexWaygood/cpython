@@ -692,6 +692,6 @@ you are using :class:`profile.Profile` or :class:`cProfile.Profile`,
    the best results with a custom timer, it might be necessary to hard-code it
    in the C source of the internal :mod:`_lsprof` module.
 
-Python 3.3 adds several new functions in :mod:`time` that can be used to make
+There are several functions in :mod:`time` that can be used to make
 precise measurements of process or wall-clock time. For example, see
 :func:`time.perf_counter`.

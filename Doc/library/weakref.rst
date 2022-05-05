@@ -522,9 +522,9 @@ follows::
         def __del__(self):
             self.remove()
 
-Starting with Python 3.4, :meth:`__del__` methods no longer prevent
+However, :meth:`__del__` methods do not prevent
 reference cycles from being garbage collected, and module globals are
-no longer forced to :const:`None` during :term:`interpreter shutdown`.
+not forced to :const:`None` during :term:`interpreter shutdown`.
 So this code should work without any issues on CPython.
 
 However, handling of :meth:`__del__` methods is notoriously implementation

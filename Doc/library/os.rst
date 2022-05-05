@@ -857,7 +857,7 @@ as internal buffering of data.
 .. function:: fchmod(fd, mode)
 
    Change the mode of the file given by *fd* to the numeric *mode*.  See the
-   docs for :func:`chmod` for possible values of *mode*.  As of Python 3.3, this
+   docs for :func:`chmod` for possible values of *mode*.  This
    is equivalent to ``os.chmod(fd, mode)``.
 
    .. audit-event:: os.chmod path,mode,dir_fd os.fchmod
@@ -869,7 +869,7 @@ as internal buffering of data.
 
    Change the owner and group id of the file given by *fd* to the numeric *uid*
    and *gid*.  To leave one of the ids unchanged, set it to -1.  See
-   :func:`chown`.  As of Python 3.3, this is equivalent to ``os.chown(fd, uid,
+   :func:`chown`.  This is equivalent to ``os.chown(fd, uid,
    gid)``.
 
    .. audit-event:: os.chown path,uid,gid,dir_fd os.fchown
@@ -903,7 +903,7 @@ as internal buffering of data.
    included in ``pathconf_names``, an :exc:`OSError` is raised with
    :const:`errno.EINVAL` for the error number.
 
-   As of Python 3.3, this is equivalent to ``os.pathconf(fd, name)``.
+   This is equivalent to ``os.pathconf(fd, name)``.
 
    .. availability:: Unix.
 
@@ -913,7 +913,7 @@ as internal buffering of data.
    Get the status of the file descriptor *fd*. Return a :class:`stat_result`
    object.
 
-   As of Python 3.3, this is equivalent to ``os.stat(fd)``.
+   This is equivalent to ``os.stat(fd)``.
 
    .. seealso::
 
@@ -923,7 +923,7 @@ as internal buffering of data.
 .. function:: fstatvfs(fd)
 
    Return information about the filesystem containing the file associated with
-   file descriptor *fd*, like :func:`statvfs`.  As of Python 3.3, this is
+   file descriptor *fd*, like :func:`statvfs`.  This is
    equivalent to ``os.statvfs(fd)``.
 
    .. availability:: Unix.
@@ -944,7 +944,7 @@ as internal buffering of data.
 .. function:: ftruncate(fd, length)
 
    Truncate the file corresponding to file descriptor *fd*, so that it is at
-   most *length* bytes in size.  As of Python 3.3, this is equivalent to
+   most *length* bytes in size.  This is equivalent to
    ``os.truncate(fd, length)``.
 
    .. audit-event:: os.truncate fd,length os.ftruncate
@@ -1606,7 +1606,7 @@ Inheritance of File Descriptors
 .. versionadded:: 3.4
 
 A file descriptor has an "inheritable" flag which indicates if the file descriptor
-can be inherited by child processes.  Since Python 3.4, file descriptors
+can be inherited by child processes.  File descriptors
 created by Python are non-inheritable by default.
 
 On UNIX, non-inheritable file descriptors are closed in child processes at the
@@ -1897,7 +1897,7 @@ features:
 
    Change the current working directory to the directory represented by the file
    descriptor *fd*.  The descriptor must refer to an opened directory, not an
-   open file.  As of Python 3.3, this is equivalent to ``os.chdir(fd)``.
+   open file.  This is equivalent to ``os.chdir(fd)``.
 
    .. audit-event:: os.chdir path os.fchdir
 
@@ -1922,7 +1922,7 @@ features:
 .. function:: lchflags(path, flags)
 
    Set the flags of *path* to the numeric *flags*, like :func:`chflags`, but do
-   not follow symbolic links.  As of Python 3.3, this is equivalent to
+   not follow symbolic links.  This is equivalent to
    ``os.chflags(path, flags, follow_symlinks=False)``.
 
    .. audit-event:: os.chflags path,flags os.lchflags
@@ -1937,7 +1937,7 @@ features:
 
    Change the mode of *path* to the numeric *mode*. If path is a symlink, this
    affects the symlink rather than the target.  See the docs for :func:`chmod`
-   for possible values of *mode*.  As of Python 3.3, this is equivalent to
+   for possible values of *mode*.  This is equivalent to
    ``os.chmod(path, mode, follow_symlinks=False)``.
 
    .. audit-event:: os.chmod path,mode,dir_fd os.lchmod
@@ -1950,7 +1950,7 @@ features:
 .. function:: lchown(path, uid, gid)
 
    Change the owner and group id of *path* to the numeric *uid* and *gid*.  This
-   function will not follow symbolic links.  As of Python 3.3, this is equivalent
+   function will not follow symbolic links.  This is equivalent
    to ``os.chown(path, uid, gid, follow_symlinks=False)``.
 
    .. audit-event:: os.chown path,uid,gid,dir_fd os.lchown
@@ -2029,7 +2029,7 @@ features:
    On platforms that do not support symbolic links, this is an alias for
    :func:`~os.stat`.
 
-   As of Python 3.3, this is equivalent to ``os.stat(path, dir_fd=dir_fd,
+   This is equivalent to ``os.stat(path, dir_fd=dir_fd,
    follow_symlinks=False)``.
 
    This function can also support :ref:`paths relative to directory descriptors

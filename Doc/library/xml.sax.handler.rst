@@ -120,7 +120,7 @@ for the feature and property names.
 .. data:: property_lexical_handler
 
    | value: ``"http://xml.org/sax/properties/lexical-handler"``
-   | data type: xml.sax.handler.LexicalHandler (not supported in Python 2)
+   | data type: xml.sax.handler.LexicalHandler
    | description: An optional extension handler for lexical events like
      comments.
    | access: read/write
@@ -129,7 +129,7 @@ for the feature and property names.
 .. data:: property_declaration_handler
 
    | value: ``"http://xml.org/sax/properties/declaration-handler"``
-   | data type: xml.sax.sax2lib.DeclHandler (not supported in Python 2)
+   | data type: xml.sax.sax2lib.DeclHandler
    | description: An optional extension handler for DTD-related events other
      than notations and unparsed entities.
    | access: read/write
@@ -138,7 +138,7 @@ for the feature and property names.
 .. data:: property_dom_node
 
    | value: ``"http://xml.org/sax/properties/dom-node"``
-   | data type: org.w3c.dom.Node (not supported in Python 2)
+   | data type: org.w3c.dom.Node
    | description: When parsing, the current DOM node being visited if this is
      a DOM iterator; when not parsing, the root DOM node for iteration.
    | access: (parsing) read-only; (not parsing) read/write

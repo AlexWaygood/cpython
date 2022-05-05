@@ -73,7 +73,7 @@ Functions, Constants, and Exceptions
 Socket creation
 ^^^^^^^^^^^^^^^
 
-Since Python 3.2 and 2.7.9, it is recommended to use the
+It is recommended to use the
 :meth:`SSLContext.wrap_socket` of an :class:`SSLContext` instance to wrap
 sockets as :class:`SSLSocket` objects. The helper functions
 :func:`create_default_context` returns a new context with secure default
@@ -2701,7 +2701,7 @@ Cipher selection
 
 If you have advanced security requirements, fine-tuning of the ciphers
 enabled when negotiating a SSL session is possible through the
-:meth:`SSLContext.set_ciphers` method.  Starting from Python 3.2.3, the
+:meth:`SSLContext.set_ciphers` method.  The
 ssl module disables certain weak ciphers by default, but you may want
 to further restrict the cipher choice. Be sure to read OpenSSL's documentation
 about the `cipher list format <https://www.openssl.org/docs/manmaster/man1/ciphers.html#CIPHER-LIST-FORMAT>`_.

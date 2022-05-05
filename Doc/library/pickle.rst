@@ -79,9 +79,7 @@ The :mod:`pickle` module differs from :mod:`marshal` in several significant ways
   :file:`.pyc` files, the Python implementers reserve the right to change the
   serialization format in non-backwards compatible ways should the need arise.
   The :mod:`pickle` serialization format is guaranteed to be backwards compatible
-  across Python releases provided a compatible pickle protocol is chosen and
-  pickling and unpickling code deals with Python 2 to Python 3 type differences
-  if your data is crossing that unique breaking change language boundary.
+  across Python releases provided a compatible pickle protocol is chosen.
 
 
 .. _comparison-with-json:
@@ -199,8 +197,7 @@ The :mod:`pickle` module provides the following constants:
 
    An integer, the default :ref:`protocol version <pickle-protocols>` used
    for pickling.  May be less than :data:`HIGHEST_PROTOCOL`.  Currently the
-   default protocol is 4, first introduced in Python 3.4 and incompatible
-   with previous versions.
+   default protocol is 4.
 
    .. versionchanged:: 3.0
 
