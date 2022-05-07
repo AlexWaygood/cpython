@@ -18,7 +18,7 @@ package metadata.  Built in part on Python's import system, this library
 intends to replace similar functionality in the `entry point
 API`_ and `metadata API`_ of ``pkg_resources``.  Along with
 :mod:`importlib.resources` (with new features backported to the
-`importlib_resources`_ packages), this can eliminate the need to use the older
+`importlib_resources`_ package), this can eliminate the need to use the older
 and less efficient
 ``pkg_resources`` package.
 

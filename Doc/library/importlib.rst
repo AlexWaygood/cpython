@@ -414,7 +414,7 @@ ABC hierarchy::
 
        .. versionadded:: 3.4
 
-       .. versionchanged:: 3.5
+       .. versionchanged:: 3.6
           This method is no longer optional when
           :meth:`exec_module` is defined.
 
