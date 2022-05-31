@@ -1212,9 +1212,6 @@ class Enum(metaclass=EnumType):
             exc = None
             ve_exc = None
 
-    def __init__(self, *args, **kwds):
-        pass
-
     def _generate_next_value_(name, start, count, last_values):
         """
         Generate the next value when not given.
