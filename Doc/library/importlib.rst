@@ -1250,6 +1250,9 @@ Checking if a module can be imported
 
 If you need to find out if a module can be imported without actually doing the
 import, then you should use :func:`importlib.util.find_spec`.
+
+Note that if ``name`` is a submodule (contains a dot),
+:func:`importlib.util.find_spec` will import the parent module.
 ::
 
   import importlib.util
@@ -1354,8 +1357,7 @@ Import itself is implemented in Python code, making it possible to
 expose most of the import machinery through importlib. The following
 helps illustrate the various APIs that importlib exposes by providing an
 approximate implementation of
-:func:`importlib.import_module`.
-::
+:func:`importlib.import_module`::
 
   import importlib.util
   import sys

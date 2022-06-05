@@ -50,7 +50,7 @@ if os.name == 'nt':
                   % (TESTFN_UNENCODABLE, sys.getfilesystemencoding()))
             TESTFN_UNENCODABLE = None
 # macOS and Emscripten deny unencodable filenames (invalid utf-8)
-elif sys.platform not in {'darwin', 'emscripten'}:
+elif sys.platform not in {'darwin', 'emscripten', 'wasi'}:
     try:
         # ascii and utf-8 cannot encode the byte 0xff
         b'\xff'.decode(sys.getfilesystemencoding())
@@ -171,9 +171,13 @@ def can_symlink():
     global _can_symlink
     if _can_symlink is not None:
         return _can_symlink
-    symlink_path = TESTFN + "can_symlink"
+    # WASI / wasmtime prevents symlinks with absolute paths, see man
+    # openat2(2) RESOLVE_BENEATH. Almost all symlink tests use absolute
+    # paths. Skip symlink tests on WASI for now.
+    src = os.path.abspath(TESTFN)
+    symlink_path = src + "can_symlink"
     try:
-        os.symlink(TESTFN, symlink_path)
+        os.symlink(src, symlink_path)
         can = True
     except (OSError, NotImplementedError, AttributeError):
         can = False
