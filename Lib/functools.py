@@ -1010,3 +1010,90 @@ class cached_property:
         return val
 
     __class_getitem__ = classmethod(GenericAlias)
+
+
+class classproperty:
+    _cache = {}
+
+    __slots__ = (
+        '_fget', '__doc__', '_overwrite_doc', '_cached',
+        '_cls_name', '_name', '_owner', '_owner_name',
+        '_cache_key'
+    )
+
+    def __init__(self, fget=None, doc=None, *, cached=False):
+        if getattr(fget, '__isabstractmethod__', False):
+            raise TypeError('Classproperties cannot be abstract.')
+        self._fget = fget
+        self.__doc__ = doc or fget.__doc__
+        self._overwrite_doc = doc is None
+        self._cached = cached
+        self._cls_name = self.__class__.__name__
+        self._name = None
+        self._owner = None
+        self._cache_key = None
+        self._owner_name = None
+
+    def __call__(self, fget):
+        if not (self._cached is True and self._fget is None):
+            raise TypeError(f'{self._cls_name!r} object is not callable')
+        return self.getter(fget)
+
+    def __set_name__(self, owner, name):
+        self._name = name
+        self._owner = owner
+        self._cache_key = name, owner
+        self._owner_name = owner.__name__
+
+    def __del__(self):
+        self._cache.pop(self._cache_key, None)
+
+    def __get__(self, obj, objtype=None):
+        fget = self._fget
+        if fget is None:
+            raise AttributeError("unreadable attribute")
+        if self._cached:
+            cache, cache_key = self._cache, self._cache_key
+            try:
+                result = cache[cache_key]
+            except KeyError:
+                result = fget(self._owner)
+                cache[cache_key] = result
+        else:
+            result = fget(self._owner)
+        return result
+
+    @property
+    def fget(self):
+        return self._fget
+
+    @property
+    def cached(self):
+        return self._cached
+
+    @property
+    def __name__(self):
+        return self._name
+
+    # Include getter so that it can be overridden in subclasses
+    def getter(self, fget):
+        overwrite_doc = self._overwrite_doc
+        fdoc = fget.__doc__ if overwrite_doc else None
+        result = self.__class__(fget, fdoc or self.__doc__, cached=self._cached)
+        result._overwrite_doc = overwrite_doc
+        result._name = self._name
+        result._owner = self._owner
+        result._owner_name = self._owner_name
+        result._cache_key = self._cache_key
+        return result
+
+    def setter(self, fset):
+        raise RuntimeError("Can't specify a setter for a classproperty")
+
+    def deleter(self, fdel):
+        raise RuntimeError("Can't specify a deleter for a classproperty")
+
+    __class_getitem__ = classmethod(GenericAlias)
+
+    def __repr__(self):
+        return f'<{self._cls_name} {self._name!r} of type {self._owner_name!r}>'
