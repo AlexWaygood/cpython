@@ -222,6 +222,29 @@ _POST_INIT_NAME = '__post_init__'
 # https://bugs.python.org/issue33453 for details.
 _MODULE_IDENTIFIER_RE = re.compile(r'^(?:\s*(\w+)\s*\.)?\s*(\w+)')
 
+# Types for which deepcopy(obj) is known to return obj unmodified
+# Used to skip deepcopy in asdict and astuple for performance
+_ATOMIC_TYPES = {
+    # Common JSON Serializable types
+    types.NoneType,
+    bool,
+    int,
+    float,
+    complex,
+    bytes,
+    str,
+    # Other types that are also unaffected by deepcopy
+    types.EllipsisType,
+    types.NotImplementedType,
+    types.CodeType,
+    types.BuiltinFunctionType,
+    types.FunctionType,
+    type,
+    range,
+    property,
+    # weakref.ref,  # weakref is not currently imported by dataclasses directly
+}
+
 # This function's logic is copied from "recursive_repr" function in
 # reprlib module to avoid dependency.
 def _recursive_repr(user_function):
@@ -1292,12 +1315,20 @@ def asdict(obj, *, dict_factory=dict):
 
 
 def _asdict_inner(obj, dict_factory):
-    if _is_dataclass_instance(obj):
-        result = []
-        for f in fields(obj):
-            value = _asdict_inner(getattr(obj, f.name), dict_factory)
-            result.append((f.name, value))
-        return dict_factory(result)
+    if type(obj) in _ATOMIC_TYPES:
+        return obj
+    elif _is_dataclass_instance(obj):
+        if dict_factory is dict:
+            return {
+                f.name: _asdict_inner(getattr(obj, f.name), dict_factory)
+                for f in fields(obj)
+            }
+        else:
+            result = []
+            for f in fields(obj):
+                value = _asdict_inner(getattr(obj, f.name), dict_factory)
+                result.append((f.name, value))
+            return dict_factory(result)
     elif isinstance(obj, tuple) and hasattr(obj, '_fields'):
         # obj is a namedtuple.  Recurse into it, but the returned
         # object is another namedtuple of the same type.  This is
@@ -1364,7 +1395,9 @@ def astuple(obj, *, tuple_factory=tuple):
 
 
 def _astuple_inner(obj, tuple_factory):
-    if _is_dataclass_instance(obj):
+    if type(obj) in _ATOMIC_TYPES:
+        return obj
+    elif _is_dataclass_instance(obj):
         result = []
         for f in fields(obj):
             value = _astuple_inner(getattr(obj, f.name), tuple_factory)
