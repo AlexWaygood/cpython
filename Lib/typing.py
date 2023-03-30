@@ -1998,6 +1998,8 @@ class _ProtocolMeta(ABCMeta):
     # This metaclass is really unfortunate and exists only because of
     # the lack of __instancehook__.
     def __instancecheck__(cls, instance):
+        if super().__instancecheck__(instance):
+            return True
         # We need this method for situations where attributes are
         # assigned in __init__.
         if (
@@ -2019,7 +2021,7 @@ class _ProtocolMeta(ABCMeta):
                      getattr(instance, attr) is not None)
                     for attr in _get_protocol_attrs(cls)):
                 return True
-        return super().__instancecheck__(instance)
+        return False
 
 
 class Protocol(Generic, metaclass=_ProtocolMeta):
