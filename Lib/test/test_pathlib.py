@@ -2589,8 +2589,8 @@ class _BasePathTest(object):
         self.assertIs((P / 'fileA\x00').is_char_device(), False)
 
     def test_is_char_device_true(self):
-        # Under Unix, /dev/null should generally be a char device.
-        P = self.cls('/dev/null')
+        # /dev/null should generally be a char device.
+        P = self.cls(os.devnull)
         if not P.exists():
             self.skipTest("/dev/null required")
         self.assertTrue(P.is_char_device())
