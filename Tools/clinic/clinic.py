@@ -4796,59 +4796,77 @@ class DSLParser:
                 if bad:
                     fail("Unsupported expression as default value: " + repr(default))
 
-                expr = module.body[0].value
-                # mild hack: explicitly support NULL as a default value
-                if isinstance(expr, ast.Name) and expr.id == 'NULL':
-                    value = NULL
-                    py_default = '<unrepresentable>'
-                    c_default = "NULL"
-                elif (isinstance(expr, ast.BinOp) or
-                    (isinstance(expr, ast.UnaryOp) and
-                     not (isinstance(expr.operand, ast.Constant) and
-                          type(expr.operand.value) in {int, float, complex})
-                    )):
+                def get_c_default(
+                    default: str, default_kind: str, expr: ast.expr | None = None
+                ) -> str:
                     c_default = kwargs.get("c_default")
                     if not (isinstance(c_default, str) and c_default):
-                        fail("When you specify an expression (" + repr(default) + ") as your default value,\nyou MUST specify a valid c_default." + ast.dump(expr))
-                    py_default = default
-                    value = unknown
-                elif isinstance(expr, ast.Attribute):
-                    a = []
-                    n = expr
-                    while isinstance(n, ast.Attribute):
-                        a.append(n.attr)
-                        n = n.value
-                    if not isinstance(n, ast.Name):
-                        fail("Unsupported default value " + repr(default) + " (looked like a Python constant)")
-                    a.append(n.id)
-                    py_default = ".".join(reversed(a))
+                        msg = (
+                            f"When you specify {default_kind} ({default!r}) "
+                            f"as your default value,\n"
+                            f"you MUST specify a valid c_default."
+                        )
+                        if expr:
+                            msg += f"\n{ast.dump(expr)}"
+                        fail(msg)
+                    return c_default
 
-                    c_default = kwargs.get("c_default")
-                    if not (isinstance(c_default, str) and c_default):
-                        fail("When you specify a named constant (" + repr(py_default) + ") as your default value,\nyou MUST specify a valid c_default.")
+                def is_numeric(node: ast.expr) -> bool:
+                    match node:
+                        case ast.Constant(value=value):
+                            return type(value) in {int, float, complex}
+                        case _:
+                            return False
 
-                    try:
-                        value = eval(py_default)
-                    except NameError:
+                match expr := module.body[0].value:
+                    # mild hack: explicitly support NULL as a default value
+                    case ast.Name('NULL'):
+                        value = NULL
+                        py_default = '<unrepresentable>'
+                        c_default = "NULL"
+                    case ast.BinOp():
+                        c_default = get_c_default(default, 'an expression', expr)
+                        py_default = default
                         value = unknown
-                else:
-                    value = ast.literal_eval(expr)
-                    py_default = repr(value)
-                    if isinstance(value, (bool, None.__class__)):
-                        c_default = "Py_" + py_default
-                    elif isinstance(value, str):
-                        c_default = c_repr(value)
-                    else:
-                        c_default = py_default
+                    case ast.UnaryOp(operand=operand) if is_numeric(operand):
+                        c_default = get_c_default(default, 'an expression', expr)
+                        py_default = default
+                        value = unknown
+                    case ast.Attribute():
+                        a = []
+                        n = expr
+                        while isinstance(n, ast.Attribute):
+                            a.append(n.attr)
+                            n = n.value
+                        if not isinstance(n, ast.Name):
+                            fail(
+                                f"Unsupported default value {default!r} (looked like a Python constant)"
+                            )
+                        a.append(n.id)
+                        py_default = ".".join(reversed(a))
+                        c_default = get_c_default(default, 'a named constant')
+
+                        try:
+                            value = eval(py_default)
+                        except NameError:
+                            value = unknown
+                    case _:
+                        value = ast.literal_eval(expr)
+                        py_default = repr(value)
+                        match value:
+                            case True | False | None:
+                                c_default = f"Py_{py_default}"
+                            case str():
+                                c_default = c_repr(value)
+                            case _:
+                                c_default = py_default
 
             except SyntaxError as e:
-                fail("Syntax error: " + repr(e.text))
+                fail(f"Syntax error: {e.text!r}")
             except (ValueError, AttributeError):
                 value = unknown
-                c_default = kwargs.get("c_default")
                 py_default = default
-                if not (isinstance(c_default, str) and c_default):
-                    fail("When you specify a named constant (" + repr(py_default) + ") as your default value,\nyou MUST specify a valid c_default.")
+                c_default = get_c_default(py_default, 'a named constant')
 
             kwargs.setdefault('c_default', c_default)
             kwargs.setdefault('py_default', py_default)
@@ -4899,29 +4917,32 @@ class DSLParser:
 
         names = [k.name for k in self.function.parameters.values()]
         if parameter_name in names[1:]:
-            fail("You can't have two parameters named " + repr(parameter_name) + "!")
+            fail(f"You can't have two parameters named {parameter_name!r}!")
         elif names and parameter_name == names[0] and c_name is None:
             fail(f"Parameter '{parameter_name}' requires a custom C name")
 
         key = f"{parameter_name}_as_{c_name}" if c_name else parameter_name
         self.function.parameters[key] = p
 
-    def parse_converter(self, annotation):
-        if (isinstance(annotation, ast.Constant) and
-            type(annotation.value) is str):
-            return annotation.value, True, {}
-
-        if isinstance(annotation, ast.Name):
-            return annotation.id, False, {}
-
-        if not isinstance(annotation, ast.Call):
-            fail("Annotations must be either a name, a function call, or a string.")
-
-        name = annotation.func.id
-        symbols = globals()
-
-        kwargs = {node.arg: eval_ast_expr(node.value, symbols) for node in annotation.keywords}
-        return name, False, kwargs
+    def parse_converter(
+        self, annotation: ast.AST
+    ) -> tuple[str, bool, dict[str | None, object]]:
+        match annotation:
+            case ast.Constant(value=str() as value):
+                return value, True, {}
+            case ast.Name(id):
+                return id, False, {}
+            case ast.Call(func=ast.Name(name)):
+                symbols = globals()
+                kwargs = {
+                    node.arg: eval_ast_expr(node.value, symbols)
+                    for node in annotation.keywords
+                }
+                return name, False, kwargs
+            case _:
+                fail(
+                    "Annotations must be either a name, a function call, or a string."
+                )
 
     def parse_special_symbol(self, symbol):
         if symbol == '*':
