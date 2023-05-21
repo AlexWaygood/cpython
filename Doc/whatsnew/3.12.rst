@@ -630,7 +630,7 @@ typing
   :func:`runtime-checkable protocols <typing.runtime_checkable>` has changed
   significantly. Most ``isinstance()`` checks against protocols with only a few
   members should be at least 2x faster than in 3.11, and some may be 20x
-  faster or more. However, ``isinstance()`` checks against protocols with fourteen
+  faster or more. However, ``isinstance()`` checks against protocols with twenty
   or more members may be slower than in Python 3.11. (Contributed by Alex
   Waygood in :gh:`74690` and :gh:`103193`.)
 

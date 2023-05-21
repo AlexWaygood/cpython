@@ -1777,16 +1777,8 @@ def trace(context=1):
 _sentinel = object()
 _static_getmro = type.__dict__['__mro__'].__get__
 _get_dunder_dict_of_class = type.__dict__["__dict__"].__get__
-
-
-def _check_instance(obj, attr):
-    instance_dict = {}
-    try:
-        instance_dict = object.__getattribute__(obj, "__dict__")
-    except AttributeError:
-        pass
-    return dict.get(instance_dict, attr, _sentinel)
-
+_dict_get = dict.get
+_object_getattribute = object.__getattribute__
 
 def _check_class(klass, attr):
     for entry in _static_getmro(klass):
@@ -1828,7 +1820,12 @@ def getattr_static(obj, attr, default=_sentinel):
         dict_attr = _shadowed_dict(klass)
         if (dict_attr is _sentinel or
             type(dict_attr) is types.MemberDescriptorType):
-            instance_result = _check_instance(obj, attr)
+            try:
+                instance_dict = _object_getattribute(obj, "__dict__")
+            except AttributeError:
+                pass
+            else:
+                instance_result = _dict_get(instance_dict, attr, _sentinel)
     else:
         klass = obj
 

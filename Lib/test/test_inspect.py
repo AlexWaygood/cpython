@@ -2145,11 +2145,39 @@ class TestGetattrStatic(unittest.TestCase):
                 test.called = True
                 super().get(key, default)
 
+            def __contains__(self, key):
+                test.called = True
+                return super().__contains__(key)
+
         class Foo(object):
             a = 3
         foo = Foo()
         foo.__dict__ = Custom()
         self.assertEqual(inspect.getattr_static(foo, 'a'), 3)
+        self.assertFalse(test.called)
+
+    def test_custom_object_dict(self):
+        test = self
+        test.called = False
+
+        class Custom(dict):
+            def __getitem__(self, key):
+                test.called = True
+                return super().__getitem__(key)
+
+            def get(self, key, default=None):
+                test.called = True
+                return super().get(key, default)
+
+            def __contains__(self, key):
+                test.called = True
+                return super().__contains__(key)
+
+        class Foo(object):
+            a = 3
+        foo = Foo()
+        foo.__dict__ = Custom({'a': 4})
+        self.assertEqual(inspect.getattr_static(foo, 'a'), 4)
         self.assertFalse(test.called)
 
     def test_metaclass_dict_as_property(self):
