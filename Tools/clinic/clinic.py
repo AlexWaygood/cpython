@@ -29,7 +29,7 @@ import traceback
 
 from collections.abc import Callable
 from types import FunctionType, NoneType
-from typing import Any, Final, NamedTuple, NoReturn, Literal, overload
+from typing import Annotated, Any, Final, NamedTuple, NoReturn, Literal, overload
 
 # TODO:
 #
@@ -4906,50 +4906,9 @@ class DSLParser:
                 if bad:
                     fail("Unsupported expression as default value: " + repr(default))
 
-                expr = module.body[0].value
-                # mild hack: explicitly support NULL as a default value
-                if isinstance(expr, ast.Name) and expr.id == 'NULL':
-                    value = NULL
-                    py_default = '<unrepresentable>'
-                    c_default = "NULL"
-                elif (isinstance(expr, ast.BinOp) or
-                    (isinstance(expr, ast.UnaryOp) and
-                     not (isinstance(expr.operand, ast.Constant) and
-                          type(expr.operand.value) in {int, float, complex})
-                    )):
-                    c_default = kwargs.get("c_default")
-                    if not (isinstance(c_default, str) and c_default):
-                        fail("When you specify an expression (" + repr(default) + ") as your default value,\nyou MUST specify a valid c_default." + ast.dump(expr))
-                    py_default = default
-                    value = unknown
-                elif isinstance(expr, ast.Attribute):
-                    a = []
-                    n = expr
-                    while isinstance(n, ast.Attribute):
-                        a.append(n.attr)
-                        n = n.value
-                    if not isinstance(n, ast.Name):
-                        fail("Unsupported default value " + repr(default) + " (looked like a Python constant)")
-                    a.append(n.id)
-                    py_default = ".".join(reversed(a))
-
-                    c_default = kwargs.get("c_default")
-                    if not (isinstance(c_default, str) and c_default):
-                        fail("When you specify a named constant (" + repr(py_default) + ") as your default value,\nyou MUST specify a valid c_default.")
-
-                    try:
-                        value = eval(py_default)
-                    except NameError:
-                        value = unknown
-                else:
-                    value = ast.literal_eval(expr)
-                    py_default = repr(value)
-                    if isinstance(value, (bool, None.__class__)):
-                        c_default = "Py_" + py_default
-                    elif isinstance(value, str):
-                        c_default = c_repr(value)
-                    else:
-                        c_default = py_default
+                value, py_default, c_default = self.get_default_from_ast_expr(
+                    module.body[0].value, default, kwargs
+                )
 
             except SyntaxError as e:
                 fail("Syntax error: " + repr(e.text))
@@ -5015,6 +4974,65 @@ class DSLParser:
 
         key = f"{parameter_name}_as_{c_name}" if c_name else parameter_name
         self.function.parameters[key] = p
+
+    DefaultsTuple = Annotated[
+        tuple[object, str, str],
+        "A (<value>, <py_default>, <c_default>) tuple"
+    ]
+
+    @staticmethod
+    def get_default_from_ast_expr(
+        expr: ast.expr, default: str, kwargs: dict[str, Any]
+    ) -> DefaultsTuple:
+        value: object
+        c_default: str | None
+        py_default: str
+
+        # mild hack: explicitly support NULL as a default value
+        if isinstance(expr, ast.Name):
+            value = NULL
+            py_default = '<unrepresentable>'
+            c_default = "NULL"
+        elif (isinstance(expr, ast.BinOp) or
+            (isinstance(expr, ast.UnaryOp) and
+             not (isinstance(expr.operand, ast.Constant) and
+                  type(expr.operand.value) in {int, float, complex})
+            )):
+            c_default = kwargs.get("c_default")
+            if not (isinstance(c_default, str) and c_default):
+                fail("When you specify an expression (" + repr(default) + ") as your default value,\nyou MUST specify a valid c_default." + ast.dump(expr))
+            py_default = default
+            value = unknown
+        elif isinstance(expr, ast.Attribute):
+            a = []
+            n: ast.expr = expr
+            while isinstance(n, ast.Attribute):
+                a.append(n.attr)
+                n = n.value
+            if not isinstance(n, ast.Name):
+                fail("Unsupported default value " + repr(default) + " (looked like a Python constant)")
+            a.append(n.id)
+            py_default = ".".join(reversed(a))
+
+            c_default = kwargs.get("c_default")
+            if not (isinstance(c_default, str) and c_default):
+                fail("When you specify a named constant (" + repr(py_default) + ") as your default value,\nyou MUST specify a valid c_default.")
+
+            try:
+                value = eval(py_default)
+            except NameError:
+                value = unknown
+        else:
+            value = ast.literal_eval(expr)
+            py_default = repr(value)
+            if isinstance(value, (bool, None.__class__)):
+                c_default = "Py_" + py_default
+            elif isinstance(value, str):
+                c_default = c_repr(value)
+            else:
+                c_default = py_default
+
+        return value, py_default, c_default
 
     KwargDict = dict[str | None, Any]
 
