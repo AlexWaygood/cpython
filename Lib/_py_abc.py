@@ -67,6 +67,9 @@ class ABCMeta(type):
             raise RuntimeError("Refusing to create an inheritance cycle")
         cls._abc_registry.add(subclass)
         ABCMeta._abc_invalidation_counter += 1  # Invalidate negative cache
+        for supercls in cls.__mro__:
+            if isinstance(supercls, ABCMeta):
+                supercls._abc_registry.add(subclass)
         return subclass
 
     def _dump_registry(cls, file=None):
@@ -135,11 +138,6 @@ class ABCMeta(type):
         # Check if it's a subclass of a registered class (recursive)
         for rcls in cls._abc_registry:
             if issubclass(subclass, rcls):
-                cls._abc_cache.add(subclass)
-                return True
-        # Check if it's a subclass of a subclass (recursive)
-        for scls in cls.__subclasses__():
-            if issubclass(subclass, scls):
                 cls._abc_cache.add(subclass)
                 return True
         # No dice; update negative cache
