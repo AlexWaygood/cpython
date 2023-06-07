@@ -594,7 +594,7 @@ def LiteralString(self, parameters):
 
         from typing import LiteralString
 
-        def run_query(sql: LiteralString) -> ...
+        def run_query(sql: LiteralString) -> None:
             ...
 
         def caller(arbitrary_string: str, literal_string: LiteralString) -> None:
