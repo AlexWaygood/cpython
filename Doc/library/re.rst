@@ -1414,14 +1414,14 @@ when there is no match, you can test whether there was a match with a simple
    .. attribute:: Match.pos
 
       The value of *pos* which was passed to the :meth:`~Pattern.search` or
-      :meth:`~Pattern.match` method of a :ref:`regex object <re-objects>`.  This is
+      :meth:`~Pattern.match` method of a :class:`re.Pattern` instance.  This is
       the index into the string at which the RE engine started looking for a match.
 
 
    .. attribute:: Match.endpos
 
       The value of *endpos* which was passed to the :meth:`~Pattern.search` or
-      :meth:`~Pattern.match` method of a :ref:`regex object <re-objects>`.  This is
+      :meth:`~Pattern.match` method of a :class:`re.Pattern` instance.  This is
       the index into the string beyond which the RE engine will not go.
 
 
@@ -1442,7 +1442,7 @@ when there is no match, you can test whether there was a match with a simple
 
    .. attribute:: Match.re
 
-      The :ref:`regular expression object <re-objects>` whose :meth:`~Pattern.match` or
+      The :class`Pattern` instance whose :meth:`~Pattern.match` or
       :meth:`~Pattern.search` method produced this match instance.
 
 

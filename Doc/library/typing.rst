@@ -3265,8 +3265,7 @@ Aliases to other concrete types
 .. class:: Pattern
            Match
 
-   Deprecated aliases corresponding to the return types from
-   :func:`re.compile` and :func:`re.match`.
+   Deprecated aliases for :class:`re.Pattern` and :class:`re.Match`.
 
    These types (and the corresponding functions) are generic over
    :data:`AnyStr`. ``Pattern`` can be specialised as ``Pattern[str]`` or
@@ -3274,7 +3273,7 @@ Aliases to other concrete types
    ``Match[bytes]``.
 
    .. deprecated:: 3.9
-      Classes ``Pattern`` and ``Match`` from :mod:`re` now support ``[]``.
+      :class:`re.Pattern` and :class:`re.Match` now support ``[]``.
       See :pep:`585` and :ref:`types-genericalias`.
 
 .. class:: Text

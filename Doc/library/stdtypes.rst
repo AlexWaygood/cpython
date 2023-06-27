@@ -4921,7 +4921,7 @@ example, :mod:`regular expressions <re>` can be used on both the :class:`str` da
 type and the :class:`bytes` data type:
 
 * If ``x = re.search('foo', 'foo')``, ``x`` will be a
-  :ref:`re.Match <match-objects>` object where the return values of
+  :class:`re.Match` object where the return values of
   ``x.group(0)`` and ``x[0]`` will both be of type :class:`str`. We can
   represent this kind of object in type annotations with the ``GenericAlias``
   ``re.Match[str]``.
@@ -4930,7 +4930,7 @@ type and the :class:`bytes` data type:
   ``y`` will also be an instance of ``re.Match``, but the return
   values of ``y.group(0)`` and ``y[0]`` will both be of type
   :class:`bytes`. In type annotations, we would represent this
-  variety of :ref:`re.Match <match-objects>` objects with ``re.Match[bytes]``.
+  variety of :class:`re.Match` objects with ``re.Match[bytes]``.
 
 ``GenericAlias`` objects are instances of the class
 :class:`types.GenericAlias`, which can also be used to create ``GenericAlias``
@@ -5059,8 +5059,8 @@ list is non-exhaustive.
 * :class:`queue.Queue`
 * :class:`queue.PriorityQueue`
 * :class:`queue.SimpleQueue`
-* :ref:`re.Pattern <re-objects>`
-* :ref:`re.Match <match-objects>`
+* :class:`re.Pattern`
+* :class:`re.Match`
 * :class:`shelve.BsdDbShelf`
 * :class:`shelve.DbfilenameShelf`
 * :class:`shelve.Shelf`

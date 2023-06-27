@@ -373,7 +373,7 @@ for a complete listing.
 +------------------+-----------------------------------------------+
 
 :meth:`~re.Pattern.match` and :meth:`~re.Pattern.search` return ``None`` if no match can be found.  If
-they're successful, a :ref:`match object <match-objects>` instance is returned,
+they're successful, a :class:`~re.Match` instance is returned,
 containing information about the match: where it starts and ends, the substring
 it matched, and more.
 
@@ -399,14 +399,14 @@ interpreter to print no output.  You can explicitly print the result of
    None
 
 Now, let's try it on a string that it should match, such as ``tempo``.  In this
-case, :meth:`~re.Pattern.match` will return a :ref:`match object <match-objects>`, so you
+case, :meth:`~re.Pattern.match` will return a :class:`~re.Match` object, so you
 should store the result in a variable for later use. ::
 
    >>> m = p.match('tempo')
    >>> m
    <re.Match object; span=(0, 5), match='tempo'>
 
-Now you can query the :ref:`match object <match-objects>` for information
+Now you can query the :class:`~re.Match` object for information
 about the matching string.  Match object instances
 also have several methods and attributes; the most important ones are:
 
@@ -475,7 +475,7 @@ not recognized by Python, as opposed to regular expressions, now result in a
 
 :meth:`~re.Pattern.findall` has to create the entire list before it can be returned as the
 result.  The :meth:`~re.Pattern.finditer` method returns a sequence of
-:ref:`match object <match-objects>` instances as an :term:`iterator`::
+:class:`~re.Match` instances as an :term:`iterator`::
 
    >>> iterator = p.finditer('12 drummers drumming, 11 ... 10 ...')
    >>> iterator  #doctest: +ELLIPSIS
@@ -496,7 +496,7 @@ You don't have to create a pattern object and call its methods; the
 :func:`~re.search`, :func:`~re.findall`, :func:`~re.sub`, and so forth.  These functions
 take the same arguments as the corresponding pattern method with
 the RE string added as the first argument, and still return either ``None`` or a
-:ref:`match object <match-objects>` instance. ::
+:class:`re.Match` instance. ::
 
    >>> print(re.match(r'From\s+', 'Fromage amk'))
    None
@@ -812,7 +812,7 @@ index of the text that they match; this can be retrieved by passing an argument
 to :meth:`~re.Match.group`, :meth:`~re.Match.start`, :meth:`~re.Match.end`, and
 :meth:`~re.Match.span`.  Groups are
 numbered starting with 0.  Group 0 is always present; it's the whole RE, so
-:ref:`match object <match-objects>` methods all have group 0 as their default
+:class:`~re.Match` methods all have group 0 as their default
 argument.  Later we'll see how to express groups that don't capture the span
 of text that they match. ::
 
@@ -926,7 +926,7 @@ numbers, groups can be referenced by a name.
 The syntax for a named group is one of the Python-specific extensions:
 ``(?P<name>...)``.  *name* is, obviously, the name of the group.  Named groups
 behave exactly like capturing groups, and additionally associate a name
-with a group.  The :ref:`match object <match-objects>` methods that deal with
+with a group.  The :class:`~re.Match` methods that deal with
 capturing groups all accept either integers that refer to the group by number
 or strings that contain the desired group's name.  Named groups are still
 given numbers, so you can retrieve information about a group in two ways::
