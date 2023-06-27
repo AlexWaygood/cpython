@@ -1687,9 +1687,9 @@ Finding all Adverbs
 ^^^^^^^^^^^^^^^^^^^
 
 :func:`findall` matches *all* occurrences of a pattern, not just the first
-one as :func:`search` does.  For example, if
-a writer wanted to find all of the adverbs in
-some text, they might use :func:`findall` in the following manner::
+one as :func:`search` does.  For example, if a writer wanted to
+find all of the adverbs in some text, they might use :func:`findall` in
+the following manner::
 
    >>> text = "He was carefully disguised but captured quickly by police."
    >>> re.findall(r"\w+ly\b", text)
@@ -1701,9 +1701,9 @@ Finding all Adverbs and their Positions
 
 If one wants more information about all matches of a pattern than the matched
 text, :func:`finditer` is useful as it provides :class:`~re.Match` objects
-instead of strings.  Continuing with the previous example, if a writer wanted
-to find all of the adverbs *and their positions* in some text, they would use
-:func:`finditer` in the following manner::
+instead of strings.  Continuing with the previous example, if
+a writer wanted to find all of the adverbs *and their positions* in
+some text, they would use :func:`finditer` in the following manner::
 
    >>> text = "He was carefully disguised but captured quickly by police."
    >>> for m in re.finditer(r"\w+ly\b", text):
