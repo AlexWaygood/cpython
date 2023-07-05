@@ -13,6 +13,7 @@ import collections
 import contextlib
 import copy
 import cpp
+import dataclasses as dc
 import enum
 import functools
 import hashlib
@@ -34,7 +35,6 @@ from collections.abc import (
     Iterator,
     Sequence,
 )
-from dataclasses import dataclass, field, KW_ONLY
 from types import FunctionType, NoneType
 from typing import (
     Any,
@@ -1646,7 +1646,7 @@ def create_regex(
     return re.compile(pattern)
 
 
-@dataclass(repr=False, slots=True)
+@dc.dataclass(repr=False, slots=True)
 class Block:
     r"""
     Represents a single block of text embedded in
@@ -1693,7 +1693,7 @@ class Block:
     """
     input: str
     dsl_name: str | None = None
-    signatures: list[Module | Class | Function] = field(default_factory=list)
+    signatures: list[Module | Class | Function] = dc.field(default_factory=list)
     output: str | None = None
     indent: str = ''
     preindent: str = ''
@@ -1869,10 +1869,10 @@ class BlockParser:
         return Block(input_output(), dsl_name, output=output)
 
 
-@dataclass(slots=True)
+@dc.dataclass(slots=True)
 class BlockPrinter:
     language: Language
-    f: io.StringIO = field(default_factory=io.StringIO)
+    f: io.StringIO = dc.field(default_factory=io.StringIO)
 
     def print_block(self, block, *, core_includes=False):
         input = block.input
@@ -2358,7 +2358,7 @@ class Module:
         return "<clinic.Module " + repr(self.name) + " at " + str(id(self)) + ">"
 
 
-@dataclass(repr=False, slots=True)
+@dc.dataclass(repr=False, slots=True)
 class Class:
     name: str
     module: Module | None = None
@@ -2366,10 +2366,10 @@ class Class:
     typedef: str | None = None
     type_object: str | None = None
 
-    classes: ClassDict = field(init=False, default_factory=dict)
-    functions: list[Function] = field(init=False, default_factory=list)
+    classes: ClassDict = dc.field(init=False, default_factory=dict)
+    functions: list[Function] = dc.field(init=False, default_factory=list)
 
-    parent: Module | Class = field(init=False)
+    parent: Module | Class = dc.field(init=False)
 
     def __post_init__(self) -> None:
         parent = self.cls or self.module
@@ -2461,7 +2461,7 @@ ParamDict = dict[str, "Parameter"]
 ReturnConverterType = Callable[..., "CReturnConverter"]
 
 
-@dataclass(slots=True, repr=False)
+@dc.dataclass(slots=True, repr=False)
 class Function:
     """
     Mutable duck type for inspect.Function.
@@ -2473,9 +2473,9 @@ class Function:
         It will always be true that
             (not docstring) or ((not docstring[0].isspace()) and (docstring.rstrip() == docstring))
     """
-    parameters: ParamDict = field(default_factory=dict)
+    parameters: ParamDict = dc.field(default_factory=dict)
 
-    _: KW_ONLY
+    _: dc.KW_ONLY
 
     name: str
     module: Module
@@ -2495,11 +2495,11 @@ class Function:
     # those accurately with inspect.Signature in 3.4.
     docstring_only: bool = False
 
-    self_converter: self_converter | None = field(init=False, default=None)
-    rendered_parameters: Any = field(init=False, default=None)
-    __render_parameters__: list[Parameter] | None = field(init=False, default=None)
+    self_converter: self_converter | None = dc.field(init=False, default=None)
+    rendered_parameters: Any = dc.field(init=False, default=None)
+    __render_parameters__: list[Parameter] | None = dc.field(init=False, default=None)
 
-    parent: Class | Module = field(init=False)
+    parent: Class | Module = dc.field(init=False)
 
     def __post_init__(self) -> None:
         self.parent = self.cls or self.module
@@ -2507,7 +2507,8 @@ class Function:
     @property
     def render_parameters(self) -> list[Parameter]:
         if not self.__render_parameters__:
-            self.__render_parameters__ = l = []
+            l: list[Parameter] = []
+            self.__render_parameters__ = l
             for p in self.parameters.values():
                 p = p.copy()
                 p.converter.pre_render()
@@ -2532,17 +2533,8 @@ class Function:
     def __repr__(self) -> str:
         return '<clinic.Function ' + self.name + '>'
 
-    def copy(self, **overrides) -> "Function":
-        kwargs = {
-            'name': self.name, 'module': self.module, 'parameters': self.parameters,
-            'cls': self.cls, 'c_basename': self.c_basename,
-            'full_name': self.full_name,
-            'return_converter': self.return_converter, 'return_annotation': self.return_annotation,
-            'docstring': self.docstring, 'kind': self.kind, 'coexist': self.coexist,
-            'docstring_only': self.docstring_only,
-            }
-        kwargs.update(overrides)
-        f = Function(**kwargs)
+    def copy(self, **overrides) -> Function:
+        f = dc.replace(self, **overrides)
         f.parameters = {
             name: value.copy(function=f)
             for name, value in f.parameters.items()
@@ -2550,21 +2542,21 @@ class Function:
         return f
 
 
-@dataclass(repr=False, slots=True)
+@dc.dataclass(repr=False, slots=True)
 class Parameter:
     """
     Mutable duck type of inspect.Parameter.
     """
     name: str
     kind: inspect._ParameterKind
-    _: KW_ONLY
+    _: dc.KW_ONLY
     function: Function
     converter: CConverter
     default: object = inspect.Parameter.empty
     annotation: object = inspect.Parameter.empty
     docstring: str = ''
     group: int = 0
-    right_bracket_count: int = field(init=False, default=0)
+    right_bracket_count: int = dc.field(init=False, default=0)
 
     def __repr__(self) -> str:
         return '<clinic.Parameter ' + self.name + '>'
@@ -2581,18 +2573,18 @@ class Parameter:
     def is_optional(self) -> bool:
         return not self.is_vararg() and (self.default is not unspecified)
 
-    def copy(self, **overrides) -> "Parameter":
-        kwargs = {
-            'name': self.name, 'kind': self.kind, 'default':self.default,
-                 'function': self.function, 'converter': self.converter, 'annotation': self.annotation,
-                 'docstring': self.docstring, 'group': self.group,
-            }
-        kwargs.update(overrides)
-        if 'converter' not in overrides:
-            converter = copy.copy(self.converter)
-            converter.function = kwargs['function']
-            kwargs['converter'] = converter
-        return Parameter(**kwargs)
+    def copy(
+        self,
+        *,
+        function: Function | None = None,
+        converter: CConverter | None = None,
+        **overrides: Any
+    ) -> Parameter:
+        new = dc.replace(self, **overrides)
+        if converter is None:
+            new.converter = copy.copy(self.converter)
+            new.converter.function = function or self.function
+        return new
 
     def get_displayname(self, i: int) -> str:
         if i == 0:
@@ -2603,7 +2595,7 @@ class Parameter:
             return f'"argument {i}"'
 
 
-@dataclass(slots=True)
+@dc.dataclass(slots=True)
 class LandMine:
     __message__: str
 
@@ -2804,7 +2796,9 @@ class CConverter(metaclass=CConverterAutoRegister):
         # about the function in the init.
         # (that breaks if we get cloned.)
         # so after this change we will noisily fail.
-        self.function = LandMine("Don't access members of self.function inside converter_init!")
+        self.function: Function | LandMine = LandMine(
+            "Don't access members of self.function inside converter_init!"
+        )
         self.converter_init(**kwargs)
         self.function = function
 
@@ -2814,7 +2808,7 @@ class CConverter(metaclass=CConverterAutoRegister):
     def is_optional(self) -> bool:
         return (self.default is not unspecified)
 
-    def _render_self(self, parameter: str, data: CRenderData) -> None:
+    def _render_self(self, parameter: Parameter, data: CRenderData) -> None:
         self.parameter = parameter
         name = self.parser_name
 
@@ -2874,7 +2868,7 @@ class CConverter(metaclass=CConverterAutoRegister):
         if cleanup:
             data.cleanup.append('/* Cleanup for ' + name + ' */\n' + cleanup.rstrip() + "\n")
 
-    def render(self, parameter: str, data: CRenderData) -> None:
+    def render(self, parameter: Parameter, data: CRenderData) -> None:
         """
         parameter is a clinic.Parameter instance.
         data is a CRenderData instance.
@@ -4238,9 +4232,9 @@ def eval_ast_expr(
     return fn()
 
 
-@dataclass(slots=True)
+@dc.dataclass(slots=True)
 class IndentStack:
-    indents: list[int] = field(default_factory=list)
+    indents: list[int] = dc.field(default_factory=list)
     margin: str | None = None
 
     def _ensure(self):
@@ -4486,6 +4480,7 @@ class DSLParser:
 
         # secret command for debugging!
         if command_or_name == "print":
+            raise TypeError(f"{self.block.__class__.__name__}")
             self.block.output.append(pprint.pformat(fd))
             self.block.output.append('\n')
             return
@@ -4654,6 +4649,7 @@ class DSLParser:
                     fail("'kind' of function and cloned function don't match!  (@classmethod/@staticmethod/@coexist)")
                 self.function = existing_function.copy(name=function_name, full_name=full_name, module=module, cls=cls, c_basename=c_basename, docstring='')
 
+                assert self.function is not None
                 self.block.signatures.append(self.function)
                 (cls or module).functions.append(self.function)
                 self.next(self.state_function_docstring)
@@ -5168,6 +5164,7 @@ class DSLParser:
                 p.kind = inspect.Parameter.POSITIONAL_ONLY
 
     def state_parameter_docstring_start(self, line: str | None) -> None:
+        assert self.indent.margin is not None
         self.parameter_docstring_indent = len(self.indent.margin)
         assert self.indent.depth == 3
         return self.next(self.state_parameter_docstring, line)
