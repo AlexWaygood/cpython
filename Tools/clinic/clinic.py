@@ -34,6 +34,7 @@ from collections.abc import (
     Iterator,
     Sequence,
 )
+from dataclasses import dataclass, field, KW_ONLY
 from types import FunctionType, NoneType
 from typing import (
     Any,
@@ -1645,6 +1646,7 @@ def create_regex(
     return re.compile(pattern)
 
 
+@dataclass(repr=False, slots=True)
 class Block:
     r"""
     Represents a single block of text embedded in
@@ -1663,23 +1665,21 @@ class Block:
     found on the start line of the block between the square
     brackets.
 
-    signatures is either list or None.  If it's a list,
-    it may only contain clinic.Module, clinic.Class, and
-    clinic.Function objects.  At the moment it should
-    contain at most one of each.
+    signatures is a list that may only contain clinic.Module,
+    clinic.Class, and clinic.Function objects.  At the moment
+    it should contain at most one of each.
 
     output is either str or None.  If str, it's the output
     from this block, with embedded '\n' characters.
 
-    indent is either str or None.  It's the leading whitespace
-    that was found on every line of input.  (If body_prefix is
-    not empty, this is the indent *after* removing the
-    body_prefix.)
+    indent is the leading whitespace that was found on every
+    line of input.  (If body_prefix is not empty, this is the
+    indent *after* removing the body_prefix.)
 
-    preindent is either str or None.  It's the whitespace that
-    was found in front of every line of input *before* the
-    "body_prefix" (see the Language object).  If body_prefix
-    is empty, preindent must always be empty too.
+    preindent is the whitespace that was found in front of
+    every line of input *before* the "body_prefix" (see the
+    Language object).  If body_prefix is empty, preindent must
+    always be empty too.
 
     To illustrate indent and preindent: Assume that '_'
     represents whitespace.  If the block processed was in a
@@ -1691,14 +1691,12 @@ class Block:
     "preindent" would be "____" and "indent" would be "__".
 
     """
-    def __init__(self, input, dsl_name=None, signatures=None, output=None, indent='', preindent=''):
-        assert isinstance(input, str)
-        self.input = input
-        self.dsl_name = dsl_name
-        self.signatures = signatures or []
-        self.output = output
-        self.indent = indent
-        self.preindent = preindent
+    input: str
+    dsl_name: str | None = None
+    signatures: list[Module | Class | Function] = field(default_factory=list)
+    output: str | None = None
+    indent: str = ''
+    preindent: str = ''
 
     def __repr__(self):
         dsl_name = self.dsl_name or "text"
@@ -1871,11 +1869,10 @@ class BlockParser:
         return Block(input_output(), dsl_name, output=output)
 
 
+@dataclass(slots=True)
 class BlockPrinter:
-
-    def __init__(self, language, f=None):
-        self.language = language
-        self.f = f or io.StringIO()
+    language: Language
+    f: io.StringIO = field(default_factory=io.StringIO)
 
     def print_block(self, block, *, core_includes=False):
         input = block.input
@@ -2361,24 +2358,24 @@ class Module:
         return "<clinic.Module " + repr(self.name) + " at " + str(id(self)) + ">"
 
 
+@dataclass(repr=False, slots=True)
 class Class:
-    def __init__(
-            self,
-            name: str,
-            module: Module | None = None,
-            cls = None,
-            typedef: str | None = None,
-            type_object: str | None = None
-    ) -> None:
-        self.name = name
-        self.module = module
-        self.cls = cls
-        self.typedef = typedef
-        self.type_object = type_object
-        self.parent = cls or module
+    name: str
+    module: Module | None = None
+    cls: Class | None = None
+    typedef: str | None = None
+    type_object: str | None = None
 
-        self.classes: ClassDict = {}
-        self.functions: list[Function] = []
+    classes: ClassDict = field(init=False, default_factory=dict)
+    functions: list[Function] = field(init=False, default_factory=list)
+
+    parent: Module | Class = field(init=False)
+
+    def __post_init__(self) -> None:
+        parent = self.cls or self.module
+        if parent is None:
+            raise TypeError("Must specify either `module` or `cls`!")
+        self.parent = parent
 
     def __repr__(self) -> str:
         return "<clinic.Class " + repr(self.name) + " at " + str(id(self)) + ">"
@@ -2463,6 +2460,8 @@ INVALID, CALLABLE, STATIC_METHOD, CLASS_METHOD, METHOD_INIT, METHOD_NEW
 ParamDict = dict[str, "Parameter"]
 ReturnConverterType = Callable[..., "CReturnConverter"]
 
+
+@dataclass(slots=True, repr=False)
 class Function:
     """
     Mutable duck type for inspect.Function.
@@ -2474,47 +2473,39 @@ class Function:
         It will always be true that
             (not docstring) or ((not docstring[0].isspace()) and (docstring.rstrip() == docstring))
     """
+    parameters: ParamDict = field(default_factory=dict)
 
-    def __init__(
-            self,
-            parameters: ParamDict | None = None,
-            *,
-            name: str,
-            module: Module,
-            cls: Class | None = None,
-            c_basename: str | None = None,
-            full_name: str | None = None,
-            return_converter: CReturnConverter,
-            return_annotation = inspect.Signature.empty,
-            docstring: str | None = None,
-            kind: str = CALLABLE,
-            coexist: bool = False,
-            docstring_only: bool = False
-    ) -> None:
-        self.parameters = parameters or {}
-        self.return_annotation = return_annotation
-        self.name = name
-        self.full_name = full_name
-        self.module = module
-        self.cls = cls
-        self.parent = cls or module
-        self.c_basename = c_basename
-        self.return_converter = return_converter
-        self.docstring = docstring or ''
-        self.kind = kind
-        self.coexist = coexist
-        self.self_converter: self_converter | None = None
-        # docstring_only means "don't generate a machine-readable
-        # signature, just a normal docstring".  it's True for
-        # functions with optional groups because we can't represent
-        # those accurately with inspect.Signature in 3.4.
-        self.docstring_only = docstring_only
+    _: KW_ONLY
 
-        self.rendered_parameters = None
+    name: str
+    module: Module
+    return_converter: CReturnConverter
 
-    __render_parameters__ = None
+    cls: Class | None = None
+    c_basename: str | None = None
+    full_name: str | None = None
+    return_annotation: object = inspect.Signature.empty
+    docstring: str = ''
+    kind: str = CALLABLE
+    coexist: bool = False
+
+    # docstring_only means "don't generate a machine-readable
+    # signature, just a normal docstring".  it's True for
+    # functions with optional groups because we can't represent
+    # those accurately with inspect.Signature in 3.4.
+    docstring_only: bool = False
+
+    self_converter: self_converter | None = field(init=False, default=None)
+    rendered_parameters: Any = field(init=False, default=None)
+    __render_parameters__: list[Parameter] | None = field(init=False, default=None)
+
+    parent: Class | Module = field(init=False)
+
+    def __post_init__(self) -> None:
+        self.parent = self.cls or self.module
+
     @property
-    def render_parameters(self):
+    def render_parameters(self) -> list[Parameter]:
         if not self.__render_parameters__:
             self.__render_parameters__ = l = []
             for p in self.parameters.values():
@@ -2559,31 +2550,21 @@ class Function:
         return f
 
 
+@dataclass(repr=False, slots=True)
 class Parameter:
     """
     Mutable duck type of inspect.Parameter.
     """
-
-    def __init__(
-            self,
-            name: str,
-            kind: inspect._ParameterKind,
-            *,
-            default = inspect.Parameter.empty,
-            function: Function,
-            converter: "CConverter",
-            annotation = inspect.Parameter.empty,
-            docstring: str | None = None,
-            group: int = 0
-    ) -> None:
-        self.name = name
-        self.kind = kind
-        self.default = default
-        self.function = function
-        self.converter = converter
-        self.annotation = annotation
-        self.docstring = docstring or ''
-        self.group = group
+    name: str
+    kind: inspect._ParameterKind
+    _: KW_ONLY
+    function: Function
+    converter: CConverter
+    default: object = inspect.Parameter.empty
+    annotation: object = inspect.Parameter.empty
+    docstring: str = ''
+    group: int = 0
+    right_bracket_count: int = field(init=False, default=0)
 
     def __repr__(self) -> str:
         return '<clinic.Parameter ' + self.name + '>'
@@ -2622,13 +2603,9 @@ class Parameter:
             return f'"argument {i}"'
 
 
+@dataclass(slots=True)
 class LandMine:
-    # try to access any
-    def __init__(self, message: str) -> None:
-        self.__message__ = message
-
-    def __repr__(self) -> str:
-        return '<LandMine ' + repr(self.__message__) + ">"
+    __message__: str
 
     def __getattribute__(self, name: str):
         if name in ('__repr__', '__message__'):
@@ -4261,10 +4238,10 @@ def eval_ast_expr(
     return fn()
 
 
+@dataclass(slots=True)
 class IndentStack:
-    def __init__(self):
-        self.indents = []
-        self.margin = None
+    indents: list[int] = field(default_factory=list)
+    margin: str | None = None
 
     def _ensure(self):
         if not self.indents:
@@ -5273,7 +5250,7 @@ class DSLParser:
         assert isinstance(parameters[0].converter, self_converter)
         # self is always positional-only.
         assert parameters[0].is_positional_only()
-        parameters[0].right_bracket_count = 0
+        assert parameters[0].right_bracket_count == 0
         positional_only = True
         for p in parameters[1:]:
             if not p.is_positional_only():
