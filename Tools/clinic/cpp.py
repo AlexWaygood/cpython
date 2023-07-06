@@ -1,3 +1,4 @@
+import dataclasses as dc
 import re
 import sys
 from collections.abc import Callable
@@ -7,6 +8,7 @@ from typing import NoReturn
 TokenAndCondition = tuple[str, str]
 TokenStack = list[TokenAndCondition]
 
+
 def negate(condition: str) -> str:
     """
     Returns a CPP conditional that is the opposite of the conditional passed in.
@@ -15,6 +17,12 @@ def negate(condition: str) -> str:
         return condition[1:]
     return "!" + condition
 
+
+is_a_simple_defined: Callable[[str], re.Match[str] | None]
+is_a_simple_defined = re.compile(r'^defined\s*\(\s*[A-Za-z0-9_]+\s*\)$').match
+
+
+@dc.dataclass(repr=False)
 class Monitor:
     """
     A simple C preprocessor that scans C source and computes, line by line,
@@ -27,17 +35,15 @@ class Monitor:
 
     Anyway this implementation seems to work well enough for the CPython sources.
     """
+    filename: str | None = None
+    _: dc.KW_ONLY
+    verbose: bool = False
 
-    is_a_simple_defined: Callable[[str], re.Match[str] | None]
-    is_a_simple_defined = re.compile(r'^defined\s*\(\s*[A-Za-z0-9_]+\s*\)$').match
-
-    def __init__(self, filename: str | None = None, *, verbose: bool = False) -> None:
+    def __post_init__(self) -> None:
         self.stack: TokenStack = []
         self.in_comment = False
         self.continuation: str | None = None
         self.line_number = 0
-        self.filename = filename
-        self.verbose = verbose
 
     def __repr__(self) -> str:
         return ''.join((
@@ -145,40 +151,48 @@ class Monitor:
         assert line
 
         fields = line.split()
-        token = fields[0].lower()
         condition = ' '.join(fields[1:]).strip()
 
-        if token in {'if', 'ifdef', 'ifndef', 'elif'}:
-            if not condition:
-                self.fail("Invalid format for #" + token + " line: no argument!")
-            if token in {'if', 'elif'}:
-                if not self.is_a_simple_defined(condition):
-                    condition = "(" + condition + ")"
-                if token == 'elif':
-                    previous_token, previous_condition = pop_stack()
-                    self.stack.append((previous_token, negate(previous_condition)))
-            else:
-                fields = condition.split()
-                if len(fields) != 1:
-                    self.fail("Invalid format for #" + token + " line: should be exactly one argument!")
-                symbol = fields[0]
-                condition = 'defined(' + symbol + ')'
-                if token == 'ifndef':
-                    condition = '!' + condition
-                token = 'if'
+        match token := fields[0].lower():
+            case 'if' | 'ifdef' | 'ifndef' | 'elif':
+                if not condition:
+                    self.fail(
+                        "Invalid format for #" + token + " line: no argument!"
+                    )
+                if token in {'if', 'elif'}:
+                    if not is_a_simple_defined(condition):
+                        condition = "(" + condition + ")"
+                    if token == 'elif':
+                        previous_token, previous_condition = pop_stack()
+                        self.stack.append(
+                            (previous_token, negate(previous_condition))
+                        )
+                else:
+                    fields = condition.split()
+                    if len(fields) != 1:
+                        self.fail(
+                            "Invalid format for #"
+                            + token
+                            + " line: should be exactly one argument!"
+                        )
+                    symbol = fields[0]
+                    condition = 'defined(' + symbol + ')'
+                    if token == 'ifndef':
+                        condition = '!' + condition
+                    token = 'if'
 
-            self.stack.append((token, condition))
+                self.stack.append((token, condition))
 
-        elif token == 'else':
-            previous_token, previous_condition = pop_stack()
-            self.stack.append((previous_token, negate(previous_condition)))
+            case 'else':
+                previous_token, previous_condition = pop_stack()
+                self.stack.append((previous_token, negate(previous_condition)))
 
-        elif token == 'endif':
-            while pop_stack()[0] != 'if':
-                pass
+            case 'endif':
+                while pop_stack()[0] != 'if':
+                    pass
 
-        else:
-            return
+            case _:
+                return
 
         if self.verbose:
             print(self.status())
