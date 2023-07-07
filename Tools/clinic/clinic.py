@@ -1954,22 +1954,37 @@ class BufferSeries:
         return "".join(texts)
 
 
+@dc.dataclass(slots=True, repr=False)
 class Destination:
-    def __init__(self, name, type, clinic, *args):
-        self.name = name
-        self.type = type
-        self.clinic = clinic
+    name: str
+    type: str
+    clinic: Clinic
+    args: dc.InitVar[tuple[str, ...]] = ()
+    buffers: BufferSeries = dc.field(init=False, default_factory=BufferSeries)
+    filename: str = dc.field(init=False)
+
+    def __post_init__(self, args: tuple[str, ...]) -> None:
         valid_types = ('buffer', 'file', 'suppress')
-        if type not in valid_types:
-            fail("Invalid destination type " + repr(type) + " for " + name + " , must be " + ', '.join(valid_types))
-        extra_arguments = 1 if type == "file" else 0
+        if self.type not in valid_types:
+            fail(
+                f"Invalid destination type {self.type!r} for {self.name}, "
+                f"must be {', '.join(valid_types)}"
+            )
+        extra_arguments = 1 if self.type == "file" else 0
         if len(args) < extra_arguments:
-            fail("Not enough arguments for destination " + name + " new " + type)
+            fail(
+                f"Not enough arguments for destination "
+                f"{self.name} new {self.type}"
+            )
         if len(args) > extra_arguments:
-            fail("Too many arguments for destination " + name + " new " + type)
-        if type =='file':
+            fail(
+                f"Too many arguments for destination "
+                "{self.name} new {self.type}"
+            )
+        if self.type =='file':
             d = {}
-            filename = clinic.filename
+            filename = self.clinic.filename
+            assert filename is not None
             d['path'] = filename
             dirname, basename = os.path.split(filename)
             if not dirname:
@@ -1979,21 +1994,19 @@ class Destination:
             d['basename_root'], d['basename_extension'] = os.path.splitext(filename)
             self.filename = args[0].format_map(d)
 
-        self.buffers = BufferSeries()
-
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.type == 'file':
             file_repr = " " + repr(self.filename)
         else:
             file_repr = ''
         return "".join(("<Destination ", self.name, " ", self.type, file_repr, ">"))
 
-    def clear(self):
+    def clear(self) -> None:
         if self.type != 'buffer':
             fail("Can't clear destination" + self.name + " , it's not of type buffer")
         self.buffers.clear()
 
-    def dump(self):
+    def dump(self) -> str:
         return self.buffers.dump()
 
 
@@ -2165,7 +2178,7 @@ impl_definition block
     ) -> None:
         if name in self.destinations:
             fail("Destination already exists: " + repr(name))
-        self.destinations[name] = Destination(name, type, self, *args)
+        self.destinations[name] = Destination(name, type, self, args)
 
     def get_destination(self, name: str) -> Destination:
         d = self.destinations.get(name)
