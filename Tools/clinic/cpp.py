@@ -161,7 +161,10 @@ class Monitor:
             else:
                 fields = condition.split()
                 if len(fields) != 1:
-                    self.fail("Invalid format for #" + token + " line: should be exactly one argument!")
+                    self.fail(
+                        f"Invalid format for #{token} line: "
+                        f"should be exactly one argument!"
+                    )
                 symbol = fields[0]
                 condition = 'defined(' + symbol + ')'
                 if token == 'ifndef':

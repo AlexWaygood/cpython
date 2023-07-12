@@ -274,9 +274,17 @@ def linear_format(s: str, **kwargs: str) -> str:
             continue
 
         if trailing:
-            fail("Text found after {" + name + "} block marker!  It must be on a line by itself.")
+            fail(
+                "Text found after {"
+                + name
+                + "} block marker!  It must be on a line by itself."
+            )
         if indent.strip():
-            fail("Non-whitespace characters found before {" + name + "} block marker!  It must be on a line by itself.")
+            fail(
+                "Non-whitespace characters found before {"
+                + name
+                + "} block marker!  It must be on a line by itself."
+            )
 
         value = kwargs[name]
         if not value:
@@ -356,12 +364,16 @@ def version_splitter(s: str) -> tuple[int, ...]:
             flush()
             version.append('abc'.index(c) - 3)
         else:
-            raise ValueError('Illegal character ' + repr(c) + ' in version string ' + repr(s))
+            raise ValueError(f'Illegal character {c!r} in version string {s!r}')
     flush()
     return tuple(version)
 
 def version_comparitor(version1: str, version2: str) -> Literal[-1, 0, 1]:
-    iterator = itertools.zip_longest(version_splitter(version1), version_splitter(version2), fillvalue=0)
+    iterator = itertools.zip_longest(
+        version_splitter(version1),
+        version_splitter(version2),
+        fillvalue=0
+    )
     for i, (a, b) in enumerate(iterator):
         if a < b:
             return -1
@@ -765,7 +777,11 @@ class CLanguage(Language):
         for o in signatures:
             if isinstance(o, Function):
                 if function:
-                    fail("You may specify at most one function per block.\nFound a block containing at least two:\n\t" + repr(function) + " and " + repr(o))
+                    fail(
+                        f"You may specify at most one function per block.\n"
+                        f"Found a block containing at least two:\n"
+                        f"\t{function!r} and {o!r}"
+                    )
                 function = o
         return self.render_function(clinic, function)
 
@@ -1017,7 +1033,10 @@ class CLanguage(Language):
             flags = "METH_VARARGS"
             parser_prototype = parser_prototype_varargs
 
-            parser_definition = parser_body(parser_prototype, '    {option_group_parsing}')
+            parser_definition = parser_body(
+                parser_prototype,
+                '    {option_group_parsing}'
+            )
 
         elif not requires_defining_class and pos_only == len(parameters) - pseudo_args:
             if not new_or_init:
@@ -1113,7 +1132,9 @@ class CLanguage(Language):
             parser_definition = parser_body(parser_prototype, *parser_code)
 
         else:
-            has_optional_kw = (max(pos_only, min_pos) + min_kw_only < len(converters) - int(vararg != NO_VARARG))
+            has_optional_kw = (
+                max(pos_only, min_pos) + min_kw_only < len(converters) - int(vararg != NO_VARARG)
+            )
             if vararg == NO_VARARG:
                 args_declaration = "_PyArg_UnpackKeywords", "%s, %s, %s" % (
                     min_pos,
@@ -1136,7 +1157,10 @@ class CLanguage(Language):
                 declarations = declare_parser(f)
                 declarations += "\nPyObject *argsbuf[%s];" % len(converters)
                 if has_optional_kw:
-                    declarations += "\nPy_ssize_t noptargs = %s + (kwnames ? PyTuple_GET_SIZE(kwnames) : 0) - %d;" % (nargs, min_pos + min_kw_only)
+                    declarations += (
+                        "\nPy_ssize_t noptargs = %s + (kwnames ? PyTuple_GET_SIZE(kwnames) : 0) - %d;"
+                        % (nargs, min_pos + min_kw_only)
+                    )
                 parser_code = [normalize_snippet("""
                     args = %s(args, nargs, NULL, kwnames, &_parser, %s, argsbuf);
                     if (!args) {{
@@ -1153,7 +1177,10 @@ class CLanguage(Language):
                 declarations += "\nPyObject * const *fastargs;"
                 declarations += "\nPy_ssize_t nargs = PyTuple_GET_SIZE(args);"
                 if has_optional_kw:
-                    declarations += "\nPy_ssize_t noptargs = %s + (kwargs ? PyDict_GET_SIZE(kwargs) : 0) - %d;" % (nargs, min_pos + min_kw_only)
+                    declarations += (
+                        "\nPy_ssize_t noptargs = %s + (kwargs ? PyDict_GET_SIZE(kwargs) : 0) - %d;"
+                        % (nargs, min_pos + min_kw_only)
+                    )
                 parser_code = [normalize_snippet("""
                     fastargs = %s(_PyTuple_CAST(args)->ob_item, nargs, kwargs, NULL, &_parser, %s, argsbuf);
                     if (!fastargs) {{
@@ -1329,7 +1356,9 @@ class CLanguage(Language):
         if impl_prototype:
             impl_prototype += ";"
 
-        parser_definition = parser_definition.replace("{return_value_declaration}", return_value_declaration)
+        parser_definition = parser_definition.replace(
+            "{return_value_declaration}", return_value_declaration
+        )
 
         d = {
             "docstring_prototype" : docstring_prototype,
@@ -1470,7 +1499,7 @@ class CLanguage(Language):
 
         f_self = parameters[0]
         selfless = parameters[1:]
-        assert isinstance(f_self.converter, self_converter), "No self parameter in " + repr(f.full_name) + "!"
+        assert isinstance(f_self.converter, self_converter), "No self parameter in {f.full_name!r}!"
 
         last_group = 0
         first_optional = len(selfless)
@@ -1502,7 +1531,10 @@ class CLanguage(Language):
             c.render(p, data)
 
         if has_option_groups and (not positional):
-            fail("You cannot use optional groups ('[' and ']')\nunless all parameters are positional-only ('/').")
+            fail(
+                "You cannot use optional groups ('[' and ']')\n"
+                "unless all parameters are positional-only ('/')."
+            )
 
         # HACK
         # when we're METH_O, but have a custom return converter,
@@ -1567,7 +1599,9 @@ class CLanguage(Language):
             template_dict['parse_arguments_comma'] = '';
         template_dict['impl_parameters'] = ", ".join(data.impl_parameters)
         template_dict['impl_arguments'] = ", ".join(data.impl_arguments)
-        template_dict['return_conversion'] = format_escape("".join(data.return_conversion).rstrip())
+        template_dict['return_conversion'] = format_escape(
+            "".join(data.return_conversion).rstrip()
+        )
         template_dict['post_parsing'] = format_escape("".join(data.post_parsing).rstrip())
         template_dict['cleanup'] = format_escape("".join(data.cleanup))
         template_dict['return_value'] = data.return_value
@@ -1696,8 +1730,9 @@ class Block:
             if len(s) > 30:
                 return s[:26] + "..." + s[0]
             return s
-        return "".join((
-            "<Block ", dsl_name, " input=", summarize(self.input), " output=", summarize(self.output), ">"))
+        return (
+            f"<Block {dsl_name} input={summarize(self.input)} output={summarize(self.output)}>"
+        )
 
 
 class BlockParser:
@@ -1809,7 +1844,12 @@ class BlockParser:
         if self.last_dsl_name == dsl_name:
             checksum_re = self.last_checksum_re
         else:
-            before, _, after = self.language.checksum_line.format(dsl_name=dsl_name, arguments='{arguments}').partition('{arguments}')
+            before, _, after = (
+                self.language
+                .checksum_line
+                .format(dsl_name=dsl_name, arguments='{arguments}')
+                .partition('{arguments}')
+            )
             assert _ == '{arguments}'
             checksum_re = create_regex(before, after, word=False)
             self.last_dsl_name = dsl_name
@@ -1871,7 +1911,9 @@ class BlockPrinter:
         dsl_name = block.dsl_name
         write = self.f.write
 
-        assert not ((dsl_name is None) ^ (output is None)), "you must specify dsl_name and output together, dsl_name " + repr(dsl_name)
+        assert not ((dsl_name is None) ^ (output is None)), (
+            f"you must specify dsl_name and output together, dsl_name {dsl_name!r}"
+        )
 
         if not dsl_name:
             write(input)
@@ -2219,7 +2261,9 @@ impl_definition block
 
                 if destination.type == 'buffer':
                     block.input = "dump " + name + "\n"
-                    warn("Destination buffer " + repr(name) + " not empty at end of file, emptying.")
+                    warn(
+                        f"Destination buffer {name!r} not empty at end of file, emptying."
+                    )
                     printer.write("\n")
                     printer.print_block(block)
                     continue
@@ -2239,7 +2283,10 @@ impl_definition block
                                 parser_2 = BlockParser(f.read(), language=self.language)
                                 blocks = list(parser_2)
                                 if (len(blocks) != 1) or (blocks[0].input != 'preserve\n'):
-                                    fail("Modified destination file " + repr(destination.filename) + ", not overwriting!")
+                                    fail(
+                                        f"Modified destination file "
+                                        f"{destination.filename!r}, not overwriting!"
+                                    )
                     except FileNotFoundError:
                         pass
 
@@ -2585,7 +2632,10 @@ class LandMine:
         if name in ('__repr__', '__message__'):
             return super().__getattribute__(name)
         # raise RuntimeError(repr(name))
-        fail("Stepped on a land mine, trying to access attribute " + repr(name) + ":\n" + self.__message__)
+        fail(
+            f"Stepped on a land mine, trying to access attribute {name!r}:\n"
+            + self.__message__
+        )
 
 
 def add_c_converter(
@@ -2801,7 +2851,9 @@ class CConverter(metaclass=CConverterAutoRegister):
             data.impl_arguments.append(self.length_name())
 
         # impl_parameters
-        data.impl_parameters.append(self.simple_declaration(by_reference=self.impl_by_reference))
+        data.impl_parameters.append(
+            self.simple_declaration(by_reference=self.impl_by_reference)
+        )
         if self.length:
             data.impl_parameters.append("Py_ssize_t " + self.length_name())
 
@@ -2816,12 +2868,16 @@ class CConverter(metaclass=CConverterAutoRegister):
         # initializers
         initializers = self.initialize()
         if initializers:
-            data.initializers.append('/* initializers for ' + name + ' */\n' + initializers.rstrip())
+            data.initializers.append(
+                f'/* initializers for {name} */\n{initializers.rstrip()}'
+            )
 
         # modifications
         modifications = self.modify()
         if modifications:
-            data.modifications.append('/* modifications for ' + name + ' */\n' + modifications.rstrip())
+            data.modifications.append(
+                f'/* modifications for {name} */\n{modifications.rstrip()}'
+            )
 
         # keywords
         if parameter.is_vararg():
@@ -2843,12 +2899,14 @@ class CConverter(metaclass=CConverterAutoRegister):
 
         # post_parsing
         if post_parsing := self.post_parsing():
-            data.post_parsing.append('/* Post parse cleanup for ' + name + ' */\n' + post_parsing.rstrip() + '\n')
+            data.post_parsing.append(
+                f'/* Post parse cleanup for {name} */\n{post_parsing.rstrip()}\n'
+            )
 
         # cleanup
         cleanup = self.cleanup()
         if cleanup:
-            data.cleanup.append('/* Cleanup for ' + name + ' */\n' + cleanup.rstrip() + "\n")
+            data.cleanup.append(f'/* Cleanup for {name} */\n{cleanup.rstrip()}\n')
 
     def render(self, parameter: Parameter, data: CRenderData) -> None:
         """
@@ -3573,7 +3631,10 @@ class str_converter(CConverter):
         self.length = bool(zeroes)
         if encoding:
             if self.default not in (Null, None, unspecified):
-                fail("str_converter: Argument Clinic doesn't support default values for encoded strings")
+                fail(
+                    "str_converter: "
+                    "Argument Clinic doesn't support default values for encoded strings"
+                )
             self.encoding = encoding
             self.type = 'char *'
             # sorry, clinic can't support preallocated buffers
@@ -4376,7 +4437,11 @@ class DSLParser:
     def directive_version(self, required: str) -> None:
         global version
         if version_comparitor(version, required) < 0:
-            fail("Insufficient Clinic version!\n  Version: " + version + "\n  Required: " + required)
+            fail(
+                f"Insufficient Clinic version!\n"
+                f"  Version: {version}\n"
+                f"  Required: {required}"
+            )
 
     def directive_module(self, name: str) -> None:
         fields = name.split('.')[:-1]
@@ -4474,7 +4539,11 @@ class DSLParser:
             return
 
         if command_or_name not in fd:
-            fail("Invalid command / destination name " + repr(command_or_name) + ", must be one of:\n  preset push pop print everything " + " ".join(fd))
+            fail(
+                f"Invalid command / destination name {command_or_name!r}, "
+                f"must be one of:\n"
+                f" preset push pop print everything {' '.join(fd)}"
+            )
         fd[command_or_name] = d
 
     def directive_dump(self, name: str) -> None:
@@ -4511,9 +4580,14 @@ class DSLParser:
         block.output = []
         block_start = self.clinic.block_parser.line_number
         lines = block.input.split('\n')
-        for line_number, line in enumerate(lines, self.clinic.block_parser.block_start_line_number):
+        for line_number, line in enumerate(
+            lines, self.clinic.block_parser.block_start_line_number
+        ):
             if '\t' in line:
-                fail('Tab characters are illegal in the Clinic DSL.\n\t' + repr(line), line_number=block_start)
+                fail(
+                    f'Tab characters are illegal in the Clinic DSL.\n\t{line!r}',
+                    line_number=block_start
+                )
             self.state(line)
 
         self.next(self.state_terminal)
@@ -4626,8 +4700,14 @@ class DSLParser:
                 function_name = fields.pop()
                 module, cls = self.clinic._module_and_class(fields)
 
-                if not (existing_function.kind == self.kind and existing_function.coexist == self.coexist):
-                    fail("'kind' of function and cloned function don't match!  (@classmethod/@staticmethod/@coexist)")
+                if not (
+                    existing_function.kind == self.kind
+                    and existing_function.coexist == self.coexist
+                ):
+                    fail(
+                        "'kind' of function and cloned function don't match!  "
+                        "(@classmethod/@staticmethod/@coexist)"
+                    )
                 function = existing_function.copy(
                     name=function_name, full_name=full_name, module=module,
                     cls=cls, c_basename=c_basename, docstring=''
@@ -4676,7 +4756,10 @@ class DSLParser:
 
         fields = full_name.split('.')
         if fields[-1] in unsupported_special_methods:
-            fail(f"{fields[-1]} is a special method and cannot be converted to Argument Clinic!  (Yet.)")
+            fail(
+                f"{fields[-1]} is a special method "
+                "and cannot be converted to Argument Clinic!  (Yet.)"
+            )
 
         if fields[-1] == '__new__':
             if (self.kind != CLASS_METHOD) or (not cls):
@@ -4693,9 +4776,17 @@ class DSLParser:
             return_converter = CReturnConverter()
 
         if not module:
-            fail("Undefined module used in declaration of " + repr(full_name.strip()) + ".")
-        self.function = Function(name=function_name, full_name=full_name, module=module, cls=cls, c_basename=c_basename,
-                                 return_converter=return_converter, kind=self.kind, coexist=self.coexist)
+            fail(f"Undefined module used in declaration of {full_name.strip()!r}.")
+        self.function = Function(
+            name=function_name,
+            full_name=full_name,
+            module=module,
+            cls=cls,
+            c_basename=c_basename,
+            return_converter=return_converter,
+            kind=self.kind,
+            coexist=self.coexist
+        )
         self.block.signatures.append(self.function)
 
         # insert a self converter automatically
@@ -4703,7 +4794,9 @@ class DSLParser:
         kwargs = {}
         if cls and type == "PyObject *":
             kwargs['type'] = cls.typedef
-        sc = self.function.self_converter = self_converter(name, name, self.function, **kwargs)
+        sc = self.function.self_converter = self_converter(
+            name, name, self.function, **kwargs
+        )
         p_self = Parameter(name, inspect.Parameter.POSITIONAL_ONLY,
                            function=self.function, converter=sc)
         self.function.parameters[name] = p_self
@@ -4829,7 +4922,11 @@ class DSLParser:
             case ParamState.GROUP_AFTER | ParamState.OPTIONAL:
                 pass
             case st:
-                fail(f"Function {self.function.name} has an unsupported group configuration. (Unexpected state {st}.a)")
+                fail(
+                    f"Function {self.function.name} "
+                    f"has an unsupported group configuration. "
+                    f"(Unexpected state {st}.a)"
+                )
 
         # handle "as" for  parameters too
         c_name = None
@@ -4868,18 +4965,30 @@ class DSLParser:
             except SyntaxError:
                 pass
         if not module:
-            fail("Function " + self.function.name + " has an invalid parameter declaration:\n\t" + line)
+            fail(
+                f"Function {self.function.name} "
+                f"has an invalid parameter declaration:\n\t{line}"
+            )
 
         function = module.body[0]
         assert isinstance(function, ast.FunctionDef)
         function_args = function.args
 
         if len(function_args.args) > 1:
-            fail("Function " + self.function.name + " has an invalid parameter declaration (comma?):\n\t" + line)
+            fail(
+                f"Function {self.function.name} "
+                f"has an invalid parameter declaration (comma?):\n\t{line}"
+            )
         if function_args.defaults or function_args.kw_defaults:
-            fail("Function " + self.function.name + " has an invalid parameter declaration (default value?):\n\t" + line)
+            fail(
+                f"Function {self.function.name} "
+                f"has an invalid parameter declaration (default value?):\n\t{line}"
+            )
         if function_args.kwarg:
-            fail("Function " + self.function.name + " has an invalid parameter declaration (**kwargs?):\n\t" + line)
+            fail(
+                f"Function {self.function.name} "
+                f"has an invalid parameter declaration (**kwargs?):\n\t{line}"
+            )
 
         if function_args.vararg:
             is_vararg = True
@@ -4974,7 +5083,11 @@ class DSLParser:
                     )):
                     c_default = kwargs.get("c_default")
                     if not (isinstance(c_default, str) and c_default):
-                        fail("When you specify an expression (" + repr(default) + ") as your default value,\nyou MUST specify a valid c_default." + ast.dump(expr))
+                        fail(
+                            f"When you specify an expression ({default!r}) "
+                            f"as your default value,\n"
+                            f"you MUST specify a valid c_default.{ast.dump(expr)}"
+                        )
                     py_default = default
                     value = unknown
                 elif isinstance(expr, ast.Attribute):
@@ -4984,13 +5097,20 @@ class DSLParser:
                         a.append(n.attr)
                         n = n.value
                     if not isinstance(n, ast.Name):
-                        fail("Unsupported default value " + repr(default) + " (looked like a Python constant)")
+                        fail(
+                            f"Unsupported default value {default!r} "
+                            f"(looked like a Python constant)"
+                        )
                     a.append(n.id)
                     py_default = ".".join(reversed(a))
 
                     c_default = kwargs.get("c_default")
                     if not (isinstance(c_default, str) and c_default):
-                        fail("When you specify a named constant (" + repr(py_default) + ") as your default value,\nyou MUST specify a valid c_default.")
+                        fail(
+                            f"When you specify a named constant ({py_default!r}) "
+                            f"as your default value,\n"
+                            f"you MUST specify a valid c_default."
+                        )
 
                     try:
                         value = eval(py_default)
@@ -5013,7 +5133,11 @@ class DSLParser:
                 c_default = kwargs.get("c_default")
                 py_default = default
                 if not (isinstance(c_default, str) and c_default):
-                    fail("When you specify a named constant (" + repr(py_default) + ") as your default value,\nyou MUST specify a valid c_default.")
+                    fail(
+                        f"When you specify a named constant ({py_default!r}) "
+                        f"as your default value,\n"
+                        f"you MUST specify a valid c_default."
+                    )
 
             kwargs.setdefault('c_default', c_default)
             kwargs.setdefault('py_default', py_default)
@@ -5024,7 +5148,13 @@ class DSLParser:
             fail(f'{name} is not a valid {legacy_str}converter')
         # if you use a c_name for the parameter, we just give that name to the converter
         # but the parameter object gets the python name
-        converter = dict[name](c_name or parameter_name, parameter_name, self.function, value, **kwargs)
+        converter = dict[name](
+            c_name or parameter_name,
+            parameter_name,
+            self.function,
+            value,
+            **kwargs
+        )
 
         kind: inspect._ParameterKind
         if is_vararg:
@@ -5046,7 +5176,10 @@ class DSLParser:
                 self.parameter_state = ParamState.START
                 self.function.parameters.clear()
             else:
-                fail("A 'self' parameter, if specified, must be the very first thing in the parameter block.")
+                fail(
+                    "A 'self' parameter, if specified, "
+                    "must be the very first thing in the parameter block."
+                )
 
         if isinstance(converter, defining_class_converter):
             _lp = len(self.function.parameters)
@@ -5058,10 +5191,21 @@ class DSLParser:
                 if self.group:
                     fail("A 'defining_class' parameter cannot be in an optional group.")
             else:
-                fail("A 'defining_class' parameter, if specified, must either be the first thing in the parameter block, or come just after 'self'.")
+                fail(
+                    "A 'defining_class' parameter, if specified, "
+                    "must either be the first thing in the parameter block, "
+                    "or come just after 'self'."
+                )
 
 
-        p = Parameter(parameter_name, kind, function=self.function, converter=converter, default=value, group=self.group)
+        p = Parameter(
+            parameter_name,
+            kind,
+            function=self.function,
+            converter=converter,
+            default=value,
+            group=self.group
+        )
 
         names = [k.name for k in self.function.parameters.values()]
         if parameter_name in names[1:]:
@@ -5106,14 +5250,21 @@ class DSLParser:
                 case ParamState.REQUIRED | ParamState.GROUP_AFTER:
                     self.parameter_state = ParamState.GROUP_AFTER
                 case st:
-                    fail(f"Function {self.function.name} has an unsupported group configuration. (Unexpected state {st}.b)")
+                    fail(
+                        f"Function {self.function.name} "
+                        f"has an unsupported group configuration. "
+                        f"(Unexpected state {st}.b)"
+                    )
             self.group += 1
             self.function.docstring_only = True
         elif symbol == ']':
             if not self.group:
                 fail("Function " + self.function.name + " has a ] without a matching [.")
             if not any(p.group == self.group for p in self.function.parameters.values()):
-                fail("Function " + self.function.name + " has an empty group.\nAll groups must contain at least one parameter.")
+                fail(
+                    f"Function {self.function.name} has an empty group.\n"
+                    f"All groups must contain at least one parameter."
+                )
             self.group -= 1
             match self.parameter_state:
                 case ParamState.LEFT_SQUARE_BEFORE | ParamState.GROUP_BEFORE:
@@ -5121,7 +5272,11 @@ class DSLParser:
                 case ParamState.GROUP_AFTER | ParamState.RIGHT_SQUARE_AFTER:
                     self.parameter_state = ParamState.RIGHT_SQUARE_AFTER
                 case st:
-                    fail(f"Function {self.function.name} has an unsupported group configuration. (Unexpected state {st}.c)")
+                    fail(
+                        f"Function {self.function.name} "
+                        f"has an unsupported group configuration. "
+                        f"(Unexpected state {st}.c)"
+                    )
         elif symbol == '/':
             if self.positional_only:
                 fail("Function " + self.function.name + " uses '/' more than once.")
@@ -5135,15 +5290,30 @@ class DSLParser:
                 ParamState.GROUP_BEFORE,
             }
             if (self.parameter_state not in allowed) or self.group:
-                fail(f"Function {self.function.name} has an unsupported group configuration. (Unexpected state {self.parameter_state}.d)")
+                fail(
+                    f"Function {self.function.name} "
+                    f"has an unsupported group configuration. "
+                    f"(Unexpected state {self.parameter_state}.d)"
+                )
             if self.keyword_only:
-                fail("Function " + self.function.name + " mixes keyword-only and positional-only parameters, which is unsupported.")
+                fail(
+                    f"Function {self.function.name} "
+                    f"mixes keyword-only and positional-only parameters, "
+                    f"which is unsupported."
+                )
             # fixup preceding parameters
             for p in self.function.parameters.values():
                 if p.is_vararg():
                     continue
-                if (p.kind != inspect.Parameter.POSITIONAL_OR_KEYWORD and not isinstance(p.converter, self_converter)):
-                    fail("Function " + self.function.name + " mixes keyword-only and positional-only parameters, which is unsupported.")
+                if (
+                    p.kind is not inspect.Parameter.POSITIONAL_OR_KEYWORD
+                    and not isinstance(p.converter, self_converter)
+                ):
+                    fail(
+                        f"Function {self.function.name} "
+                        f"mixes keyword-only and positional-only parameters, "
+                        f"which is unsupported."
+                    )
                 p.kind = inspect.Parameter.POSITIONAL_ONLY
 
     def state_parameter_docstring_start(self, line: str | None) -> None:
@@ -5239,7 +5409,8 @@ class DSLParser:
             if positional_only:
                 p.right_bracket_count = abs(p.group)
             else:
-                # don't put any right brackets around non-positional-only parameters, ever.
+                # don't put any right brackets
+                # around non-positional-only parameters, ever.
                 p.right_bracket_count = 0
 
         right_bracket_count = 0
@@ -5419,7 +5590,7 @@ class DSLParser:
 
         if len(lines) >= 2:
             if lines[1]:
-                fail("Docstring for " + f.full_name + " does not have a summary line!\n" +
+                fail(f"Docstring for {f.full_name} does not have a summary line!\n" +
                     "Every non-blank function docstring must start with\n" +
                     "a single line summary followed by an empty line.")
         elif len(lines) == 1:
@@ -5464,9 +5635,14 @@ class DSLParser:
                 no_parameter_after_star = True
             else:
                 last_parameter = next(reversed(list(values)))
-                no_parameter_after_star = last_parameter.kind != inspect.Parameter.KEYWORD_ONLY
+                no_parameter_after_star = (
+                    last_parameter.kind is not inspect.Parameter.KEYWORD_ONLY
+                )
             if no_parameter_after_star:
-                fail("Function " + self.function.name + " specifies '*' without any parameters afterwards.")
+                fail(
+                    f"Function {self.function.name} "
+                    f"specifies '*' without any parameters afterwards."
+                )
 
         # remove trailing whitespace from all parameter docstrings
         for name, value in self.function.parameters.items():
@@ -5518,7 +5694,9 @@ For more information see https://docs.python.org/3/howto/clinic.html""")
 
     if ns.converters:
         if ns.filename:
-            print("Usage error: can't specify --converters and a filename at the same time.")
+            print(
+                "Usage error: can't specify --converters and a filename at the same time."
+            )
             print()
             cmdline.print_usage()
             sys.exit(-1)
@@ -5573,7 +5751,9 @@ For more information see https://docs.python.org/3/howto/clinic.html""")
                         parameters.append(s)
                 print('    {}({})'.format(short_name, ', '.join(parameters)))
             print()
-        print("All converters also accept (c_default=None, py_default=None, annotation=None).")
+        print(
+            "All converters also accept (c_default=None, py_default=None, annotation=None)."
+        )
         print("All return converters also accept (py_default=None).")
         sys.exit(0)
 
