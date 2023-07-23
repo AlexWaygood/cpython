@@ -5650,6 +5650,7 @@ For more information see https://docs.python.org/3/howto/clinic.html""")
             ("Converters", 'converter_init', converters),
             ("Return converters", 'return_converter_init', return_converters),
         ):
+            1/0
             print(title + ":")
             longest = -1
             for name, short_name in ids:
