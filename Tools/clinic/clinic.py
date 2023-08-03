@@ -4168,14 +4168,6 @@ class CReturnConverter(metaclass=CReturnConverterAutoRegister):
         line = f'if (({expr}) && PyErr_Occurred()) {{\n    goto exit;\n}}\n'
         data.return_conversion.append(line)
 
-    def err_occurred_if_null_pointer(
-            self,
-            variable: str,
-            data: CRenderData
-    ) -> None:
-        line = f'if ({variable} == NULL) {{\n    goto exit;\n}}\n'
-        data.return_conversion.append(line)
-
     def render(
             self,
             function: Function,
@@ -4368,19 +4360,12 @@ class IndentStack:
         """
         return len(self.indents)
 
-    def indent(self, line: str) -> str:
-        """
-        Indents a line by the currently defined margin.
-        """
-        assert self.margin is not None, "Cannot call .indent() before calling .infer()"
-        return self.margin + line
-
     def dedent(self, line: str) -> str:
         """
         Dedents a line by the currently defined margin.
         (The inverse of 'indent'.)
         """
-        assert self.margin is not None, "Cannot call .indent() before calling .infer()"
+        assert self.margin is not None, "Cannot call .dedent() before calling .infer()"
         margin = self.margin
         indent = self.indents[-1]
         if not line.startswith(margin):
@@ -4640,10 +4625,6 @@ class DSLParser:
             return False
 
         return True
-
-    @staticmethod
-    def calculate_indent(line: str) -> int:
-        return len(line) - len(line.strip())
 
     def next(
             self,
