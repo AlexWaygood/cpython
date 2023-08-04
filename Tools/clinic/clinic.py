@@ -4685,9 +4685,7 @@ class DSLParser:
         # this line is permitted to start with whitespace.
         # we'll call this number of spaces F (for "function").
 
-        if not self.valid_line(line):
-            return
-
+        assert self.valid_line(line)
         self.indent.infer(line)
 
         # are we cloning?
@@ -5302,9 +5300,7 @@ class DSLParser:
     # where F > P.
     # these F spaces will be stripped.
     def state_parameter_docstring(self, line: str) -> None:
-        if not self.valid_line(line):
-            return
-
+        assert self.valid_line(line)
         indent = self.indent.measure(line)
         if indent < self.parameter_docstring_indent:
             self.indent.infer(line)
@@ -5326,9 +5322,7 @@ class DSLParser:
         if self.group:
             fail(f"Function {self.function.name!r} has a ']' without a matching '['.")
 
-        if not self.valid_line(line):
-            return
-
+        assert self.valid_line(line)
         self.docstring_append(self.function, line)
 
     def format_docstring(self) -> str:
