@@ -141,21 +141,18 @@ def text_accumulator() -> TextAccumulator:
 class ClinicError(Exception):
     message: str
     _: dc.KW_ONLY
-    lineno: int | None = None
-    filename: str | None = None
+    lineno: int
+    filename: str
 
     def __post_init__(self) -> None:
         super().__init__(self.message)
 
     def report(self, *, warn_only: bool = False) -> str:
-        msg = "Warning" if warn_only else "Error"
-        if self.filename is not None:
-            msg += f" in file {self.filename!r}"
-        if self.lineno is not None:
-            msg += f" on line {self.lineno}"
-        msg += ":\n"
-        msg += f"{self.message}\n"
-        return msg
+        first_word = 'Warning' if warn_only else 'Error'
+        return (
+            f"{first_word} in file {self.filename!r} on line {self.lineno}:\n"
+            f"{self.message}\n"
+        )
 
 
 @overload
@@ -181,11 +178,10 @@ def warn_or_fail(
     line_number: int | None = None,
 ) -> None:
     joined = " ".join([str(a) for a in args])
-    if clinic:
-        if filename is None:
-            filename = clinic.filename
-        if getattr(clinic, 'block_parser', None) and (line_number is None):
-            line_number = clinic.block_parser.line_number
+    if filename is None:
+        filename = clinic.filename
+    if getattr(clinic, 'block_parser', None) and (line_number is None):
+        line_number = clinic.block_parser.line_number
     error = ClinicError(joined, filename=filename, lineno=line_number)
     if fail:
         raise error
@@ -495,7 +491,7 @@ class Language(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def render(
             self,
-            clinic: Clinic | None,
+            clinic: Clinic,
             signatures: Iterable[Module | Class | Function]
     ) -> str:
         ...
@@ -881,7 +877,7 @@ class CLanguage(Language):
 
     def render(
             self,
-            clinic: Clinic | None,
+            clinic: Clinic,
             signatures: Iterable[Module | Class | Function]
     ) -> str:
         function = None
@@ -2207,7 +2203,6 @@ class Parser(Protocol):
     def parse(self, block: Block) -> None: ...
 
 
-clinic = None
 class Clinic:
 
     presets_text = """
@@ -2327,9 +2322,6 @@ impl_definition block
 
             assert name in self.destination_buffers
             preset[name] = buffer
-
-        global clinic
-        clinic = self
 
     def add_destination(
             self,
@@ -2451,12 +2443,16 @@ impl_definition block
         return "<clinic.Clinic object>"
 
 
+clinic: Clinic
+
+
 def parse_file(
         filename: str,
         *,
         verify: bool = True,
         output: str | None = None
 ) -> None:
+    global clinic
     if not output:
         output = filename
 
@@ -5789,9 +5785,6 @@ parsers: dict[str, Callable[[Clinic], Parser]] = {
     'clinic': DSLParser,
     'python': PythonParser,
 }
-
-
-clinic = None
 
 
 def create_cli() -> argparse.ArgumentParser:

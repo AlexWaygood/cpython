@@ -22,7 +22,7 @@ with test_tools.imports_under_tool('clinic'):
 
 def _make_clinic(*, filename='clinic_tests'):
     clang = clinic.CLanguage(None)
-    c = clinic.Clinic(clang, filename=filename)
+    c = clinic.clinic = clinic.Clinic(clang, filename=filename)
     c.block_parser = clinic.BlockParser('', clang)
     return c
 
