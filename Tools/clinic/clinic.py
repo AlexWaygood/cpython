@@ -2437,8 +2437,6 @@ impl_definition block
                 if child:
                     parent = module = child
                     continue
-            if not hasattr(parent, 'classes'):
-                return module, cls
             child = parent.classes.get(field)
             if not child:
                 fullname = ".".join(so_far)
@@ -4453,8 +4451,9 @@ class IndentStack:
         """
         Returns the length of the line's margin.
         """
-        if '\t' in line:
-            fail('Tab characters are illegal in the Argument Clinic DSL.')
+        no_tabs_please = 'Tab characters are illegal in the Argument Clinic DSL.'
+        assert '\t' not in line, no_tabs_please
+
         stripped = line.lstrip()
         if not len(stripped):
             # we can't tell anything from an empty line
@@ -5080,8 +5079,6 @@ class DSLParser:
             name = name.strip()
             if ' ' not in name:
                 fields = trailing.strip().split(' ')
-                if not fields:
-                    fail("Invalid 'as' clause!")
                 c_name = fields[0]
                 if c_name.endswith(':'):
                     name += ':'
