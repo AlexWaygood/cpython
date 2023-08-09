@@ -500,7 +500,7 @@ class NodeTransformer(NodeVisitor):
 _DEPRECATED_VALUE_ALIAS_MESSAGE = (
     "{name} is deprecated and will be removed in Python {remove}; use value instead"
 )
-_DEPRECATED_CLASS_MESSAGE = (
+_USE_CONSTANT_INSTEAD_MSG = (
     "{name} is deprecated and will be removed in Python {remove}; "
     "use ast.Constant instead"
 )
@@ -554,7 +554,7 @@ class _ABC(type):
             import warnings
             warnings._deprecated(
                 f"ast.{cls.__qualname__}",
-                message=_DEPRECATED_CLASS_MESSAGE,
+                message=_USE_CONSTANT_INSTEAD_MSG,
                 remove=(3, 14)
             )
         if not isinstance(inst, Constant):
@@ -582,7 +582,7 @@ def _new(cls, *args, **kwargs):
     if cls in _const_types:
         import warnings
         warnings._deprecated(
-            f"ast.{cls.__qualname__}", message=_DEPRECATED_CLASS_MESSAGE, remove=(3, 14)
+            f"ast.{cls.__qualname__}", message=_USE_CONSTANT_INSTEAD_MSG, remove=(3, 14)
         )
         return Constant(*args, **kwargs)
     return Constant.__new__(cls, *args, **kwargs)
@@ -609,7 +609,7 @@ class Ellipsis(Constant, metaclass=_ABC):
         if cls is _ast_Ellipsis:
             import warnings
             warnings._deprecated(
-                "ast.Ellipsis", message=_DEPRECATED_CLASS_MESSAGE, remove=(3, 14)
+                "ast.Ellipsis", message=_USE_CONSTANT_INSTEAD_MSG, remove=(3, 14)
             )
             return Constant(..., *args, **kwargs)
         return Constant.__new__(cls, *args, **kwargs)
@@ -641,29 +641,81 @@ _const_node_type_names = {
     type(...): 'Ellipsis',
 }
 
-class slice(AST):
-    """Deprecated AST node class."""
+class _DeprecatedInPy313Meta(type):
+    def __instancecheck__(cls, inst):
+        if cls in _deprecated_py313_globals.values():
+            import warnings
+            depr_msg = (
+                "{name!r} is deprecated "
+                "and slated for removal in Python {remove}"
+            )
+            if cls is _deprecated_py313_globals['Index']:
+                depr_msg += "; use the index value directly instead"
+            elif cls is _deprecated_py313_globals['ExtSlice']:
+                depr_msg += "; use ast.Tuple instead"
+            warnings._deprecated(
+                f"ast.{cls.__qualname__}", message=depr_msg, remove=(3, 15)
+            )
+        return super().__instancecheck__(inst)
 
-class Index(slice):
+class slice(AST, metaclass=_DeprecatedInPy313Meta):
+    """Deprecated AST node class."""
+    def __new__(cls, *args, **kwargs):
+        import warnings
+        warnings._deprecated("ast.slice", remove=(3, 15))
+        return super().__new__(cls, *args, **kwargs)
+
+class Index(slice, metaclass=_DeprecatedInPy313Meta):
     """Deprecated AST node class. Use the index value directly instead."""
     def __new__(cls, value, **kwargs):
+        import warnings
+        warnings._deprecated(
+            "ast.Index",
+            message=(
+                "{name!r} is deprecated and slated for removal in Python {remove}; "
+                "use the index value directly instead"
+            ),
+            remove=(3, 15)
+        )
         return value
 
 class ExtSlice(slice):
     """Deprecated AST node class. Use ast.Tuple instead."""
     def __new__(cls, dims=(), **kwargs):
+        import warnings
+        warnings._deprecated(
+            "ast.ExtSlice",
+            message=(
+                "{name!r} is deprecated and slated for removal in Python {remove}; "
+                "use ast.Tuple instead"
+            ),
+            remove=(3, 15)
+        )
         return Tuple(list(dims), Load(), **kwargs)
 
 # If the ast module is loaded more than once, only add deprecated methods once
 if not hasattr(Tuple, 'dims'):
     # The following code is for backward compatibility.
-    # It will be removed in future.
+    # It will be removed in Python 3.15.
+
+    _DIMS_DEPR_MSG = (
+        "{name!r} is deprecated and slated for removal in Python {remove}; "
+        "use the 'elts' attribute instead"
+    )
 
     def _dims_getter(self):
         """Deprecated. Use elts instead."""
+        import warnings
+        warnings._deprecated(
+            "The 'dims' attribute", message=_DIMS_DEPR_MSG, remove=(3, 15)
+        )
         return self.elts
 
     def _dims_setter(self, value):
+        import warnings
+        warnings._deprecated(
+            "The 'dims' attribute", message=_DIMS_DEPR_MSG, remove=(3, 15)
+        )
         self.elts = value
 
     Tuple.dims = property(_dims_getter, _dims_setter)
@@ -1777,20 +1829,35 @@ def unparse(ast_obj):
     return unparser.visit(ast_obj)
 
 
-_deprecated_globals = {
+_deprecated_py312_globals = {
     name: globals().pop(name)
     for name in ('Num', 'Str', 'Bytes', 'NameConstant', 'Ellipsis')
 }
+_deprecated_py313_globals = {
+    name: globals().pop(name)
+    for name in ('slice', 'Index', 'ExtSlice')
+}
 
 def __getattr__(name):
-    if name in _deprecated_globals:
-        globals()[name] = value = _deprecated_globals[name]
-        import warnings
-        warnings._deprecated(
-            f"ast.{name}", message=_DEPRECATED_CLASS_MESSAGE, remove=(3, 14)
-        )
-        return value
-    raise AttributeError(f"module 'ast' has no attribute '{name}'")
+    if name in _deprecated_py312_globals:
+        value = _deprecated_py312_globals[name]
+        remove = (3, 14)
+        message = _USE_CONSTANT_INSTEAD_MSG
+    elif name in _deprecated_py313_globals:
+        value = _deprecated_py313_globals[name]
+        remove = (3, 15)
+        message = "{name!r} is deprecated and will be removed in Python {remove}"
+        if name == "Index":
+            message += "; use the index value directly instead"
+        elif name == "ExtSlice":
+            message += "; use ast.Tuple instead"
+    else:
+        raise AttributeError(f"module 'ast' has no attribute '{name}'")
+
+    globals()[name] = value
+    import warnings
+    warnings._deprecated(f"ast.{name}", message=message, remove=remove)
+    return value
 
 
 def main():
