@@ -457,39 +457,52 @@ class AST_Tests(unittest.TestCase):
     def test_import_deprecated(self):
         ast = import_fresh_module('ast')
         depr_regex = (
-            r'ast\.{} is deprecated and will be removed in Python 3.14; '
-            r'use ast\.Constant instead'
+            r'ast\.{name} is deprecated and will be removed in Python {remove}'
         )
+        assertDeprecationMsg = partial(self.assertWarnsRegex, DeprecationWarning)
+
         for name in 'Num', 'Str', 'Bytes', 'NameConstant', 'Ellipsis':
-            with self.assertWarnsRegex(DeprecationWarning, depr_regex.format(name)):
-                getattr(ast, name)
+            with self.subTest(name=name):
+                with assertDeprecationMsg(depr_regex.format(name=name, remove='3.14')):
+                    getattr(ast, name)
+        for name in 'Index', 'slice', 'ExtSlice':
+            with self.subTest(name=name):
+                with assertDeprecationMsg(depr_regex.format(name=name, remove='3.15')):
+                    getattr(ast, name)
 
     def test_field_attr_existence_deprecated(self):
         with warnings.catch_warnings():
             warnings.filterwarnings('ignore', '', DeprecationWarning)
             from ast import Num, Str, Bytes, NameConstant, Ellipsis
+            from ast import slice, Index, ExtSlice
 
-        for name in ('Num', 'Str', 'Bytes', 'NameConstant', 'Ellipsis'):
-            item = getattr(ast, name)
-            if self._is_ast_node(name, item):
-                with self.subTest(item):
+        for name in (
+            'Num', 'Str', 'Bytes', 'NameConstant', 'Ellipsis',
+            'slice', 'ExtSlice',
+        ):
+            with self.subTest(name=name):
+                item = getattr(ast, name)
+                if self._is_ast_node(name, item):
                     with self.assertWarns(DeprecationWarning):
                         x = item()
-                if isinstance(x, ast.AST):
-                    self.assertIs(type(x._fields), tuple)
+                    if isinstance(x, ast.AST):
+                        self.assertIs(type(x._fields), tuple)
+
+        with self.subTest(name='Index'):
+            Index = ast.Index
+            with self.assertWarns(DeprecationWarning):
+                x = Index(42)
 
     def test_field_attr_existence(self):
         for name, item in ast.__dict__.items():
             # These emit DeprecationWarnings
-            if name in {'Num', 'Str', 'Bytes', 'NameConstant', 'Ellipsis'}:
+            if name in {'Num', 'Str', 'Bytes', 'NameConstant', 'Ellipsis', 'Index'}:
                 continue
-            # constructor has a different signature
-            if name == 'Index':
-                continue
-            if self._is_ast_node(name, item):
-                x = item()
-                if isinstance(x, ast.AST):
-                    self.assertIs(type(x._fields), tuple)
+            with self.subTest(name=name):
+                if self._is_ast_node(name, item):
+                    x = item()
+                    if isinstance(x, ast.AST):
+                        self.assertIs(type(x._fields), tuple)
 
     def test_arguments(self):
         x = ast.arguments()

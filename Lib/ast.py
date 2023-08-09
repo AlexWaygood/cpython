@@ -646,7 +646,7 @@ class _DeprecatedInPy313Meta(type):
         if cls in _deprecated_py313_globals.values():
             import warnings
             depr_msg = (
-                "{name!r} is deprecated "
+                "{name} is deprecated "
                 "and slated for removal in Python {remove}"
             )
             if cls is _deprecated_py313_globals['Index']:
@@ -672,7 +672,7 @@ class Index(slice, metaclass=_DeprecatedInPy313Meta):
         warnings._deprecated(
             "ast.Index",
             message=(
-                "{name!r} is deprecated and slated for removal in Python {remove}; "
+                "{name} is deprecated and slated for removal in Python {remove}; "
                 "use the index value directly instead"
             ),
             remove=(3, 15)
@@ -686,7 +686,7 @@ class ExtSlice(slice):
         warnings._deprecated(
             "ast.ExtSlice",
             message=(
-                "{name!r} is deprecated and slated for removal in Python {remove}; "
+                "{name} is deprecated and slated for removal in Python {remove}; "
                 "use ast.Tuple instead"
             ),
             remove=(3, 15)
@@ -699,7 +699,7 @@ if not hasattr(Tuple, 'dims'):
     # It will be removed in Python 3.15.
 
     _DIMS_DEPR_MSG = (
-        "{name!r} is deprecated and slated for removal in Python {remove}; "
+        "{name} is deprecated and slated for removal in Python {remove}; "
         "use the 'elts' attribute instead"
     )
 
@@ -1846,7 +1846,7 @@ def __getattr__(name):
     elif name in _deprecated_py313_globals:
         value = _deprecated_py313_globals[name]
         remove = (3, 15)
-        message = "{name!r} is deprecated and will be removed in Python {remove}"
+        message = "{name} is deprecated and will be removed in Python {remove}"
         if name == "Index":
             message += "; use the index value directly instead"
         elif name == "ExtSlice":
