@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(memoryview__doc__,
 "memoryview(object)\n"
@@ -21,8 +18,6 @@ static PyObject *
 memoryview(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -34,10 +29,6 @@ memoryview(PyTypeObject *type, PyObject *args, PyObject *kwargs)
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"object", NULL};
     static _PyArg_Parser _parser = {
@@ -78,8 +69,6 @@ static PyObject *
 memoryview__from_flags(PyTypeObject *type, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -91,10 +80,6 @@ memoryview__from_flags(PyTypeObject *type, PyObject *const *args, Py_ssize_t nar
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"object", "flags", NULL};
     static _PyArg_Parser _parser = {
@@ -157,8 +142,6 @@ static PyObject *
 memoryview_cast(PyMemoryViewObject *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -170,10 +153,6 @@ memoryview_cast(PyMemoryViewObject *self, PyObject *const *args, Py_ssize_t narg
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"format", "shape", NULL};
     static _PyArg_Parser _parser = {
@@ -265,8 +244,6 @@ static PyObject *
 memoryview_tobytes(PyMemoryViewObject *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -278,10 +255,6 @@ memoryview_tobytes(PyMemoryViewObject *self, PyObject *const *args, Py_ssize_t n
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"order", NULL};
     static _PyArg_Parser _parser = {
@@ -360,8 +333,6 @@ static PyObject *
 memoryview_hex(PyMemoryViewObject *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -373,10 +344,6 @@ memoryview_hex(PyMemoryViewObject *self, PyObject *const *args, Py_ssize_t nargs
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"sep", "bytes_per_sep", NULL};
     static _PyArg_Parser _parser = {
@@ -413,4 +380,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=28a632db32b44b63 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=66bef467834d161c input=a9049054013a1b77]*/

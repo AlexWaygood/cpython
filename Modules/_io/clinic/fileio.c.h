@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
 #include "pycore_abstract.h"       // _Py_convert_optional_to_ssize_t()
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_io_FileIO_close__doc__,
 "close($self, /)\n"
@@ -60,8 +57,6 @@ static int
 _io_FileIO___init__(PyObject *self, PyObject *args, PyObject *kwargs)
 {
     int return_value = -1;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -73,10 +68,6 @@ _io_FileIO___init__(PyObject *self, PyObject *args, PyObject *kwargs)
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"file", "mode", "closefd", "opener", NULL};
     static _PyArg_Parser _parser = {
@@ -537,4 +528,4 @@ _io_FileIO_isatty(fileio *self, PyObject *Py_UNUSED(ignored))
 #ifndef _IO_FILEIO_TRUNCATE_METHODDEF
     #define _IO_FILEIO_TRUNCATE_METHODDEF
 #endif /* !defined(_IO_FILEIO_TRUNCATE_METHODDEF) */
-/*[clinic end generated code: output=3a3c6ed7e5e78063 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=07558d24e03a3a22 input=a9049054013a1b77]*/

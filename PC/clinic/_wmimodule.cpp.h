@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_wmi_exec_query__doc__,
 "exec_query($module, /, query)\n"
@@ -27,8 +24,6 @@ static PyObject *
 _wmi_exec_query(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -40,10 +35,6 @@ _wmi_exec_query(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObj
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"query", NULL};
     static _PyArg_Parser _parser = {
@@ -69,4 +60,4 @@ _wmi_exec_query(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObj
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=923d09bee1d15c5f input=a9049054013a1b77]*/
+/*[clinic end generated code: output=dccb2d0e94277d9b input=a9049054013a1b77]*/

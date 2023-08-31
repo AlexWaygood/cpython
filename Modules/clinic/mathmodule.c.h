@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(math_ceil__doc__,
 "ceil($module, x, /)\n"
@@ -578,8 +575,6 @@ static PyObject *
 math_isclose(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -591,10 +586,6 @@ math_isclose(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "b", "rel_tol", "abs_tol", NULL};
     static _PyArg_Parser _parser = {
@@ -696,8 +687,6 @@ static PyObject *
 math_prod(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -709,10 +698,6 @@ math_prod(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *k
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "start", NULL};
     static _PyArg_Parser _parser = {
@@ -846,8 +831,6 @@ static PyObject *
 math_nextafter(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -859,10 +842,6 @@ math_nextafter(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObje
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "", "steps", NULL};
     static _PyArg_Parser _parser = {
@@ -950,4 +929,4 @@ math_ulp(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=91a0357265a2a553 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=9ee3cc016c9e211d input=a9049054013a1b77]*/

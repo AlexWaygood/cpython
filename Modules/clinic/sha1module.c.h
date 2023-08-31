@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(SHA1Type_copy__doc__,
 "copy($self, /)\n"
@@ -91,8 +88,6 @@ static PyObject *
 _sha1_sha1(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -104,10 +99,6 @@ _sha1_sha1(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"string", "usedforsecurity", NULL};
     static _PyArg_Parser _parser = {
@@ -148,4 +139,4 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=4d1293ca3472acdb input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5d50f574050bc588 input=a9049054013a1b77]*/

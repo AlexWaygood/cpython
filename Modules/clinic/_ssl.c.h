@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
 #include "pycore_abstract.h"       // _PyNumber_Index()
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_ssl__SSLSocket_do_handshake__doc__,
 "do_handshake($self, /)\n"
@@ -355,8 +352,6 @@ static PyObject *
 _ssl__SSLSocket_get_channel_binding(PySSLSocket *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -368,10 +363,6 @@ _ssl__SSLSocket_get_channel_binding(PySSLSocket *self, PyObject *const *args, Py
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"cb_type", NULL};
     static _PyArg_Parser _parser = {
@@ -561,8 +552,6 @@ static PyObject *
 _ssl__SSLContext_load_cert_chain(PySSLContext *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -574,10 +563,6 @@ _ssl__SSLContext_load_cert_chain(PySSLContext *self, PyObject *const *args, Py_s
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"certfile", "keyfile", "password", NULL};
     static _PyArg_Parser _parser = {
@@ -632,8 +617,6 @@ static PyObject *
 _ssl__SSLContext_load_verify_locations(PySSLContext *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -645,10 +628,6 @@ _ssl__SSLContext_load_verify_locations(PySSLContext *self, PyObject *const *args
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"cafile", "capath", "cadata", NULL};
     static _PyArg_Parser _parser = {
@@ -716,8 +695,6 @@ static PyObject *
 _ssl__SSLContext__wrap_socket(PySSLContext *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 5
     static struct {
         PyGC_Head _this_is_not_used;
@@ -729,10 +706,6 @@ _ssl__SSLContext__wrap_socket(PySSLContext *self, PyObject *const *args, Py_ssiz
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"sock", "server_side", "server_hostname", "owner", "session", NULL};
     static _PyArg_Parser _parser = {
@@ -808,8 +781,6 @@ static PyObject *
 _ssl__SSLContext__wrap_bio(PySSLContext *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 6
     static struct {
         PyGC_Head _this_is_not_used;
@@ -821,10 +792,6 @@ _ssl__SSLContext__wrap_bio(PySSLContext *self, PyObject *const *args, Py_ssize_t
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"incoming", "outgoing", "server_side", "server_hostname", "owner", "session", NULL};
     static _PyArg_Parser _parser = {
@@ -975,8 +942,6 @@ static PyObject *
 _ssl__SSLContext_get_ca_certs(PySSLContext *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -988,10 +953,6 @@ _ssl__SSLContext_get_ca_certs(PySSLContext *self, PyObject *const *args, Py_ssiz
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"binary_form", NULL};
     static _PyArg_Parser _parser = {
@@ -1294,8 +1255,6 @@ static PyObject *
 _ssl_txt2obj(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1307,10 +1266,6 @@ _ssl_txt2obj(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"txt", "name", NULL};
     static _PyArg_Parser _parser = {
@@ -1407,8 +1362,6 @@ static PyObject *
 _ssl_enum_certificates(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1420,10 +1373,6 @@ _ssl_enum_certificates(PyObject *module, PyObject *const *args, Py_ssize_t nargs
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"store_name", NULL};
     static _PyArg_Parser _parser = {
@@ -1483,8 +1432,6 @@ static PyObject *
 _ssl_enum_crls(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1496,10 +1443,6 @@ _ssl_enum_crls(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObje
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"store_name", NULL};
     static _PyArg_Parser _parser = {
@@ -1543,4 +1486,4 @@ exit:
 #ifndef _SSL_ENUM_CRLS_METHODDEF
     #define _SSL_ENUM_CRLS_METHODDEF
 #endif /* !defined(_SSL_ENUM_CRLS_METHODDEF) */
-/*[clinic end generated code: output=6e2eb86330f3f9b8 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=98daa100a672e040 input=a9049054013a1b77]*/

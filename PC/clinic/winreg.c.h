@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
 #include "pycore_long.h"           // _PyLong_UnsignedLong_Converter()
+#include "pycore_runtime.h"        // _Py_ID()
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
 
@@ -318,8 +315,6 @@ static PyObject *
 winreg_CreateKeyEx(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -331,10 +326,6 @@ winreg_CreateKeyEx(PyObject *module, PyObject *const *args, Py_ssize_t nargs, Py
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"key", "sub_key", "reserved", "access", NULL};
     static _PyArg_Parser _parser = {
@@ -502,8 +493,6 @@ static PyObject *
 winreg_DeleteKeyEx(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -515,10 +504,6 @@ winreg_DeleteKeyEx(PyObject *module, PyObject *const *args, Py_ssize_t nargs, Py
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"key", "sub_key", "access", "reserved", NULL};
     static _PyArg_Parser _parser = {
@@ -933,8 +918,6 @@ static PyObject *
 winreg_OpenKey(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -946,10 +929,6 @@ winreg_OpenKey(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObje
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"key", "sub_key", "reserved", "access", NULL};
     static _PyArg_Parser _parser = {
@@ -1050,8 +1029,6 @@ static PyObject *
 winreg_OpenKeyEx(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1063,10 +1040,6 @@ winreg_OpenKeyEx(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyOb
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"key", "sub_key", "reserved", "access", NULL};
     static _PyArg_Parser _parser = {
@@ -1762,4 +1735,4 @@ exit:
 #ifndef WINREG_QUERYREFLECTIONKEY_METHODDEF
     #define WINREG_QUERYREFLECTIONKEY_METHODDEF
 #endif /* !defined(WINREG_QUERYREFLECTIONKEY_METHODDEF) */
-/*[clinic end generated code: output=2431b1b06b148722 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=39d40b0ee660abac input=a9049054013a1b77]*/

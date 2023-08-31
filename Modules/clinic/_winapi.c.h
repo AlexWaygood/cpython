@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
 #include "pycore_long.h"           // _PyLong_Size_t_Converter()
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_winapi_Overlapped_GetOverlappedResult__doc__,
 "GetOverlappedResult($self, wait, /)\n"
@@ -113,8 +110,6 @@ static PyObject *
 _winapi_ConnectNamedPipe(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -126,10 +121,6 @@ _winapi_ConnectNamedPipe(PyObject *module, PyObject *const *args, Py_ssize_t nar
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"handle", "overlapped", NULL};
     static _PyArg_Parser _parser = {
@@ -891,8 +882,6 @@ static PyObject *
 _winapi_LCMapStringEx(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -904,10 +893,6 @@ _winapi_LCMapStringEx(PyObject *module, PyObject *const *args, Py_ssize_t nargs,
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"locale", "flags", "src", NULL};
     static _PyArg_Parser _parser = {
@@ -949,8 +934,6 @@ static PyObject *
 _winapi_ReadFile(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -962,10 +945,6 @@ _winapi_ReadFile(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyOb
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"handle", "size", "overlapped", NULL};
     static _PyArg_Parser _parser = {
@@ -1197,8 +1176,6 @@ static PyObject *
 _winapi_WriteFile(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1210,10 +1187,6 @@ _winapi_WriteFile(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyO
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"handle", "buffer", "overlapped", NULL};
     static _PyArg_Parser _parser = {
@@ -1269,8 +1242,6 @@ static PyObject *
 _winapi_GetFileType(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1282,10 +1253,6 @@ _winapi_GetFileType(PyObject *module, PyObject *const *args, Py_ssize_t nargs, P
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"handle", NULL};
     static _PyArg_Parser _parser = {
@@ -1331,8 +1298,6 @@ static PyObject *
 _winapi__mimetypes_read_windows_registry(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1344,10 +1309,6 @@ _winapi__mimetypes_read_windows_registry(PyObject *module, PyObject *const *args
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"on_type_read", NULL};
     static _PyArg_Parser _parser = {
@@ -1435,8 +1396,6 @@ static PyObject *
 _winapi_CopyFile2(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1448,10 +1407,6 @@ _winapi_CopyFile2(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyO
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"existing_file_name", "new_file_name", "flags", "progress_routine", NULL};
     static _PyArg_Parser _parser = {
@@ -1479,4 +1434,4 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=c7e08927e163ef13 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5bd3cdc6c6c2f54a input=a9049054013a1b77]*/

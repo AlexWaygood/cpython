@@ -1971,8 +1971,6 @@ static PyObject *
 test_keywords(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1984,10 +1982,6 @@ test_keywords(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObjec
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "b", NULL};
     static _PyArg_Parser _parser = {
@@ -2014,7 +2008,7 @@ exit:
 
 static PyObject *
 test_keywords_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=73d46a9ae3320f96 input=0d3484844749c05b]*/
+/*[clinic end generated code: output=9920599199250b38 input=0d3484844749c05b]*/
 
 
 /*[clinic input]
@@ -2041,8 +2035,6 @@ static PyObject *
 test_keywords_kwonly(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2054,10 +2046,6 @@ test_keywords_kwonly(PyObject *module, PyObject *const *args, Py_ssize_t nargs, 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "b", NULL};
     static _PyArg_Parser _parser = {
@@ -2084,7 +2072,7 @@ exit:
 
 static PyObject *
 test_keywords_kwonly_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=c9f02a41f425897d input=384adc78bfa0bff7]*/
+/*[clinic end generated code: output=bbfdd09b66fc6fad input=384adc78bfa0bff7]*/
 
 
 /*[clinic input]
@@ -2112,8 +2100,6 @@ static PyObject *
 test_keywords_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2125,10 +2111,6 @@ test_keywords_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyO
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "b", "c", NULL};
     static _PyArg_Parser _parser = {
@@ -2168,7 +2150,7 @@ exit:
 static PyObject *
 test_keywords_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                        PyObject *c)
-/*[clinic end generated code: output=b35d4e66f7283e46 input=eda7964f784f4607]*/
+/*[clinic end generated code: output=1fee3917fb85e0fc input=eda7964f784f4607]*/
 
 
 /*[clinic input]
@@ -2198,8 +2180,6 @@ static PyObject *
 test_keywords_opt_kwonly(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2211,10 +2191,6 @@ test_keywords_opt_kwonly(PyObject *module, PyObject *const *args, Py_ssize_t nar
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "b", "c", "d", NULL};
     static _PyArg_Parser _parser = {
@@ -2265,7 +2241,7 @@ exit:
 static PyObject *
 test_keywords_opt_kwonly_impl(PyObject *module, PyObject *a, PyObject *b,
                               PyObject *c, PyObject *d)
-/*[clinic end generated code: output=ede7e6e65106bf2b input=209387a4815e5082]*/
+/*[clinic end generated code: output=4bd2bb03c37969e5 input=209387a4815e5082]*/
 
 
 /*[clinic input]
@@ -2294,8 +2270,6 @@ static PyObject *
 test_keywords_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2307,10 +2281,6 @@ test_keywords_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t nar
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "b", "c", NULL};
     static _PyArg_Parser _parser = {
@@ -2350,7 +2320,7 @@ exit:
 static PyObject *
 test_keywords_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                               PyObject *c)
-/*[clinic end generated code: output=36d4df939a4c3eef input=18393cc64fa000f4]*/
+/*[clinic end generated code: output=e25881e543341c18 input=18393cc64fa000f4]*/
 
 
 /*[clinic input]
@@ -2377,8 +2347,6 @@ static PyObject *
 test_posonly_keywords(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2390,10 +2358,6 @@ test_posonly_keywords(PyObject *module, PyObject *const *args, Py_ssize_t nargs,
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", NULL};
     static _PyArg_Parser _parser = {
@@ -2420,7 +2384,7 @@ exit:
 
 static PyObject *
 test_posonly_keywords_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=4835f4b6cf386c28 input=1767b0ebdf06060e]*/
+/*[clinic end generated code: output=b087aebd82d2e9b1 input=1767b0ebdf06060e]*/
 
 
 /*[clinic input]
@@ -2448,8 +2412,6 @@ static PyObject *
 test_posonly_kwonly(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2461,10 +2423,6 @@ test_posonly_kwonly(PyObject *module, PyObject *const *args, Py_ssize_t nargs, P
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "c", NULL};
     static _PyArg_Parser _parser = {
@@ -2491,7 +2449,7 @@ exit:
 
 static PyObject *
 test_posonly_kwonly_impl(PyObject *module, PyObject *a, PyObject *c)
-/*[clinic end generated code: output=2570ea156a8d3cb5 input=9042f2818f664839]*/
+/*[clinic end generated code: output=ff95f03217c4fdef input=9042f2818f664839]*/
 
 
 /*[clinic input]
@@ -2521,8 +2479,6 @@ static PyObject *
 test_posonly_keywords_kwonly(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2534,10 +2490,6 @@ test_posonly_keywords_kwonly(PyObject *module, PyObject *const *args, Py_ssize_t
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", "c", NULL};
     static _PyArg_Parser _parser = {
@@ -2567,7 +2519,7 @@ exit:
 static PyObject *
 test_posonly_keywords_kwonly_impl(PyObject *module, PyObject *a, PyObject *b,
                                   PyObject *c)
-/*[clinic end generated code: output=aaa0e6b5ce02900d input=29546ebdca492fea]*/
+/*[clinic end generated code: output=2e07df8039c290e8 input=29546ebdca492fea]*/
 
 
 /*[clinic input]
@@ -2597,8 +2549,6 @@ static PyObject *
 test_posonly_keywords_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2610,10 +2560,6 @@ test_posonly_keywords_opt(PyObject *module, PyObject *const *args, Py_ssize_t na
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", "c", "d", NULL};
     static _PyArg_Parser _parser = {
@@ -2655,7 +2601,7 @@ exit:
 static PyObject *
 test_posonly_keywords_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                                PyObject *c, PyObject *d)
-/*[clinic end generated code: output=1d9f2d8420d0a85f input=cdf5a9625e554e9b]*/
+/*[clinic end generated code: output=dc9ae1631b7c8d5a input=cdf5a9625e554e9b]*/
 
 
 /*[clinic input]
@@ -2684,8 +2630,6 @@ static PyObject *
 test_posonly_keywords_opt2(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2697,10 +2641,6 @@ test_posonly_keywords_opt2(PyObject *module, PyObject *const *args, Py_ssize_t n
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", "c", NULL};
     static _PyArg_Parser _parser = {
@@ -2740,7 +2680,7 @@ exit:
 static PyObject *
 test_posonly_keywords_opt2_impl(PyObject *module, PyObject *a, PyObject *b,
                                 PyObject *c)
-/*[clinic end generated code: output=a83caa0505b296cf input=1581299d21d16f14]*/
+/*[clinic end generated code: output=6d5d31b118d75e84 input=1581299d21d16f14]*/
 
 
 /*[clinic input]
@@ -2770,8 +2710,6 @@ static PyObject *
 test_posonly_opt_keywords_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2783,10 +2721,6 @@ test_posonly_opt_keywords_opt(PyObject *module, PyObject *const *args, Py_ssize_
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "", "c", "d", NULL};
     static _PyArg_Parser _parser = {
@@ -2833,7 +2767,7 @@ exit:
 static PyObject *
 test_posonly_opt_keywords_opt_impl(PyObject *module, PyObject *a,
                                    PyObject *b, PyObject *c, PyObject *d)
-/*[clinic end generated code: output=0b24fba3dc04d26b input=408798ec3d42949f]*/
+/*[clinic end generated code: output=8a9f47e2232bde5d input=408798ec3d42949f]*/
 
 
 /*[clinic input]
@@ -2864,8 +2798,6 @@ static PyObject *
 test_posonly_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2877,10 +2809,6 @@ test_posonly_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t narg
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", "c", "d", NULL};
     static _PyArg_Parser _parser = {
@@ -2922,7 +2850,7 @@ exit:
 static PyObject *
 test_posonly_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                              PyObject *c, PyObject *d)
-/*[clinic end generated code: output=592b217bca2f7bcc input=8d8e5643bbbc2309]*/
+/*[clinic end generated code: output=4fa827fbcd38d67b input=8d8e5643bbbc2309]*/
 
 
 /*[clinic input]
@@ -2952,8 +2880,6 @@ static PyObject *
 test_posonly_kwonly_opt2(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -2965,10 +2891,6 @@ test_posonly_kwonly_opt2(PyObject *module, PyObject *const *args, Py_ssize_t nar
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", "c", NULL};
     static _PyArg_Parser _parser = {
@@ -3008,7 +2930,7 @@ exit:
 static PyObject *
 test_posonly_kwonly_opt2_impl(PyObject *module, PyObject *a, PyObject *b,
                               PyObject *c)
-/*[clinic end generated code: output=b8b00420826bc11f input=f7e5eed94f75fff0]*/
+/*[clinic end generated code: output=1ac0b3d53e5a1d0f input=f7e5eed94f75fff0]*/
 
 
 /*[clinic input]
@@ -3039,8 +2961,6 @@ static PyObject *
 test_posonly_opt_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -3052,10 +2972,6 @@ test_posonly_opt_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "", "c", "d", NULL};
     static _PyArg_Parser _parser = {
@@ -3102,7 +3018,7 @@ exit:
 static PyObject *
 test_posonly_opt_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                                  PyObject *c, PyObject *d)
-/*[clinic end generated code: output=3b9ee879ebee285a input=1e557dc979d120fd]*/
+/*[clinic end generated code: output=c17a5cb33e0ce4d7 input=1e557dc979d120fd]*/
 
 
 /*[clinic input]
@@ -3135,8 +3051,6 @@ static PyObject *
 test_posonly_keywords_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -3148,10 +3062,6 @@ test_posonly_keywords_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssi
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", "c", "d", "e", NULL};
     static _PyArg_Parser _parser = {
@@ -3196,7 +3106,7 @@ static PyObject *
 test_posonly_keywords_kwonly_opt_impl(PyObject *module, PyObject *a,
                                       PyObject *b, PyObject *c, PyObject *d,
                                       PyObject *e)
-/*[clinic end generated code: output=d380f84f81cc0e45 input=c3884a4f956fdc89]*/
+/*[clinic end generated code: output=40e466f3fd428d23 input=c3884a4f956fdc89]*/
 
 
 /*[clinic input]
@@ -3227,8 +3137,6 @@ static PyObject *
 test_posonly_keywords_kwonly_opt2(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -3240,10 +3148,6 @@ test_posonly_keywords_kwonly_opt2(PyObject *module, PyObject *const *args, Py_ss
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", "c", "d", NULL};
     static _PyArg_Parser _parser = {
@@ -3285,7 +3189,7 @@ exit:
 static PyObject *
 test_posonly_keywords_kwonly_opt2_impl(PyObject *module, PyObject *a,
                                        PyObject *b, PyObject *c, PyObject *d)
-/*[clinic end generated code: output=ee629e962cb06992 input=68d01d7c0f6dafb0]*/
+/*[clinic end generated code: output=ea1e3a3851cc80e5 input=68d01d7c0f6dafb0]*/
 
 
 /*[clinic input]
@@ -3319,8 +3223,6 @@ static PyObject *
 test_posonly_keywords_opt_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -3332,10 +3234,6 @@ test_posonly_keywords_opt_kwonly_opt(PyObject *module, PyObject *const *args, Py
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", "c", "d", "e", NULL};
     static _PyArg_Parser _parser = {
@@ -3389,7 +3287,7 @@ static PyObject *
 test_posonly_keywords_opt_kwonly_opt_impl(PyObject *module, PyObject *a,
                                           PyObject *b, PyObject *c,
                                           PyObject *d, PyObject *e)
-/*[clinic end generated code: output=a2721babb42ecfd1 input=d0883d45876f186c]*/
+/*[clinic end generated code: output=405e123e37d9804a input=d0883d45876f186c]*/
 
 
 /*[clinic input]
@@ -3423,8 +3321,6 @@ static PyObject *
 test_posonly_keywords_opt2_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -3436,10 +3332,6 @@ test_posonly_keywords_opt2_kwonly_opt(PyObject *module, PyObject *const *args, P
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "b", "c", "d", "e", NULL};
     static _PyArg_Parser _parser = {
@@ -3498,7 +3390,7 @@ static PyObject *
 test_posonly_keywords_opt2_kwonly_opt_impl(PyObject *module, PyObject *a,
                                            PyObject *b, PyObject *c,
                                            PyObject *d, PyObject *e)
-/*[clinic end generated code: output=0626203eedb6e7e8 input=c95e2e1ec93035ad]*/
+/*[clinic end generated code: output=e2049989e5b99635 input=c95e2e1ec93035ad]*/
 
 
 /*[clinic input]
@@ -3534,8 +3426,6 @@ static PyObject *
 test_posonly_opt_keywords_opt_kwonly_opt(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 4
     static struct {
         PyGC_Head _this_is_not_used;
@@ -3547,10 +3437,6 @@ test_posonly_opt_keywords_opt_kwonly_opt(PyObject *module, PyObject *const *args
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"", "", "c", "d", "e", "f", NULL};
     static _PyArg_Parser _parser = {
@@ -3617,7 +3503,7 @@ test_posonly_opt_keywords_opt_kwonly_opt_impl(PyObject *module, PyObject *a,
                                               PyObject *b, PyObject *c,
                                               PyObject *d, PyObject *e,
                                               PyObject *f)
-/*[clinic end generated code: output=07d8acc04558a5a0 input=9914857713c5bbf8]*/
+/*[clinic end generated code: output=d0f0dc2189833cc1 input=9914857713c5bbf8]*/
 
 /*[clinic input]
 test_keyword_only_parameter
@@ -3643,8 +3529,6 @@ static PyObject *
 test_keyword_only_parameter(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -3656,10 +3540,6 @@ test_keyword_only_parameter(PyObject *module, PyObject *const *args, Py_ssize_t 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"co_lnotab", NULL};
     static _PyArg_Parser _parser = {
@@ -3693,7 +3573,7 @@ exit:
 
 static PyObject *
 test_keyword_only_parameter_impl(PyObject *module, PyBytesObject *co_lnotab)
-/*[clinic end generated code: output=b12fe2e515a62603 input=303df5046c7e37a3]*/
+/*[clinic end generated code: output=1b42a575e594e083 input=303df5046c7e37a3]*/
 
 
 /*[clinic input]
@@ -4004,8 +3884,6 @@ static PyObject *
 test_vararg(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -4017,10 +3895,6 @@ test_vararg(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", NULL};
     static _PyArg_Parser _parser = {
@@ -4048,7 +3922,7 @@ exit:
 
 static PyObject *
 test_vararg_impl(PyObject *module, PyObject *a, PyObject *args)
-/*[clinic end generated code: output=880365c61ae205d7 input=81d33815ad1bae6e]*/
+/*[clinic end generated code: output=8f766099593c1e1b input=81d33815ad1bae6e]*/
 
 /*[clinic input]
 test_vararg_with_default
@@ -4076,8 +3950,6 @@ static PyObject *
 test_vararg_with_default(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -4089,10 +3961,6 @@ test_vararg_with_default(PyObject *module, PyObject *const *args, Py_ssize_t nar
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "b", NULL};
     static _PyArg_Parser _parser = {
@@ -4131,7 +3999,7 @@ exit:
 static PyObject *
 test_vararg_with_default_impl(PyObject *module, PyObject *a, PyObject *args,
                               int b)
-/*[clinic end generated code: output=291e9a5a09831128 input=6e110b54acd9b22d]*/
+/*[clinic end generated code: output=803a281d6e78064e input=6e110b54acd9b22d]*/
 
 /*[clinic input]
 test_vararg_with_only_defaults
@@ -4159,8 +4027,6 @@ static PyObject *
 test_vararg_with_only_defaults(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -4172,10 +4038,6 @@ test_vararg_with_only_defaults(PyObject *module, PyObject *const *args, Py_ssize
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"b", "c", NULL};
     static _PyArg_Parser _parser = {
@@ -4219,7 +4081,7 @@ exit:
 static PyObject *
 test_vararg_with_only_defaults_impl(PyObject *module, PyObject *args, int b,
                                     PyObject *c)
-/*[clinic end generated code: output=dd21b28f0db26a4b input=fa56a709a035666e]*/
+/*[clinic end generated code: output=8c6b5a9387027ed8 input=fa56a709a035666e]*/
 
 /*[clinic input]
 test_paramname_module
@@ -4242,8 +4104,6 @@ static PyObject *
 test_paramname_module(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -4255,10 +4115,6 @@ test_paramname_module(PyObject *module, PyObject *const *args, Py_ssize_t nargs,
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"module", NULL};
     static _PyArg_Parser _parser = {
@@ -4283,7 +4139,7 @@ exit:
 
 static PyObject *
 test_paramname_module_impl(PyObject *module, PyObject *mod)
-/*[clinic end generated code: output=4a2a849ecbcc8b53 input=afefe259667f13ba]*/
+/*[clinic end generated code: output=08cdb289b0c026c3 input=afefe259667f13ba]*/
 
 /*[clinic input]
 mangle1
@@ -4319,8 +4175,6 @@ static PyObject *
 mangle1(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 9
     static struct {
         PyGC_Head _this_is_not_used;
@@ -4332,10 +4186,6 @@ mangle1(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwn
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"args", "kwnames", "return_value", "_keywords", "_parser", "argsbuf", "fastargs", "nargs", "noptargs", NULL};
     static _PyArg_Parser _parser = {
@@ -4379,7 +4229,7 @@ mangle1_impl(PyObject *module, PyObject *args, PyObject *kwnames,
              PyObject *return_value, PyObject *_keywords, PyObject *_parser,
              PyObject *argsbuf, PyObject *fastargs, PyObject *nargs,
              PyObject *noptargs)
-/*[clinic end generated code: output=083e5076be9987c3 input=a3ed51bdedf8a3c7]*/
+/*[clinic end generated code: output=f7899a3ecba73eb4 input=a3ed51bdedf8a3c7]*/
 
 /*[clinic input]
 mangle2
@@ -4406,8 +4256,6 @@ static PyObject *
 mangle2(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -4419,10 +4267,6 @@ mangle2(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwn
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"args", "kwargs", "return_value", NULL};
     static _PyArg_Parser _parser = {
@@ -4452,7 +4296,7 @@ exit:
 static PyObject *
 mangle2_impl(PyObject *module, PyObject *args, PyObject *kwargs,
              PyObject *return_value)
-/*[clinic end generated code: output=2ebb62aaefe7590a input=391766fee51bad7a]*/
+/*[clinic end generated code: output=70dbd4130890c91c input=391766fee51bad7a]*/
 
 
 /*[clinic input]
@@ -4477,8 +4321,6 @@ static PyObject *
 Test_cls_with_param(TestObj *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -4490,10 +4332,6 @@ Test_cls_with_param(TestObj *self, PyTypeObject *cls, PyObject *const *args, Py_
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", NULL};
     static _PyArg_Parser _parser = {
@@ -4521,7 +4359,7 @@ exit:
 
 static PyObject *
 Test_cls_with_param_impl(TestObj *self, PyTypeObject *cls, int a)
-/*[clinic end generated code: output=d89b99e83d442be0 input=af158077bd237ef9]*/
+/*[clinic end generated code: output=bcfef2ddb1f63d3a input=af158077bd237ef9]*/
 
 
 /*[clinic input]
@@ -4825,8 +4663,6 @@ static int
 Test___init__(PyObject *self, PyObject *args, PyObject *kwargs)
 {
     int return_value = -1;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -4838,10 +4674,6 @@ Test___init__(PyObject *self, PyObject *args, PyObject *kwargs)
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", NULL};
     static _PyArg_Parser _parser = {
@@ -4868,7 +4700,7 @@ exit:
 
 static int
 Test___init___impl(TestObj *self, PyObject *a)
-/*[clinic end generated code: output=0b9ca79638ab3ecb input=a8f9222a6ab35c59]*/
+/*[clinic end generated code: output=f0fa89a7994b19b2 input=a8f9222a6ab35c59]*/
 
 
 /*[clinic input]
@@ -5030,8 +4862,6 @@ static PyObject *
 mangled_c_keyword_identifier(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -5043,10 +4873,6 @@ mangled_c_keyword_identifier(PyObject *module, PyObject *const *args, Py_ssize_t
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"i", NULL};
     static _PyArg_Parser _parser = {
@@ -5074,7 +4900,7 @@ exit:
 
 static PyObject *
 mangled_c_keyword_identifier_impl(PyObject *module, int int_value)
-/*[clinic end generated code: output=f24b37e0368e0eb8 input=060876448ab567a2]*/
+/*[clinic end generated code: output=42909f0e4f532f55 input=060876448ab567a2]*/
 
 
 /*[clinic input]
@@ -5334,8 +5160,6 @@ static PyObject *
 fn_with_default_binop_expr(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -5347,10 +5171,6 @@ fn_with_default_binop_expr(PyObject *module, PyObject *const *args, Py_ssize_t n
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"arg", NULL};
     static _PyArg_Parser _parser = {
@@ -5380,7 +5200,7 @@ exit:
 
 static PyObject *
 fn_with_default_binop_expr_impl(PyObject *module, PyObject *arg)
-/*[clinic end generated code: output=018672772e4092ff input=1b55c8ae68d89453]*/
+/*[clinic end generated code: output=a4ef6a73595de543 input=1b55c8ae68d89453]*/
 
 
 /*[python input]
@@ -5423,8 +5243,6 @@ static PyObject *
 docstr_fallback_to_converter_default(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -5436,10 +5254,6 @@ docstr_fallback_to_converter_default(PyObject *module, PyObject *const *args, Py
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", NULL};
     static _PyArg_Parser _parser = {
@@ -5466,4 +5280,4 @@ exit:
 
 static PyObject *
 docstr_fallback_to_converter_default_impl(PyObject *module, str a)
-/*[clinic end generated code: output=ae24a9c6f60ee8a6 input=0cbe6a4d24bc2274]*/
+/*[clinic end generated code: output=0c1268c312280921 input=0cbe6a4d24bc2274]*/

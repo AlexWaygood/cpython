@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
 #include "pycore_abstract.h"       // _PyNumber_Index()
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_bisect_bisect_right__doc__,
 "bisect_right($module, /, a, x, lo=0, hi=None, *, key=None)\n"
@@ -35,8 +32,6 @@ static PyObject *
 _bisect_bisect_right(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 5
     static struct {
         PyGC_Head _this_is_not_used;
@@ -48,10 +43,6 @@ _bisect_bisect_right(PyObject *module, PyObject *const *args, Py_ssize_t nargs, 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "x", "lo", "hi", "key", NULL};
     static _PyArg_Parser _parser = {
@@ -143,8 +134,6 @@ static PyObject *
 _bisect_insort_right(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 5
     static struct {
         PyGC_Head _this_is_not_used;
@@ -156,10 +145,6 @@ _bisect_insort_right(PyObject *module, PyObject *const *args, Py_ssize_t nargs, 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "x", "lo", "hi", "key", NULL};
     static _PyArg_Parser _parser = {
@@ -248,8 +233,6 @@ static PyObject *
 _bisect_bisect_left(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 5
     static struct {
         PyGC_Head _this_is_not_used;
@@ -261,10 +244,6 @@ _bisect_bisect_left(PyObject *module, PyObject *const *args, Py_ssize_t nargs, P
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "x", "lo", "hi", "key", NULL};
     static _PyArg_Parser _parser = {
@@ -356,8 +335,6 @@ static PyObject *
 _bisect_insort_left(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 5
     static struct {
         PyGC_Head _this_is_not_used;
@@ -369,10 +346,6 @@ _bisect_insort_left(PyObject *module, PyObject *const *args, Py_ssize_t nargs, P
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"a", "x", "lo", "hi", "key", NULL};
     static _PyArg_Parser _parser = {
@@ -434,4 +407,4 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=839fdddeacdc2ecb input=a9049054013a1b77]*/
+/*[clinic end generated code: output=80ff8d8de7ae1e9c input=a9049054013a1b77]*/

@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(pyexpat_xmlparser_Parse__doc__,
 "Parse($self, data, isfinal=False, /)\n"
@@ -375,8 +372,6 @@ static PyObject *
 pyexpat_ParserCreate(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -388,10 +383,6 @@ pyexpat_ParserCreate(PyObject *module, PyObject *const *args, Py_ssize_t nargs, 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"encoding", "namespace_separator", "intern", NULL};
     static _PyArg_Parser _parser = {
@@ -498,4 +489,4 @@ exit:
 #ifndef PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF
     #define PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF
 #endif /* !defined(PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF) */
-/*[clinic end generated code: output=6b30852bfc778208 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=408d42582229fc8c input=a9049054013a1b77]*/

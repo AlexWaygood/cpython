@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 static PyObject *
 structseq_new_impl(PyTypeObject *type, PyObject *arg, PyObject *dict);
@@ -15,8 +12,6 @@ static PyObject *
 structseq_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -28,10 +23,6 @@ structseq_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"sequence", "dict", NULL};
     static _PyArg_Parser _parser = {
@@ -62,4 +53,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=802d5663c7d01024 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=ccded931e1c33467 input=a9049054013a1b77]*/

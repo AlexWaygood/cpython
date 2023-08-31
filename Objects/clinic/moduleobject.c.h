@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(module___init____doc__,
 "module(name, doc=None)\n"
@@ -23,8 +20,6 @@ static int
 module___init__(PyObject *self, PyObject *args, PyObject *kwargs)
 {
     int return_value = -1;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -36,10 +31,6 @@ module___init__(PyObject *self, PyObject *args, PyObject *kwargs)
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"name", "doc", NULL};
     static _PyArg_Parser _parser = {
@@ -74,4 +65,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=a5a750cc8190576e input=a9049054013a1b77]*/
+/*[clinic end generated code: output=89c3c195c9e4ef6c input=a9049054013a1b77]*/

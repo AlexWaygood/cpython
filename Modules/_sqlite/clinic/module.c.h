@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(pysqlite_complete_statement__doc__,
 "complete_statement($module, /, statement)\n"
@@ -24,8 +21,6 @@ static PyObject *
 pysqlite_complete_statement(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -37,10 +32,6 @@ pysqlite_complete_statement(PyObject *module, PyObject *const *args, Py_ssize_t 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"statement", NULL};
     static _PyArg_Parser _parser = {
@@ -208,4 +199,4 @@ skip_optional:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=c1d450089867b4bf input=a9049054013a1b77]*/
+/*[clinic end generated code: output=0e5c59ca4e3c47cd input=a9049054013a1b77]*/

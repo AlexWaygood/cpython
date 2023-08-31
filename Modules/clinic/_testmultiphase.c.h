@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_testmultiphase_StateAccessType_get_defining_module__doc__,
 "get_defining_module($self, /)\n"
@@ -79,8 +76,6 @@ static PyObject *
 _testmultiphase_StateAccessType_increment_count_clinic(StateAccessTypeObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -92,10 +87,6 @@ _testmultiphase_StateAccessType_increment_count_clinic(StateAccessTypeObject *se
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"n", "twice", NULL};
     static _PyArg_Parser _parser = {
@@ -162,4 +153,4 @@ _testmultiphase_StateAccessType_get_count(StateAccessTypeObject *self, PyTypeObj
     }
     return _testmultiphase_StateAccessType_get_count_impl(self, cls);
 }
-/*[clinic end generated code: output=6f8db3983c5312a0 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=1f0ac05c8a183279 input=a9049054013a1b77]*/

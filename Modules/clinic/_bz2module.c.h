@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
 #include "pycore_abstract.h"       // _PyNumber_Index()
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_bz2_BZ2Compressor_compress__doc__,
 "compress($self, data, /)\n"
@@ -144,8 +141,6 @@ static PyObject *
 _bz2_BZ2Decompressor_decompress(BZ2Decompressor *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -157,10 +152,6 @@ _bz2_BZ2Decompressor_decompress(BZ2Decompressor *self, PyObject *const *args, Py
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"data", "max_length", NULL};
     static _PyArg_Parser _parser = {
@@ -242,4 +233,4 @@ _bz2_BZ2Decompressor(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=40706688f92642b4 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=b83067c2f83c53c1 input=a9049054013a1b77]*/

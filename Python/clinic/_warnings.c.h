@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
 #include "pycore_abstract.h"       // _PyNumber_Index()
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(warnings_warn__doc__,
 "warn($module, /, message, category=None, stacklevel=1, source=None, *,\n"
@@ -41,8 +38,6 @@ static PyObject *
 warnings_warn(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 5
     static struct {
         PyGC_Head _this_is_not_used;
@@ -54,10 +49,6 @@ warnings_warn(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObjec
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"message", "category", "stacklevel", "source", "skip_file_prefixes", NULL};
     static _PyArg_Parser _parser = {
@@ -148,8 +139,6 @@ static PyObject *
 warnings_warn_explicit(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 8
     static struct {
         PyGC_Head _this_is_not_used;
@@ -161,10 +150,6 @@ warnings_warn_explicit(PyObject *module, PyObject *const *args, Py_ssize_t nargs
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"message", "category", "filename", "lineno", "module", "registry", "module_globals", "source", NULL};
     static _PyArg_Parser _parser = {
@@ -244,4 +229,4 @@ warnings_filters_mutated(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return warnings_filters_mutated_impl(module);
 }
-/*[clinic end generated code: output=c8a6dc1403fba1d5 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=c7ea85d4cef86698 input=a9049054013a1b77]*/

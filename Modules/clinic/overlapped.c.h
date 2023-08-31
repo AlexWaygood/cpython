@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
 #include "pycore_long.h"           // _PyLong_UnsignedLong_Converter()
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_overlapped_CreateIoCompletionPort__doc__,
 "CreateIoCompletionPort($module, handle, port, key, concurrency, /)\n"
@@ -453,8 +450,6 @@ static PyObject *
 _overlapped_Overlapped(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -466,10 +461,6 @@ _overlapped_Overlapped(PyTypeObject *type, PyObject *args, PyObject *kwargs)
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"event", NULL};
     static _PyArg_Parser _parser = {
@@ -1263,4 +1254,4 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=994ad727b827ff87 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=1d15930bb96af349 input=a9049054013a1b77]*/

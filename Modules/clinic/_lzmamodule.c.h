@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
 #include "pycore_abstract.h"       // _PyNumber_Index()
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_lzma_LZMACompressor_compress__doc__,
 "compress($self, data, /)\n"
@@ -102,8 +99,6 @@ static PyObject *
 _lzma_LZMADecompressor_decompress(Decompressor *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -115,10 +110,6 @@ _lzma_LZMADecompressor_decompress(Decompressor *self, PyObject *const *args, Py_
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"data", "max_length", NULL};
     static _PyArg_Parser _parser = {
@@ -201,8 +192,6 @@ static PyObject *
 _lzma_LZMADecompressor(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -214,10 +203,6 @@ _lzma_LZMADecompressor(PyTypeObject *type, PyObject *args, PyObject *kwargs)
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"format", "memlimit", "filters", NULL};
     static _PyArg_Parser _parser = {
@@ -339,4 +324,4 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=f1a001f5f489c372 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=e552f8a0086e885c input=a9049054013a1b77]*/

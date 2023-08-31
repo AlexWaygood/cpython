@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
 #include "pycore_abstract.h"       // _PyNumber_Index()
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_sre_getcodesize__doc__,
 "getcodesize($module, /)\n"
@@ -182,8 +179,6 @@ static PyObject *
 _sre_SRE_Pattern_match(PatternObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -195,10 +190,6 @@ _sre_SRE_Pattern_match(PatternObject *self, PyTypeObject *cls, PyObject *const *
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"string", "pos", "endpos", NULL};
     static _PyArg_Parser _parser = {
@@ -275,8 +266,6 @@ static PyObject *
 _sre_SRE_Pattern_fullmatch(PatternObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -288,10 +277,6 @@ _sre_SRE_Pattern_fullmatch(PatternObject *self, PyTypeObject *cls, PyObject *con
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"string", "pos", "endpos", NULL};
     static _PyArg_Parser _parser = {
@@ -370,8 +355,6 @@ static PyObject *
 _sre_SRE_Pattern_search(PatternObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -383,10 +366,6 @@ _sre_SRE_Pattern_search(PatternObject *self, PyTypeObject *cls, PyObject *const 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"string", "pos", "endpos", NULL};
     static _PyArg_Parser _parser = {
@@ -462,8 +441,6 @@ static PyObject *
 _sre_SRE_Pattern_findall(PatternObject *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -475,10 +452,6 @@ _sre_SRE_Pattern_findall(PatternObject *self, PyObject *const *args, Py_ssize_t 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"string", "pos", "endpos", NULL};
     static _PyArg_Parser _parser = {
@@ -557,8 +530,6 @@ static PyObject *
 _sre_SRE_Pattern_finditer(PatternObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -570,10 +541,6 @@ _sre_SRE_Pattern_finditer(PatternObject *self, PyTypeObject *cls, PyObject *cons
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"string", "pos", "endpos", NULL};
     static _PyArg_Parser _parser = {
@@ -649,8 +616,6 @@ static PyObject *
 _sre_SRE_Pattern_scanner(PatternObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -662,10 +627,6 @@ _sre_SRE_Pattern_scanner(PatternObject *self, PyTypeObject *cls, PyObject *const
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"string", "pos", "endpos", NULL};
     static _PyArg_Parser _parser = {
@@ -741,8 +702,6 @@ static PyObject *
 _sre_SRE_Pattern_split(PatternObject *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -754,10 +713,6 @@ _sre_SRE_Pattern_split(PatternObject *self, PyObject *const *args, Py_ssize_t na
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"string", "maxsplit", NULL};
     static _PyArg_Parser _parser = {
@@ -815,8 +770,6 @@ static PyObject *
 _sre_SRE_Pattern_sub(PatternObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -828,10 +781,6 @@ _sre_SRE_Pattern_sub(PatternObject *self, PyTypeObject *cls, PyObject *const *ar
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"repl", "string", "count", NULL};
     static _PyArg_Parser _parser = {
@@ -892,8 +841,6 @@ static PyObject *
 _sre_SRE_Pattern_subn(PatternObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -905,10 +852,6 @@ _sre_SRE_Pattern_subn(PatternObject *self, PyTypeObject *cls, PyObject *const *a
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"repl", "string", "count", NULL};
     static _PyArg_Parser _parser = {
@@ -994,8 +937,6 @@ static PyObject *
 _sre_compile(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 6
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1007,10 +948,6 @@ _sre_compile(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"pattern", "flags", "code", "groups", "groupindex", "indexgroup", NULL};
     static _PyArg_Parser _parser = {
@@ -1124,8 +1061,6 @@ static PyObject *
 _sre_SRE_Match_expand(MatchObject *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1137,10 +1072,6 @@ _sre_SRE_Match_expand(MatchObject *self, PyObject *const *args, Py_ssize_t nargs
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"template", NULL};
     static _PyArg_Parser _parser = {
@@ -1182,8 +1113,6 @@ static PyObject *
 _sre_SRE_Match_groups(MatchObject *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1195,10 +1124,6 @@ _sre_SRE_Match_groups(MatchObject *self, PyObject *const *args, Py_ssize_t nargs
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"default", NULL};
     static _PyArg_Parser _parser = {
@@ -1245,8 +1170,6 @@ static PyObject *
 _sre_SRE_Match_groupdict(MatchObject *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -1258,10 +1181,6 @@ _sre_SRE_Match_groupdict(MatchObject *self, PyObject *const *args, Py_ssize_t na
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"default", NULL};
     static _PyArg_Parser _parser = {
@@ -1461,4 +1380,4 @@ _sre_SRE_Scanner_search(ScannerObject *self, PyTypeObject *cls, PyObject *const 
     }
     return _sre_SRE_Scanner_search_impl(self, cls);
 }
-/*[clinic end generated code: output=b8cf77f05e44d08c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=8c7ca3f633c92695 input=a9049054013a1b77]*/

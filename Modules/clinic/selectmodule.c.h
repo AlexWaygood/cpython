@@ -2,13 +2,10 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
 #include "pycore_fileutils.h"      // _PyLong_FileDescriptor_Converter()
+#include "pycore_gc.h"             // PyGC_Head
 #include "pycore_long.h"           // _PyLong_UnsignedShort_Converter()
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(select_select__doc__,
 "select($module, rlist, wlist, xlist, timeout=None, /)\n"
@@ -530,8 +527,6 @@ static PyObject *
 select_epoll(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -543,10 +538,6 @@ select_epoll(PyTypeObject *type, PyObject *args, PyObject *kwargs)
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"sizehint", "flags", NULL};
     static _PyArg_Parser _parser = {
@@ -696,8 +687,6 @@ static PyObject *
 select_epoll_register(pyEpoll_Object *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -709,10 +698,6 @@ select_epoll_register(pyEpoll_Object *self, PyObject *const *args, Py_ssize_t na
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"fd", "eventmask", NULL};
     static _PyArg_Parser _parser = {
@@ -773,8 +758,6 @@ static PyObject *
 select_epoll_modify(pyEpoll_Object *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -786,10 +769,6 @@ select_epoll_modify(pyEpoll_Object *self, PyObject *const *args, Py_ssize_t narg
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"fd", "eventmask", NULL};
     static _PyArg_Parser _parser = {
@@ -842,8 +821,6 @@ static PyObject *
 select_epoll_unregister(pyEpoll_Object *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -855,10 +832,6 @@ select_epoll_unregister(pyEpoll_Object *self, PyObject *const *args, Py_ssize_t 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"fd", NULL};
     static _PyArg_Parser _parser = {
@@ -913,8 +886,6 @@ static PyObject *
 select_epoll_poll(pyEpoll_Object *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -926,10 +897,6 @@ select_epoll_poll(pyEpoll_Object *self, PyObject *const *args, Py_ssize_t nargs,
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"timeout", "maxevents", NULL};
     static _PyArg_Parser _parser = {
@@ -1311,4 +1278,4 @@ exit:
 #ifndef SELECT_KQUEUE_CONTROL_METHODDEF
     #define SELECT_KQUEUE_CONTROL_METHODDEF
 #endif /* !defined(SELECT_KQUEUE_CONTROL_METHODDEF) */
-/*[clinic end generated code: output=a215af2157f038c7 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=055dddfe10e86967 input=a9049054013a1b77]*/

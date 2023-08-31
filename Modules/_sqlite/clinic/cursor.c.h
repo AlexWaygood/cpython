@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 static int
 pysqlite_cursor_init_impl(pysqlite_Cursor *self,
@@ -187,8 +184,6 @@ static PyObject *
 pysqlite_cursor_fetchmany(pysqlite_Cursor *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -200,10 +195,6 @@ pysqlite_cursor_fetchmany(pysqlite_Cursor *self, PyObject *const *args, Py_ssize
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"size", NULL};
     static _PyArg_Parser _parser = {
@@ -313,4 +304,4 @@ pysqlite_cursor_close(pysqlite_Cursor *self, PyObject *Py_UNUSED(ignored))
 {
     return pysqlite_cursor_close_impl(self);
 }
-/*[clinic end generated code: output=b56b3ddb3b6df8c6 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=59d7f67e986db210 input=a9049054013a1b77]*/

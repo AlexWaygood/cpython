@@ -1077,9 +1077,6 @@ _PyUnicode_InitStaticStrings(PyInterpreterState *interp) {
     string = &_Py_ID(f);
     assert(_PyUnicode_CheckConsistency(string, 1));
     _PyUnicode_InternInPlace(interp, &string);
-    string = &_Py_ID(facility);
-    assert(_PyUnicode_CheckConsistency(string, 1));
-    _PyUnicode_InternInPlace(interp, &string);
     string = &_Py_ID(factory);
     assert(_PyUnicode_CheckConsistency(string, 1));
     _PyUnicode_InternInPlace(interp, &string);
@@ -1234,9 +1231,6 @@ _PyUnicode_InitStaticStrings(PyInterpreterState *interp) {
     assert(_PyUnicode_CheckConsistency(string, 1));
     _PyUnicode_InternInPlace(interp, &string);
     string = &_Py_ID(id);
-    assert(_PyUnicode_CheckConsistency(string, 1));
-    _PyUnicode_InternInPlace(interp, &string);
-    string = &_Py_ID(ident);
     assert(_PyUnicode_CheckConsistency(string, 1));
     _PyUnicode_InternInPlace(interp, &string);
     string = &_Py_ID(ignore);
@@ -1425,9 +1419,6 @@ _PyUnicode_InitStaticStrings(PyInterpreterState *interp) {
     string = &_Py_ID(locals);
     assert(_PyUnicode_CheckConsistency(string, 1));
     _PyUnicode_InternInPlace(interp, &string);
-    string = &_Py_ID(logoption);
-    assert(_PyUnicode_CheckConsistency(string, 1));
-    _PyUnicode_InternInPlace(interp, &string);
     string = &_Py_ID(loop);
     assert(_PyUnicode_CheckConsistency(string, 1));
     _PyUnicode_InternInPlace(interp, &string);
@@ -1531,9 +1522,6 @@ _PyUnicode_InitStaticStrings(PyInterpreterState *interp) {
     assert(_PyUnicode_CheckConsistency(string, 1));
     _PyUnicode_InternInPlace(interp, &string);
     string = &_Py_ID(new_file_name);
-    assert(_PyUnicode_CheckConsistency(string, 1));
-    _PyUnicode_InternInPlace(interp, &string);
-    string = &_Py_ID(new_limit);
     assert(_PyUnicode_CheckConsistency(string, 1));
     _PyUnicode_InternInPlace(interp, &string);
     string = &_Py_ID(newline);

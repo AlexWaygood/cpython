@@ -2,11 +2,8 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_ssl_Certificate_public_bytes__doc__,
 "public_bytes($self, /, format=Encoding.PEM)\n"
@@ -23,8 +20,6 @@ static PyObject *
 _ssl_Certificate_public_bytes(PySSLCertificate *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 1
     static struct {
         PyGC_Head _this_is_not_used;
@@ -36,10 +31,6 @@ _ssl_Certificate_public_bytes(PySSLCertificate *self, PyObject *const *args, Py_
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"format", NULL};
     static _PyArg_Parser _parser = {
@@ -86,4 +77,4 @@ _ssl_Certificate_get_info(PySSLCertificate *self, PyObject *Py_UNUSED(ignored))
 {
     return _ssl_Certificate_get_info_impl(self);
 }
-/*[clinic end generated code: output=72e2bb139c64546c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=d0ace3ce6a6f3e58 input=a9049054013a1b77]*/

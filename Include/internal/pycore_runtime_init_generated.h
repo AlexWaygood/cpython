@@ -921,7 +921,6 @@ extern "C" {
     INIT_ID(extend), \
     INIT_ID(extra_tokens), \
     INIT_ID(f), \
-    INIT_ID(facility), \
     INIT_ID(factory), \
     INIT_ID(false), \
     INIT_ID(family), \
@@ -974,7 +973,6 @@ extern "C" {
     INIT_ID(hi), \
     INIT_ID(hook), \
     INIT_ID(id), \
-    INIT_ID(ident), \
     INIT_ID(ignore), \
     INIT_ID(imag), \
     INIT_ID(importlib), \
@@ -1037,7 +1035,6 @@ extern "C" {
     INIT_ID(lo), \
     INIT_ID(locale), \
     INIT_ID(locals), \
-    INIT_ID(logoption), \
     INIT_ID(loop), \
     INIT_ID(mapping), \
     INIT_ID(match), \
@@ -1073,7 +1070,6 @@ extern "C" {
     INIT_ID(narg), \
     INIT_ID(ndigits), \
     INIT_ID(new_file_name), \
-    INIT_ID(new_limit), \
     INIT_ID(newline), \
     INIT_ID(newlines), \
     INIT_ID(next), \

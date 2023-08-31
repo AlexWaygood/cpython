@@ -2,12 +2,9 @@
 preserve
 [clinic start generated code]*/
 
-#if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-#  include "pycore_gc.h"            // PyGC_Head
-#  include "pycore_runtime.h"       // _Py_ID()
-#endif
-
 #include "pycore_abstract.h"       // _Py_convert_optional_to_ssize_t()
+#include "pycore_gc.h"             // PyGC_Head
+#include "pycore_runtime.h"        // _Py_ID()
 
 PyDoc_STRVAR(_io__TextIOBase_detach__doc__,
 "detach($self, /)\n"
@@ -222,8 +219,6 @@ static int
 _io_IncrementalNewlineDecoder___init__(PyObject *self, PyObject *args, PyObject *kwargs)
 {
     int return_value = -1;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 3
     static struct {
         PyGC_Head _this_is_not_used;
@@ -235,10 +230,6 @@ _io_IncrementalNewlineDecoder___init__(PyObject *self, PyObject *args, PyObject 
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"decoder", "translate", "errors", NULL};
     static _PyArg_Parser _parser = {
@@ -291,8 +282,6 @@ static PyObject *
 _io_IncrementalNewlineDecoder_decode(nldecoder_object *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 2
     static struct {
         PyGC_Head _this_is_not_used;
@@ -304,10 +293,6 @@ _io_IncrementalNewlineDecoder_decode(nldecoder_object *self, PyObject *const *ar
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"input", "final", NULL};
     static _PyArg_Parser _parser = {
@@ -426,8 +411,6 @@ static int
 _io_TextIOWrapper___init__(PyObject *self, PyObject *args, PyObject *kwargs)
 {
     int return_value = -1;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 6
     static struct {
         PyGC_Head _this_is_not_used;
@@ -439,10 +422,6 @@ _io_TextIOWrapper___init__(PyObject *self, PyObject *args, PyObject *kwargs)
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"buffer", "encoding", "errors", "newline", "line_buffering", "write_through", NULL};
     static _PyArg_Parser _parser = {
@@ -564,8 +543,6 @@ static PyObject *
 _io_TextIOWrapper_reconfigure(textio *self, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
     PyObject *return_value = NULL;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
     #define NUM_KEYWORDS 5
     static struct {
         PyGC_Head _this_is_not_used;
@@ -577,10 +554,6 @@ _io_TextIOWrapper_reconfigure(textio *self, PyObject *const *args, Py_ssize_t na
     };
     #undef NUM_KEYWORDS
     #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
 
     static const char * const _keywords[] = {"encoding", "errors", "newline", "line_buffering", "write_through", NULL};
     static _PyArg_Parser _parser = {
@@ -980,4 +953,4 @@ _io_TextIOWrapper_close(textio *self, PyObject *Py_UNUSED(ignored))
 {
     return _io_TextIOWrapper_close_impl(self);
 }
-/*[clinic end generated code: output=390af0e65a0d02c0 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=b796bfbc10c0546b input=a9049054013a1b77]*/
