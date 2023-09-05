@@ -9,6 +9,8 @@ import sys
 import time
 import traceback
 import unittest
+from collections.abc import Callable
+from typing import Protocol, cast
 
 from test import support
 from test.support import TestStats
@@ -296,6 +298,11 @@ def setup_support(ns: Namespace):
         support.junit_xml_list = None
 
 
+class PrintWarningsType(Protocol):
+    orig_stderr: io.TextIOWrapper
+    def __call__(self, msg: str) -> None: ...
+
+
 def _runtest(result: TestResult, ns: Namespace) -> None:
     # Capture stdout and stderr, set faulthandler timeout,
     # and create JUnit XML report.
@@ -318,7 +325,7 @@ def _runtest(result: TestResult, ns: Namespace) -> None:
             stream = io.StringIO()
             orig_stdout = sys.stdout
             orig_stderr = sys.stderr
-            print_warning = support.print_warning
+            print_warning = cast(PrintWarningsType, support.print_warning)
             orig_print_warnings_stderr = print_warning.orig_stderr
 
             output = None
@@ -410,6 +417,8 @@ def regrtest_runner(result, test_func, ns) -> None:
     if refleak:
         result.state = State.REFLEAK
 
+    stats: TestStats | None
+
     match test_result:
         case TestStats():
             stats = test_result
@@ -489,14 +498,14 @@ def _runtest_env_changed_exc(result: TestResult, ns: Namespace,
 
         with save_env(ns, test_name):
             _load_run_test(result, ns)
-    except support.ResourceDenied as msg:
+    except support.ResourceDenied as exc:
         if not ns.quiet and not ns.pgo:
-            print(f"{test_name} skipped -- {msg}", flush=True)
+            print(f"{test_name} skipped -- {exc}", flush=True)
         result.state = State.RESOURCE_DENIED
         return
-    except unittest.SkipTest as msg:
+    except unittest.SkipTest as exc:
         if not ns.quiet and not ns.pgo:
-            print(f"{test_name} skipped -- {msg}", flush=True)
+            print(f"{test_name} skipped -- {exc}", flush=True)
         result.state = State.SKIPPED
         return
     except support.TestFailedWithDetails as exc:
@@ -552,6 +561,7 @@ def remove_testfn(test_name: str, verbose: int) -> None:
     if not os.path.exists(name):
         return
 
+    nuker: Callable[[str], None]
     if os.path.isdir(name):
         import shutil
         kind, nuker = "directory", shutil.rmtree

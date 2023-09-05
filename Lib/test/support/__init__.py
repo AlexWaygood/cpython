@@ -18,6 +18,7 @@ import time
 import types
 import unittest
 import warnings
+from xml.etree import ElementTree as ET
 
 from .testresult import get_test_runner
 
@@ -187,7 +188,7 @@ use_resources = None     # Flag set to [] by regrtest.py
 max_memuse = 0           # Disable bigmem tests (they will still be run with
                          # small sizes, to make sure they work.)
 real_max_memuse = 0
-junit_xml_list = None    # list of testsuite XML elements
+junit_xml_list: list[ET.Element] | None = None    # list of testsuite XML elements
 failfast = False
 
 # _original_stdout is meant to hold stdout at the time regrtest began.

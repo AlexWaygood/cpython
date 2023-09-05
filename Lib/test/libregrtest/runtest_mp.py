@@ -67,7 +67,7 @@ class _EncodeWorkerJob(json.JSONEncoder):
                 return super().default(o)
 
 
-def _decode_worker_job(d: dict[str, Any]) -> WorkerJob | dict[str, Any]:
+def _decode_worker_job(d: dict[str, Any]) -> WorkerJob | Namespace | dict[str, Any]:
     if "__worker_job__" in d:
         d.pop('__worker_job__')
         return WorkerJob(**d)
@@ -78,14 +78,14 @@ def _decode_worker_job(d: dict[str, Any]) -> WorkerJob | dict[str, Any]:
         return d
 
 
-def _parse_worker_args(worker_json: str) -> tuple[Namespace, str]:
+def _parse_worker_args(worker_json: str) -> Namespace:
     return json.loads(worker_json,
                       object_hook=_decode_worker_job)
 
 
 def run_test_in_subprocess(worker_job: WorkerJob,
                            output_file: TextIO,
-                           tmp_dir: str | None = None) -> subprocess.Popen:
+                           tmp_dir: str | None = None) -> subprocess.Popen[str]:
     ns = worker_job.namespace
     python = ns.python
     worker_args = json.dumps(worker_job, cls=_EncodeWorkerJob)
@@ -108,7 +108,7 @@ def run_test_in_subprocess(worker_job: WorkerJob,
     # Running the child from the same working directory as regrtest's original
     # invocation ensures that TEMPDIR for the child is the same when
     # sysconfig.is_python_build() is true. See issue 15300.
-    kw = dict(
+    kw: dict[str, Any] = dict(
         env=env,
         stdout=output_file,
         # bpo-45410: Write stderr into stdout to keep messages order
@@ -200,8 +200,8 @@ class TestWorkerProcess(threading.Thread):
         self.regrtest = runner.regrtest
         self.rerun = runner.rerun
         self.current_test_name = None
-        self.start_time = None
-        self._popen = None
+        self.start_time: float | None = None
+        self._popen: subprocess.Popen[str] | None = None
         self._killed = False
         self._stopped = False
 
@@ -216,8 +216,9 @@ class TestWorkerProcess(threading.Thread):
             info.append(f'test={test}')
         popen = self._popen
         if popen is not None:
+            assert self.start_time is not None
             dt = time.monotonic() - self.start_time
-            info.extend((f'pid={self._popen.pid}',
+            info.extend((f'pid={popen.pid}',
                          f'time={format_duration(dt)}'))
         return '<%s>' % ' '.join(info)
 
@@ -263,7 +264,7 @@ class TestWorkerProcess(threading.Thread):
         return MultiprocessResult(test_result, stdout, err_msg)
 
     def _run_process(self, worker_job, output_file: TextIO,
-                     tmp_dir: str | None = None) -> int:
+                     tmp_dir: str | None = None) -> int | None:
         self.current_test_name = worker_job.test_name
         try:
             popen = run_test_in_subprocess(worker_job, output_file, tmp_dir)
@@ -301,6 +302,7 @@ class TestWorkerProcess(threading.Thread):
                 # bpo-38207: Don't attempt to call communicate() again: on it
                 # can hang until all child processes using stdout
                 # pipes completes.
+                return retcode
             except OSError:
                 if self._stopped:
                     # kill() has been called: communicate() fails
@@ -349,7 +351,7 @@ class TestWorkerProcess(threading.Thread):
                     os_helper.rmtree(tmp_dir)
             else:
                 retcode = self._run_process(worker_job, stdout_file)
-                tmp_files = ()
+                tmp_files = []
             stdout_file.seek(0)
 
             try:
@@ -357,15 +359,15 @@ class TestWorkerProcess(threading.Thread):
             except Exception as exc:
                 # gh-101634: Catch UnicodeDecodeError if stdout cannot be
                 # decoded from encoding
-                err_msg = f"Cannot read process stdout: {exc}"
+                msg = f"Cannot read process stdout: {exc}"
                 result = TestResult(test_name, state=State.MULTIPROCESSING_ERROR)
-                return self.mp_result_error(result, err_msg=err_msg)
+                return self.mp_result_error(result, err_msg=msg)
 
         if retcode is None:
             result = TestResult(test_name, state=State.TIMEOUT)
             return self.mp_result_error(result, stdout)
 
-        err_msg = None
+        err_msg: str | None = None
         if retcode != 0:
             err_msg = "Exit code %s" % retcode
         else:
@@ -419,6 +421,7 @@ class TestWorkerProcess(threading.Thread):
 
     def _wait_completed(self) -> None:
         popen = self._popen
+        assert popen is not None
 
         try:
             popen.wait(JOIN_TIMEOUT)
@@ -451,8 +454,8 @@ class TestWorkerProcess(threading.Thread):
                 break
 
 
-def get_running(workers: list[TestWorkerProcess]) -> list[TestWorkerProcess]:
-    running = []
+def get_running(workers: list[TestWorkerProcess]) -> list[str]:
+    running: list[str] = []
     for worker in workers:
         current_test_name = worker.current_test_name
         if not current_test_name:
@@ -484,7 +487,7 @@ class MultiprocessTestRunner:
             self.worker_timeout = min(timeout * 1.5, timeout + 5 * 60)
         else:
             self.worker_timeout = None
-        self.workers = None
+        self.workers: list[TestWorkerProcess] | None = []
 
     def start_workers(self) -> None:
         use_mp = self.ns.use_mp
@@ -502,6 +505,7 @@ class MultiprocessTestRunner:
 
     def stop_workers(self) -> None:
         start_time = time.monotonic()
+        assert self.workers
         for worker in self.workers:
             worker.stop()
         for worker in self.workers:
@@ -511,6 +515,7 @@ class MultiprocessTestRunner:
         pgo = self.ns.pgo
         use_faulthandler = (self.ns.timeout is not None)
         timeout = PROGRESS_UPDATE
+        assert self.workers
 
         # bpo-46205: check the status of workers every iteration to avoid
         # waiting forever on an empty queue.
@@ -544,14 +549,17 @@ class MultiprocessTestRunner:
         if mp_result.err_msg:
             # MULTIPROCESSING_ERROR
             text += ' (%s)' % mp_result.err_msg
-        elif (result.duration >= PROGRESS_MIN_TIME and not pgo):
-            text += ' (%s)' % format_duration(result.duration)
+        else:
+            assert isinstance(result.duration, float)
+            if (result.duration >= PROGRESS_MIN_TIME and not pgo):
+                text += ' (%s)' % format_duration(result.duration)
+        assert self.workers
         running = get_running(self.workers)
         if running and not pgo:
             text += ' -- running: %s' % ', '.join(running)
         self.regrtest.display_progress(self.test_index, text)
 
-    def _process_result(self, item: QueueOutput) -> bool:
+    def _process_result(self, item: QueueOutput) -> TestResult:
         """Returns True if test runner must stop."""
         rerun = self.runtests.rerun
         if item[0]:
