@@ -146,14 +146,10 @@ import ast
 import dis
 import collections.abc
 import enum
-import importlib.machinery
 import itertools
-import linecache
-import os
+import os.path
 import re
 import sys
-import tokenize
-import token
 import types
 import functools
 import builtins
@@ -935,6 +931,7 @@ def getfile(object):
 def getmodulename(path):
     """Return the module name for a given file, or None."""
     fname = os.path.basename(path)
+    import importlib.machinery  # lazy import to improve module import time
     # Check for paths that look like an actual module file
     suffixes = [(-len(suffix), suffix)
                     for suffix in importlib.machinery.all_suffixes()]
@@ -948,7 +945,10 @@ def getsourcefile(object):
     """Return the filename that can be used to locate an object's source.
     Return None if no way can be identified to get the source.
     """
+    # importlib.machinery and linecache are lazily imported in this function
+    # to improve module import time
     filename = getfile(object)
+    import importlib.machinery
     all_bytecode_suffixes = importlib.machinery.DEBUG_BYTECODE_SUFFIXES[:]
     all_bytecode_suffixes += importlib.machinery.OPTIMIZED_BYTECODE_SUFFIXES[:]
     if any(filename.endswith(s) for s in all_bytecode_suffixes):
@@ -957,6 +957,7 @@ def getsourcefile(object):
     elif any(filename.endswith(s) for s in
                  importlib.machinery.EXTENSION_SUFFIXES):
         return None
+    import linecache
     # return a filename found in the linecache even if it doesn't exist on disk
     if filename in linecache.cache:
         return filename
@@ -1114,6 +1115,7 @@ def findsource(object):
     is raised if the source code cannot be retrieved."""
 
     file = getsourcefile(object)
+    import linecache  # lazy import to improve module import time
     if file:
         # Invalidate cache if needed.
         linecache.checkcache(file)
@@ -1216,7 +1218,7 @@ class EndOfBlock(Exception): pass
 
 class BlockFinder:
     """Provide a tokeneater() method to detect the end of a code block."""
-    def __init__(self):
+    def __init__(self, _tokenize_module=None):
         self.indent = 0
         self.islambda = False
         self.started = False
@@ -1224,8 +1226,12 @@ class BlockFinder:
         self.indecorator = False
         self.last = 1
         self.body_col0 = None
+        if _tokenize_module is None:
+            import tokenize as _tokenize_module
+        self._tokenize_module = _tokenize_module
 
     def tokeneater(self, type, token, srowcol, erowcol, line):
+        tokenize = self._tokenize_module
         if not self.started and not self.indecorator:
             # skip any decorators
             if token == "@":
@@ -1270,7 +1276,8 @@ class BlockFinder:
 
 def getblock(lines):
     """Extract the block of code at the top of the given list of lines."""
-    blockfinder = BlockFinder()
+    import tokenize  # lazy import to improve module import time
+    blockfinder = BlockFinder(tokenize)
     try:
         tokens = tokenize.generate_tokens(iter(lines).__next__)
         for _token in tokens:
@@ -2210,6 +2217,7 @@ def _signature_strip_non_python_syntax(signature):
 
     lines = [l.encode('ascii') for l in signature.split('\n') if l]
     generator = iter(lines).__next__
+    import token, tokenize  # lazy imports to improve module import time
     token_stream = tokenize.tokenize(generator)
 
     text = []
