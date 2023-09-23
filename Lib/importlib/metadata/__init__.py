@@ -3,19 +3,15 @@ import re
 import abc
 import csv
 import sys
-import email
 import pathlib
-import zipfile
 import operator
 import textwrap
 import warnings
 import functools
 import itertools
-import posixpath
 import collections
-import inspect
 
-from . import _adapters, _meta
+from . import _meta
 from ._collections import FreezableDefaultDict, Pair
 from ._functools import method_cache, pass_none
 from ._itertools import always_iterable, unique_everseen
@@ -345,7 +341,7 @@ class FileHash:
 class DeprecatedNonAbstract:
     def __new__(cls, *args, **kwargs):
         all_names = {
-            name for subclass in inspect.getmro(cls) for name in vars(subclass)
+            name for subclass in cls.__mro__ for name in vars(subclass)
         }
         abstract = {
             name
@@ -448,6 +444,9 @@ class Distribution(DeprecatedNonAbstract):
             or self.read_text('')
         )
         text = cast(str, opt_text)
+        # lazy imports to improve module import time
+        import email
+        from . import _adapters
         return _adapters.Message(email.message_from_string(text))
 
     @property
@@ -682,6 +681,7 @@ class FastPath:
         return []
 
     def zip_children(self):
+        import posixpath, zipfile  # lazy imports to reduce module import time
         zip_path = zipfile.Path(self.root)
         names = zip_path.root.namelist()
         self.joinpath = zip_path.joinpath
@@ -952,6 +952,7 @@ def _top_level_declared(dist):
 
 
 def _top_level_inferred(dist):
+    import inspect  # lazy import to improve module import time
     opt_names = {
         f.parts[0] if len(f.parts) > 1 else inspect.getmodulename(f)
         for f in always_iterable(dist.files)
