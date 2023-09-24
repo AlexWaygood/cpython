@@ -142,7 +142,6 @@ __all__ = [
 
 
 import abc
-import ast
 import dis
 import collections.abc
 import enum
@@ -1033,79 +1032,6 @@ class ClassFoundException(Exception):
     pass
 
 
-class _ClassFinder(ast.NodeVisitor):
-
-    def __init__(self, cls, tree, lines, qualname):
-        self.stack = []
-        self.cls = cls
-        self.tree = tree
-        self.lines = lines
-        self.qualname = qualname
-        self.lineno_found = []
-
-    def visit_FunctionDef(self, node):
-        self.stack.append(node.name)
-        self.stack.append('<locals>')
-        self.generic_visit(node)
-        self.stack.pop()
-        self.stack.pop()
-
-    visit_AsyncFunctionDef = visit_FunctionDef
-
-    def visit_ClassDef(self, node):
-        self.stack.append(node.name)
-        if self.qualname == '.'.join(self.stack):
-            # Return the decorator for the class if present
-            if node.decorator_list:
-                line_number = node.decorator_list[0].lineno
-            else:
-                line_number = node.lineno
-
-            # decrement by one since lines starts with indexing by zero
-            self.lineno_found.append((line_number - 1, node.end_lineno))
-        self.generic_visit(node)
-        self.stack.pop()
-
-    def get_lineno(self):
-        self.visit(self.tree)
-        lineno_found_number = len(self.lineno_found)
-        if lineno_found_number == 0:
-            raise OSError('could not find class definition')
-        elif lineno_found_number == 1:
-            return self.lineno_found[0][0]
-        else:
-            # We have multiple candidates for the class definition.
-            # Now we have to guess.
-
-            # First, let's see if there are any method definitions
-            for member in self.cls.__dict__.values():
-                if (isinstance(member, types.FunctionType) and
-                    member.__module__ == self.cls.__module__):
-                    for lineno, end_lineno in self.lineno_found:
-                        if lineno <= member.__code__.co_firstlineno <= end_lineno:
-                            return lineno
-
-            class_strings = [(''.join(self.lines[lineno: end_lineno]), lineno)
-                             for lineno, end_lineno in self.lineno_found]
-
-            # Maybe the class has a docstring and it's unique?
-            if self.cls.__doc__:
-                ret = None
-                for candidate, lineno in class_strings:
-                    if self.cls.__doc__.strip() in candidate:
-                        if ret is None:
-                            ret = lineno
-                        else:
-                            break
-                else:
-                    if ret is not None:
-                        return ret
-
-            # We are out of ideas, just return the last one found, which is
-            # slightly better than previous ones
-            return self.lineno_found[-1][0]
-
-
 def findsource(object):
     """Return the entire source file and starting line number for an object.
 
@@ -1113,6 +1039,78 @@ def findsource(object):
     or code object.  The source code is returned as a list of all the lines
     in the file and the line number indexes a line in that list.  An OSError
     is raised if the source code cannot be retrieved."""
+    import ast
+
+    class _ClassFinder(ast.NodeVisitor):
+        def __init__(self, cls, tree, lines, qualname):
+            self.stack = []
+            self.cls = cls
+            self.tree = tree
+            self.lines = lines
+            self.qualname = qualname
+            self.lineno_found = []
+
+        def visit_FunctionDef(self, node):
+            self.stack.append(node.name)
+            self.stack.append('<locals>')
+            self.generic_visit(node)
+            self.stack.pop()
+            self.stack.pop()
+
+        visit_AsyncFunctionDef = visit_FunctionDef
+
+        def visit_ClassDef(self, node):
+            self.stack.append(node.name)
+            if self.qualname == '.'.join(self.stack):
+                # Return the decorator for the class if present
+                if node.decorator_list:
+                    line_number = node.decorator_list[0].lineno
+                else:
+                    line_number = node.lineno
+
+                # decrement by one since lines starts with indexing by zero
+                self.lineno_found.append((line_number - 1, node.end_lineno))
+            self.generic_visit(node)
+            self.stack.pop()
+
+        def get_lineno(self):
+            self.visit(self.tree)
+            lineno_found_number = len(self.lineno_found)
+            if lineno_found_number == 0:
+                raise OSError('could not find class definition')
+            elif lineno_found_number == 1:
+                return self.lineno_found[0][0]
+            else:
+                # We have multiple candidates for the class definition.
+                # Now we have to guess.
+
+                # First, let's see if there are any method definitions
+                for member in self.cls.__dict__.values():
+                    if (isinstance(member, types.FunctionType) and
+                        member.__module__ == self.cls.__module__):
+                        for lineno, end_lineno in self.lineno_found:
+                            if lineno <= member.__code__.co_firstlineno <= end_lineno:
+                                return lineno
+
+                class_strings = [(''.join(self.lines[lineno: end_lineno]), lineno)
+                                 for lineno, end_lineno in self.lineno_found]
+
+                # Maybe the class has a docstring and it's unique?
+                if self.cls.__doc__:
+                    ret = None
+                    for candidate, lineno in class_strings:
+                        if self.cls.__doc__.strip() in candidate:
+                            if ret is None:
+                                ret = lineno
+                            else:
+                                break
+                    else:
+                        if ret is not None:
+                            return ret
+
+                # We are out of ideas, just return the last one found, which is
+                # slightly better than previous ones
+                return self.lineno_found[-1][0]
 
     file = getsourcefile(object)
     import linecache  # lazy import to improve module import time
@@ -2259,6 +2257,7 @@ def _signature_fromstr(cls, obj, s, skip_bound_arg=True):
     clean_signature, self_parameter = _signature_strip_non_python_syntax(s)
 
     program = "def foo" + clean_signature + ": pass"
+    import ast
 
     try:
         module = ast.parse(program)
