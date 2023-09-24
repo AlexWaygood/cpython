@@ -1,8 +1,6 @@
-import re
 import sys
 import copy
 import types
-import inspect
 import keyword
 import functools
 import itertools
@@ -220,7 +218,10 @@ _POST_INIT_NAME = '__post_init__'
 # String regex that string annotations for ClassVar or InitVar must match.
 # Allows "identifier.identifier[" or "identifier[".
 # https://bugs.python.org/issue33453 for details.
-_MODULE_IDENTIFIER_RE = re.compile(r'^(?:\s*(\w+)\s*\.)?\s*(\w+)')
+@functools.cache
+def _MODULE_IDENTIFIER_RE():
+    import re
+    return re.compile(r'^(?:\s*(\w+)\s*\.)?\s*(\w+)')
 
 # Atomic immutable types which don't require any recursive handling and for which deepcopy
 # returns the same object. We can provide a fast-path for these types in asdict and astuple.
@@ -739,7 +740,7 @@ def _is_type(annotation, cls, a_module, a_type, is_type_predicate):
     # a eval() penalty for every single field of every dataclass
     # that's defined.  It was judged not worth it.
 
-    match = _MODULE_IDENTIFIER_RE.match(annotation)
+    match = _MODULE_IDENTIFIER_RE().match(annotation)
     if match:
         ns = None
         module_name = match.group(1)
@@ -967,7 +968,7 @@ def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen,
     # actual default value.  Pseudo-fields ClassVars and InitVars are
     # included, despite the fact that they're not real fields.  That's
     # dealt with later.
-    cls_annotations = inspect.get_annotations(cls)
+    cls_annotations = getattr(cls, "__annotations__", {})
 
     # Now find fields in our class.  While doing so, validate some
     # things, and set the default values (as class attributes) where
@@ -1132,6 +1133,7 @@ def _process_class(cls, init, repr, eq, order, unsafe_hash, frozen,
         cls.__hash__ = hash_action(cls, field_list, globals)
 
     if not getattr(cls, '__doc__'):
+        import inspect  # lazy import to reduce module import time
         # Create a class doc-string.
         try:
             # In some cases fetching a signature is not possible.
