@@ -52,7 +52,7 @@ the setsockopt() and getsockopt() methods.
 import _socket
 from _socket import *
 
-import os, sys, io, selectors
+import os, sys, io
 from enum import IntEnum, IntFlag
 
 try:
@@ -347,6 +347,9 @@ class socket(_socket.socket):
     if hasattr(os, 'sendfile'):
 
         def _sendfile_use_sendfile(self, file, offset=0, count=None):
+            # no need to needlessly slow down import time for platforms without os.sendfile
+            import selectors
+
             self._check_sendfile_params(file, offset, count)
             sockno = self.fileno()
             try:
