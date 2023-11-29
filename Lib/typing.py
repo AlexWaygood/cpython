@@ -1670,7 +1670,7 @@ class _TypingEllipsis:
 _TYPING_INTERNALS = frozenset({
     '__parameters__', '__orig_bases__',  '__orig_class__',
     '_is_protocol', '_is_runtime_protocol', '__protocol_attrs__',
-    '__callable_proto_members_only__', '__type_params__',
+    '__non_callable_proto_members__', '__type_params__',
 })
 
 _SPECIAL_NAMES = frozenset({
@@ -1802,17 +1802,20 @@ class _ProtocolMeta(ABCMeta):
                         f"Protocols can only inherit from other protocols, "
                         f"got {base!r}"
                     )
-        return super().__new__(mcls, name, bases, namespace, **kwargs)
 
-    def __init__(cls, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        cls = super().__new__(mcls, name, bases, namespace, **kwargs)
+
         if getattr(cls, "_is_protocol", False):
             cls.__protocol_attrs__ = _get_protocol_attrs(cls)
             # PEP 544 prohibits using issubclass()
             # with protocols that have non-method members.
-            cls.__callable_proto_members_only__ = all(
-                callable(getattr(cls, attr, None)) for attr in cls.__protocol_attrs__
+            cls.__non_callable_proto_members__ = frozenset(
+                attr
+                for attr in cls.__protocol_attrs__
+                if not callable(getattr(cls, attr, None))
             )
+
+        return cls
 
     def __subclasscheck__(cls, other):
         if cls is Protocol:
@@ -1825,13 +1828,10 @@ class _ProtocolMeta(ABCMeta):
                 # Same error message as for issubclass(1, int).
                 raise TypeError('issubclass() arg 1 must be a class')
             if (
-                not cls.__callable_proto_members_only__
+                cls.__non_callable_proto_members__
                 and cls.__dict__.get("__subclasshook__") is _proto_hook
             ):
-                non_method_attrs = sorted(
-                    attr for attr in cls.__protocol_attrs__
-                    if not callable(getattr(cls, attr, None))
-                )
+                non_method_attrs = sorted(cls.__non_callable_proto_members__)
                 raise TypeError(
                     "Protocols with non-method members don't support issubclass()."
                     f" Non-method members: {str(non_method_attrs)[1:-1]}."
@@ -1868,7 +1868,7 @@ class _ProtocolMeta(ABCMeta):
                 val = getattr_static(instance, attr)
             except AttributeError:
                 break
-            if val is None and callable(getattr(cls, attr, None)):
+            if val is None and attr not in cls.__non_callable_proto_members__:
                 break
         else:
             return True
