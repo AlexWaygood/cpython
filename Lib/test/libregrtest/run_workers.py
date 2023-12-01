@@ -123,7 +123,7 @@ class WorkerThread(threading.Thread):
         if test:
             info.append(f'test={test}')
         popen = self._popen
-        if popen is not None:
+        if popen is not None and self.start_time is not None:
             dt = time.monotonic() - self.start_time
             info.extend((f'pid={self._popen.pid}',
                          f'time={format_duration(dt)}'))
@@ -441,6 +441,8 @@ def get_running(workers: list[WorkerThread]) -> str | None:
         test_name = worker.test_name
         if not test_name:
             continue
+        if worker.start_time is None:
+            raise ValueError("Encountered a worker with start_time set to `None`!")
         dt = time.monotonic() - worker.start_time
         if dt >= PROGRESS_MIN_TIME:
             text = f'{test_name} ({format_duration(dt)})'
@@ -542,8 +544,14 @@ class RunWorkers:
         if mp_result.err_msg:
             # WORKER_BUG
             text += ' (%s)' % mp_result.err_msg
-        elif (result.duration >= PROGRESS_MIN_TIME and not pgo):
-            text += ' (%s)' % format_duration(result.duration)
+        else:
+            if result.duration is None:
+                raise RuntimeError(
+                    "display_result() was called, "
+                    "but result.duration was still set to `None`!"
+                )
+            if (result.duration >= PROGRESS_MIN_TIME and not pgo):
+                text += ' (%s)' % format_duration(result.duration)
         if not pgo:
             running = get_running(self.workers)
             if running:
