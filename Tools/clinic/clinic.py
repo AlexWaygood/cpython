@@ -1098,7 +1098,7 @@ class CLanguage(Language):
             add('"')
         return ''.join(text)
 
-    def output_templates(
+    def output_templates(  # noqa: C901  # TODO: this function is horrendously complicated
             self,
             f: Function,
             clinic: Clinic
@@ -5705,7 +5705,7 @@ class DSLParser:
             case param:
                 self.parse_parameter(param)
 
-    def parse_parameter(self, line: str) -> None:
+    def parse_parameter(self, line: str) -> None:  # noqa: C901  # TODO: this function is horrendously complicated
         assert self.function is not None
 
         match self.parameter_state:
