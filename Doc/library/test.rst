@@ -547,13 +547,13 @@ The :mod:`test.support` module defines the following functions:
 .. function:: args_from_interpreter_flags()
 
    Return a list of command line arguments reproducing the current settings
-   in ``sys.flags`` and ``sys.warnoptions``.
+   in :data:`sys.flags` and `:data:`sys.warnoptions`.
 
 
 .. function:: optim_args_from_interpreter_flags()
 
    Return a list of command line arguments reproducing the current
-   optimization settings in ``sys.flags``.
+   optimization settings in :data:`sys.flags`.
 
 
 .. function:: captured_stdin()

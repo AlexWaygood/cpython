@@ -894,7 +894,7 @@ Here are all of the changes that Python 2.4 makes to the core Python language.
   :exc:`OverflowWarning` warning will disappear in Python 2.5.
 
 * The interpreter gained a new switch, :option:`-m`, that takes a name, searches
-  for the corresponding  module on ``sys.path``, and runs the module as a script.
+  for the corresponding  module on :data:`sys.path`, and runs the module as a script.
   For example,  you can now run the Python profiler with ``python -m profile``.
   (Contributed by Nick Coghlan.)
 
@@ -919,7 +919,7 @@ Here are all of the changes that Python 2.4 makes to the core Python language.
   (Contributed by Raymond Hettinger.)
 
 * Encountering a failure while importing a module no longer leaves a partially initialized
-  module object in ``sys.modules``.  The incomplete module object left
+  module object in :data:`sys.modules`.  The incomplete module object left
   behind would fool further imports of the same module into succeeding, leading to
   confusing errors.   (Fixed by Tim Peters.)
 
@@ -1541,7 +1541,7 @@ code:
 * The :mod:`tarfile` module now generates GNU-format tar files by default.
 
 * Encountering a failure while importing a module no longer leaves a
-  partially initialized module object in ``sys.modules``.
+  partially initialized module object in :data:`sys.modules`.
 
 * :const:`None` is now a constant; code that binds a new value to  the name
   ``None`` is now a syntax error.

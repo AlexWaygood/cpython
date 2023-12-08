@@ -154,7 +154,7 @@ fails. In such legacy locales, the interpreter will default to enabling UTF-8
 mode unless explicitly instructed not to do so.
 
 The Python UTF-8 Mode can only be enabled at the Python startup. Its value
-can be read from :data:`sys.flags.utf8_mode <sys.flags>`.
+can be read from :attr:`sys.flags.utf8_mode`.
 
 See also the :ref:`UTF-8 mode on Windows <win-utf8-mode>`
 and the :term:`filesystem encoding and error handler`.

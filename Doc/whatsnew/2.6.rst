@@ -521,7 +521,7 @@ running from inside a package.
 PEP 370: Per-user ``site-packages`` Directory
 =====================================================
 
-When you run Python, the module search path ``sys.path`` usually
+When you run Python, the module search path :data:`sys.path` usually
 includes a directory whose path ends in ``"site-packages"``.  This
 directory is intended to hold locally installed packages available to
 all users using a machine or a particular site installation.
@@ -1764,7 +1764,7 @@ Python can now be prevented from writing :file:`.pyc` or :file:`.pyo`
 files by supplying the :option:`-B` switch to the Python interpreter,
 or by setting the :envvar:`PYTHONDONTWRITEBYTECODE` environment
 variable before running the interpreter.  This setting is available to
-Python programs as the ``sys.dont_write_bytecode`` variable, and
+Python programs as the :data:`sys.dont_write_bytecode` variable, and
 Python code can change the value to modify the interpreter's
 behaviour.  (Contributed by Neal Norwitz and Georg Brandl.)
 
@@ -2422,9 +2422,10 @@ changes, or look through the Subversion logs for all the details.
 
   Information about the command-line arguments supplied to the Python
   interpreter is available by reading attributes of a named
-  tuple available as ``sys.flags``.  For example, the :attr:`verbose`
+  tuple available as :data:`sys.flags`.  For example, the :attr:`~sys.flags.verbose`
   attribute is true if Python
-  was executed in verbose mode, :attr:`debug` is true in debugging mode, etc.
+  was executed in verbose mode, :attr:`~sys.flags.debug` is true in
+  debugging mode, etc.
   These attributes are all read-only.
   (Contributed by Christian Heimes.)
 
@@ -3024,7 +3025,7 @@ Changes to Python's build process and to the C API include:
 * Importing modules simultaneously in two different threads no longer
   deadlocks; it will now raise an :exc:`ImportError`.  A new API
   function, :c:func:`PyImport_ImportModuleNoBlock`, will look for a
-  module in ``sys.modules`` first, then try to import it after
+  module in :data:`sys.modules` first, then try to import it after
   acquiring an import lock.  If the import lock is held by another
   thread, an :exc:`ImportError` is raised.
   (Contributed by Christian Heimes.)

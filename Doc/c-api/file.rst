@@ -74,7 +74,7 @@ the :mod:`io` APIs instead.
 
    As this hook is intentionally used during import, avoid importing new modules
    during its execution unless they are known to be frozen or available in
-   ``sys.modules``.
+   :data:`sys.modules`.
 
    Once a hook has been set, it cannot be removed or replaced, and later calls to
    :c:func:`PyFile_SetOpenCodeHook` will fail. On failure, the function returns

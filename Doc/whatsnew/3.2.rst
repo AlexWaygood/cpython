@@ -485,7 +485,8 @@ Some smaller changes made to the core Python language are:
 
 * The interpreter can now be started with a quiet option, ``-q``, to prevent
   the copyright and version information from being displayed in the interactive
-  mode.  The option can be introspected using the :data:`sys.flags` attribute:
+  mode.  The option can be introspected using the :attr:`sys.flags.quiet`
+  attribute:
 
   .. code-block:: shell-session
 

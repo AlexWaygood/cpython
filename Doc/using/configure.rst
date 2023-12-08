@@ -127,7 +127,7 @@ General Options
 
    Define the ``PYLONG_BITS_IN_DIGIT`` to ``15`` or ``30``.
 
-   See :data:`sys.int_info.bits_per_digit <sys.int_info>`.
+   See :attr:`sys.int_info.bits_per_digit`.
 
 .. option:: --with-suffix=SUFFIX
 

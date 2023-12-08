@@ -52,10 +52,10 @@ Printing and clearing
 
 .. c:function:: void PyErr_PrintEx(int set_sys_last_vars)
 
-   Print a standard traceback to ``sys.stderr`` and clear the error indicator.
-   **Unless** the error is a ``SystemExit``, in that case no traceback is
+   Print a standard traceback to :data:`sys.stderr` and clear the error indicator.
+   **Unless** the error is a :exc:`SystemExit`, in that case no traceback is
    printed and the Python process will exit with the error code specified by
-   the ``SystemExit`` instance.
+   the :exc:`!SystemExit` instance.
 
    Call this function **only** when the error indicator is set.  Otherwise it
    will cause a fatal error!
@@ -80,7 +80,7 @@ Printing and clearing
    Call :func:`sys.unraisablehook` using the current exception and *obj*
    argument.
 
-   This utility function prints a warning message to ``sys.stderr`` when an
+   This utility function prints a warning message to :data:`sys.stderr` when an
    exception has been set but it is impossible for the interpreter to actually
    raise the exception.  It is used, for example, when an exception occurs in an
    :meth:`~object.__del__` method.
@@ -113,7 +113,7 @@ Printing and clearing
 
 .. c:function:: void PyErr_DisplayException(PyObject *exc)
 
-   Print the standard traceback display of ``exc`` to ``sys.stderr``, including
+   Print the standard traceback display of *exc* to :data:`sys.stderr`, including
    chained exceptions and notes.
 
    .. versionadded:: 3.12
@@ -568,7 +568,7 @@ Querying the error indicator
 
 .. c:function:: void PyErr_SetHandledException(PyObject *exc)
 
-   Set the active exception, as known from ``sys.exception()``.  This refers
+   Set the active exception, as known from :func:`sys.exception`.  This refers
    to an exception that was *already caught*, not to an exception that was
    freshly raised.
    To clear the exception state, pass ``NULL``.
@@ -603,7 +603,7 @@ Querying the error indicator
 
 .. c:function:: void PyErr_SetExcInfo(PyObject *type, PyObject *value, PyObject *traceback)
 
-   Set the exception info, as known from ``sys.exc_info()``.  This refers
+   Set the exception info, as known from :func:`sys.exc_info`.  This refers
    to an exception that was *already caught*, not to an exception that was
    freshly raised.  This function steals the references of the arguments.
    To clear the exception state, pass ``NULL`` for all three arguments.

@@ -1024,7 +1024,7 @@ sys
   (equivalent to ``sys.exc_info()[1]``).
   (Contributed by Irit Katriel in :issue:`46328`.)
 
-* Add the :data:`sys.flags.safe_path <sys.flags>` flag.
+* Add the :attr:`sys.flags.safe_path` flag.
   (Contributed by Victor Stinner in :gh:`57684`.)
 
 

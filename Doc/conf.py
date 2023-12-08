@@ -170,6 +170,12 @@ nitpick_ignore = [
     # (implementation details of `os.path`):
     ('py:mod', 'ntpath'),
     ('py:mod', 'posixpath'),
+    # Things removed in previous versions:
+    ('py:func', 'sys.callstats'),
+    ('py:func', 'sys.exitfunc'),
+    ('py:func', 'sys.getcheckinterval'),
+    ('py:func', 'sys.setcheckinterval'),
+    ('py:data', 'sys.subversion'),
 ]
 
 # Temporary undocumented names.

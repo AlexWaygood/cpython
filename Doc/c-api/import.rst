@@ -221,7 +221,7 @@ Importing Modules
 .. c:function:: const char * PyImport_GetMagicTag()
 
    Return the magic tag string for :pep:`3147` format Python bytecode file
-   names.  Keep in mind that the value at ``sys.implementation.cache_tag`` is
+   names.  Keep in mind that the value at :attr:`sys.implementation.cache_tag` is
    authoritative and should be used instead of this function.
 
    .. versionadded:: 3.2
@@ -229,7 +229,7 @@ Importing Modules
 .. c:function:: PyObject* PyImport_GetModuleDict()
 
    Return the dictionary used for the module administration (a.k.a.
-   ``sys.modules``).  Note that this is a per-interpreter variable.
+   :data:`sys.modules`).  Note that this is a per-interpreter variable.
 
 .. c:function:: PyObject* PyImport_GetModule(PyObject *name)
 

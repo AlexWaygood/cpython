@@ -16,7 +16,7 @@ Fancier Output Formatting
 
 So far we've encountered two ways of writing values: *expression statements* and
 the :func:`print` function.  (A third way is using the :meth:`~io.TextIOBase.write` method
-of file objects; the standard output file can be referenced as ``sys.stdout``.
+of file objects; the standard output file can be referenced as :data:`sys.stdout`.
 See the Library Reference for more information on this.)
 
 Often you'll want more control over the formatting of your output than simply

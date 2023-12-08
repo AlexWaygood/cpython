@@ -269,13 +269,14 @@ PEP 553: Built-in ``breakpoint()``
 Python 3.7 includes the new built-in :func:`breakpoint` function as
 an easy and consistent way to enter the Python debugger.
 
-Built-in ``breakpoint()`` calls :func:`sys.breakpointhook`.  By default, the
-latter imports :mod:`pdb` and then calls ``pdb.set_trace()``, but by binding
-``sys.breakpointhook()`` to the function of your choosing, ``breakpoint()`` can
+Built-in :func:`breakpoint` calls :func:`sys.breakpointhook`.  By default, the
+latter imports :mod:`pdb` and then calls :func:`pdb.set_trace`, but by binding
+:func:`sys.breakpointhook` to the function of your choosing,
+:func:`!breakpoint` can
 enter any debugger. Additionally, the environment variable
 :envvar:`PYTHONBREAKPOINT` can be set to the callable of your debugger of
 choice.  Set ``PYTHONBREAKPOINT=0`` to completely disable built-in
-``breakpoint()``.
+:func:`breakpoint`.
 
 .. seealso::
 
@@ -529,7 +530,8 @@ Other Language Changes
   writable.
   (Contributed by Nathaniel J. Smith in :issue:`30579`.)
 
-* When using the :option:`-m` switch, ``sys.path[0]`` is now eagerly expanded
+* When using the :option:`-m` switch, :data:`sys.path[0] <sys.path>` is now
+  eagerly expanded
   to the full starting directory path, rather than being left as the empty
   directory (which allows imports from the *current* working directory at the
   time when an import occurs)
@@ -2072,7 +2074,7 @@ sys
 Deprecated :func:`sys.set_coroutine_wrapper` and
 :func:`sys.get_coroutine_wrapper`.
 
-The undocumented ``sys.callstats()`` function has been deprecated and
+The undocumented :func:`sys.callstats` function has been deprecated and
 will be removed in a future Python version.
 (Contributed by Victor Stinner in :issue:`28799`.)
 

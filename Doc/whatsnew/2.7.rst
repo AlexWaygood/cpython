@@ -1467,10 +1467,10 @@ changes, or look through the Subversion logs for all the details.
   bytecode file (:file:`example.pyc`), a directory
   (:file:`./package/`), or a zip archive (:file:`example.zip`).  If a
   directory or zip path is provided, it will be added to the front of
-  ``sys.path`` and the module :mod:`__main__` will be imported.  It's
+  :data:`sys.path` and the module :mod:`__main__` will be imported.  It's
   expected that the directory or zip contains a :file:`__main__.py`;
   if it doesn't, some other :file:`__main__.py` might be imported from
-  a location later in ``sys.path``.  This makes more of the machinery
+  a location later in :data:`!sys.path`.  This makes more of the machinery
   of :mod:`runpy` available to scripts that want to mimic the way
   Python's command line processes an explicit path name.
   (Added by Nick Coghlan; :issue:`6816`.)
@@ -1597,20 +1597,27 @@ changes, or look through the Subversion logs for all the details.
   false for ones that are implicitly global.
   (Contributed by Jeremy Hylton.)
 
-* The :mod:`syslog` module will now use the value of ``sys.argv[0]`` as the
+* The :mod:`syslog` module will now use the value of
+  :data:`sys.argv[0] <sys.argv>` as the
   identifier instead of the previous default value of ``'python'``.
   (Changed by Sean Reifschneider; :issue:`8451`.)
 
-* The ``sys.version_info`` value is now a named tuple, with attributes
-  named :attr:`major`, :attr:`minor`, :attr:`micro`,
-  :attr:`releaselevel`, and :attr:`serial`.  (Contributed by Ross
+* The :data:`sys.version_info` value is now a named tuple, with attributes
+  named :attr:`~sys.version_info.major`, :attr:`~sys.version_info.minor`,
+  :attr:`~sys.version_info.micro`, :attr:`~sys.version_info.releaselevel`, and
+  :attr:`~sys.version_info.serial`.  (Contributed by Ross
   Light; :issue:`4285`.)
 
   :func:`sys.getwindowsversion` also returns a named tuple,
-  with attributes named :attr:`major`, :attr:`minor`, :attr:`build`,
-  :attr:`platform`, :attr:`service_pack`, :attr:`service_pack_major`,
-  :attr:`service_pack_minor`, :attr:`suite_mask`, and
-  :attr:`product_type`.  (Contributed by Brian Curtin; :issue:`7766`.)
+  with attributes named :attr:`~sys.getwindowsversion.major`,
+  :attr:`~sys.getwindowsversion.minor`, :attr:`~sys.getwindowsversion.build`,
+  :attr:`~sys.getwindowsversion.platform`,
+  :attr:`~sys.getwindowsversion.service_pack`,
+  :attr:`~sys.getwindowsversion.service_pack_major`,
+  :attr:`~sys.getwindowsversion.service_pack_minor`,
+  :attr:`~sys.getwindowsversion.suite_mask`, and
+  :attr:`~sys.getwindowsversion.product_type`.
+  (Contributed by Brian Curtin; :issue:`7766`.)
 
 * The :mod:`tarfile` module's default error handling has changed, to
   no longer suppress fatal errors.  The default error level was previously 0,
@@ -1749,7 +1756,7 @@ character, such as ``..utils.errors``.  For relative imports, the
 *package* argument must be provided and is the name of the package that
 will be used as the anchor for
 the relative import.  :func:`~importlib.import_module` both inserts the imported
-module into ``sys.modules`` and returns the module object.
+module into :data:`sys.modules` and returns the module object.
 
 Here are some examples::
 
@@ -2157,13 +2164,13 @@ Changes to Python's build process and to the C API include:
   are now deprecated.
 
 * New function: :c:func:`!PySys_SetArgvEx` sets the value of
-  ``sys.argv`` and can optionally update ``sys.path`` to include the
+  :data:`sys.argv` and can optionally update :data:`sys.path` to include the
   directory containing the script named by ``sys.argv[0]`` depending
   on the value of an *updatepath* parameter.
 
   This function was added to close a security hole for applications
   that embed Python.  The old function, :c:func:`!PySys_SetArgv`, would
-  always update ``sys.path``, and sometimes it would add the current
+  always update :data:`sys.path`, and sometimes it would add the current
   directory.  This meant that, if you ran an application embedding
   Python in a directory controlled by someone else, attackers could
   put a Trojan-horse module in the directory (say, a file named
@@ -2365,7 +2372,7 @@ Port-Specific Changes: Mac OS X
 -----------------------------------
 
 * The path ``/Library/Python/2.7/site-packages`` is now appended to
-  ``sys.path``, in order to share added packages between the system
+  :data:`sys.path`, in order to share added packages between the system
   installation and a user-installed copy of the same version.
   (Changed by Ronald Oussoren; :issue:`4865`.)
 
@@ -2374,7 +2381,7 @@ Port-Specific Changes: Mac OS X
      As of 2.7.13, this change was removed.
      ``/Library/Python/2.7/site-packages``, the site-packages directory
      used by the Apple-supplied system Python 2.7 is no longer appended to
-     ``sys.path`` for user-installed Pythons such as from the python.org
+     :data:`sys.path` for user-installed Pythons such as from the python.org
      installers.  As of macOS 10.12, Apple changed how the system
      site-packages directory is configured, which could cause installation
      of pip components, like setuptools, to fail.  Packages installed for

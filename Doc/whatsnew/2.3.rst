@@ -290,7 +290,7 @@ PEP 273: Importing Modules from ZIP Archives
 
 The new :mod:`zipimport` module adds support for importing modules from a
 ZIP-format archive.  You don't need to import the module explicitly; it will be
-automatically imported if a ZIP archive's filename is added to ``sys.path``.
+automatically imported if a ZIP archive's filename is added to :data:`sys.path`.
 For example:
 
 .. code-block:: shell-session
@@ -311,7 +311,7 @@ For example:
    '/tmp/example.zip/jwzthreading.py'
    >>>
 
-An entry in ``sys.path`` can now be the filename of a ZIP archive. The ZIP
+An entry in :data:`sys.path` can now be the filename of a ZIP archive. The ZIP
 archive can contain any kind of files, but only files named :file:`\*.py`,
 :file:`\*.pyc`, or :file:`\*.pyo` can be imported.  If an archive only contains
 :file:`\*.py` files, Python will not attempt to modify the archive by adding the
@@ -713,16 +713,17 @@ easily usable from C code.
 McMillan's :mod:`iu` module.  Three new items  are added to the :mod:`sys`
 module:
 
-* ``sys.path_hooks`` is a list of callable objects; most  often they'll be
+* :data:`sys.path_hooks` is a list of callable objects; most often they'll be
   classes.  Each callable takes a string containing a path and either returns an
   importer object that will handle imports from this path or raises an
   :exc:`ImportError` exception if it can't handle this path.
 
-* ``sys.path_importer_cache`` caches importer objects for each path, so
-  ``sys.path_hooks`` will only need to be traversed once for each path.
+* :data:`sys.path_importer_cache` caches importer objects for each path, so
+  :data:`sys.path_hooks` will only need to be traversed once for each path.
 
-* ``sys.meta_path`` is a list of importer objects that will be traversed before
-  ``sys.path`` is checked.  This list is initially empty, but user code can add
+* :data:`sys.meta_path` is a list of importer objects that will be traversed
+  before :data:`sys.path` is checked.  This list is initially empty, but user
+  code can add
   objects to it.  Additional built-in and frozen modules can be imported by an
   object added to this list.
 
@@ -1475,8 +1476,8 @@ complete list of changes, or look through the CVS logs for all the details.
   (SSL) support.
 
 * The value of the C :c:macro:`PYTHON_API_VERSION` macro is now exposed at the
-  Python level as ``sys.api_version``.  The current exception can be cleared by
-  calling the new :func:`sys.exc_clear` function.
+  Python level as :data:`sys.api_version`.  The current exception can be
+  cleared by calling the new :func:`sys.exc_clear` function.
 
 * The new :mod:`tarfile` module  allows reading from and writing to
   :program:`tar`\ -format archive files. (Contributed by Lars Gustäbel.)

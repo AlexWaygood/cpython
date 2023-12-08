@@ -214,7 +214,7 @@ Logging
 =======
 
 The :mod:`logging` module offers a full featured and flexible logging system.
-At its simplest, log messages are sent to a file or to ``sys.stderr``::
+At its simplest, log messages are sent to a file or to :data:`sys.stderr`::
 
    import logging
    logging.debug('Debugging information')

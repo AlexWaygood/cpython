@@ -520,8 +520,8 @@ object by following the ``print`` with  ``>> file``, similar to the
 redirection operator in Unix shells. Previously you'd either have to use the
 :meth:`write` method of the file-like object, which lacks the convenience and
 simplicity of ``print``, or you could assign a new value to
-``sys.stdout`` and then restore the old value.  For sending output to standard
-error, it's much easier to write this::
+:data:`sys.stdout` and then restore the old value.  For sending output to
+standard error, it's much easier to write this::
 
    print >> sys.stderr, "Warning: action field not supplied"
 
@@ -569,7 +569,7 @@ simply be silently swallowed.
 .. https://www.python.org/pipermail/python-dev/2000-April/004834.html
 
 Work has been done on porting Python to 64-bit Windows on the Itanium processor,
-mostly by Trent Mick of ActiveState.  (Confusingly, ``sys.platform`` is still
+mostly by Trent Mick of ActiveState.  (Confusingly, :data:`sys.platform` is still
 ``'win32'`` on Win64 because it seems that for ease of porting, MS Visual C++
 treats code as 32 bit on Itanium.) PythonWin also supports Windows CE; see the
 Python CE page at https://pythonce.sourceforge.net/ for more information.
@@ -614,8 +614,8 @@ while ``int('123', 16)`` returns 291.  ``int(123, 16)`` raises a
 explicit base".
 
 A new variable holding more detailed version information has been added to the
-:mod:`sys` module.  ``sys.version_info`` is a tuple ``(major, minor, micro,
-level, serial)`` For example, in a hypothetical 2.0.1beta1, ``sys.version_info``
+:mod:`sys` module.  :data:`sys.version_info` is a tuple ``(major, minor, micro,
+level, serial)`` For example, in a hypothetical 2.0.1beta1, :data:`!sys.version_info`
 would be ``(2, 0, 1, 'beta', 1)``. *level* is a string such as ``"alpha"``,
 ``"beta"``, or ``"final"`` for a final release.
 
@@ -1078,7 +1078,7 @@ descriptions; consult the 2.0 documentation for the details of a particular
 module.
 
 * :mod:`atexit`:  For registering functions to be called before the Python
-  interpreter exits. Code that currently sets ``sys.exitfunc`` directly should be
+  interpreter exits. Code that currently sets :func:`sys.exitfunc` directly should be
   changed to  use the :mod:`atexit` module instead, importing :mod:`atexit` and
   calling :func:`atexit.register` with  the function to be called on exit.
   (Contributed by Skip Montanaro.)
@@ -1191,7 +1191,7 @@ A number of modules have been moved to the :file:`lib-old` subdirectory:
 :mod:`cmp`, :mod:`cmpcache`, :mod:`dircmp`, :mod:`dump`,  :mod:`find`,
 :mod:`grep`, :mod:`packmail`,  :mod:`poly`, :mod:`util`, :mod:`whatsound`,
 :mod:`zmod`.  If you have code which relies on a module  that's been moved to
-:file:`lib-old`, you can simply add that directory to ``sys.path``   to get them
+:file:`lib-old`, you can simply add that directory to :data:`sys.path` to get them
 back, but you're encouraged to update any code that uses these modules.
 
 

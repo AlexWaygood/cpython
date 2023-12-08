@@ -1581,12 +1581,12 @@ imp
     =================================  =======================================
        imp                                importlib
     =================================  =======================================
-    ``imp.NullImporter``               Insert ``None`` into ``sys.path_importer_cache``
+    ``imp.NullImporter``               Insert ``None`` into :data:`sys.path_importer_cache`
     ``imp.cache_from_source()``        :func:`importlib.util.cache_from_source`
     ``imp.find_module()``              :func:`importlib.util.find_spec`
     ``imp.get_magic()``                :attr:`importlib.util.MAGIC_NUMBER`
     ``imp.get_suffixes()``             :attr:`importlib.machinery.SOURCE_SUFFIXES`, :attr:`importlib.machinery.EXTENSION_SUFFIXES`, and :attr:`importlib.machinery.BYTECODE_SUFFIXES`
-    ``imp.get_tag()``                  :attr:`sys.implementation.cache_tag <sys.implementation>`
+    ``imp.get_tag()``                  :attr:`sys.implementation.cache_tag`
     ``imp.load_module()``              :func:`importlib.import_module`
     ``imp.new_module(name)``           ``types.ModuleType(name)``
     ``imp.reload()``                   :func:`importlib.reload`
@@ -2091,7 +2091,7 @@ New Features
        that are immortal.
   - ``SSTATE_INTERNED_IMMORTAL_STATIC`` An identifier for interned unicode
        objects that are immortal and static
-  - ``sys.getunicodeinternedsize`` This returns the total number of unicode
+  - :func:`sys.getunicodeinternedsize` This returns the total number of unicode
       objects that have been interned. This is now needed for :file:`refleak.py` to
       correctly track reference counts and allocated blocks
 

@@ -205,7 +205,7 @@ High-level Module Interface
    :ref:`UTF-8 Mode <utf8-mode>`.
 
    This function emits an :class:`EncodingWarning` if
-   :data:`sys.flags.warn_default_encoding <sys.flags>` is true and *encoding*
+   :attr:`sys.flags.warn_default_encoding` is true and *encoding*
    is ``None``. *stacklevel* specifies where the warning is emitted.
    For example::
 

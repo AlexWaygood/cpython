@@ -284,7 +284,7 @@ in the package's directory to perform a relative import, finds
 That's fine if :mod:`pkg.string` was what you wanted.  But what if you wanted
 Python's standard :mod:`string` module?  There's no clean way to ignore
 :mod:`pkg.string` and look for the standard module; generally you had to look at
-the contents of ``sys.modules``, which is slightly unclean.    Holger Krekel's
+the contents of :data:`sys.modules`, which is slightly unclean.    Holger Krekel's
 :mod:`py.std` package provides a tidier way to perform imports from the standard
 library, ``import py; py.std.string.join()``, but that package isn't available
 on all Python installations.
@@ -350,7 +350,7 @@ The :mod:`runpy` module implements a more sophisticated import mechanism so that
 it's now possible to run modules in a package such as :mod:`pychecker.checker`.
 The module also supports alternative import mechanisms such as the
 :mod:`zipimport` module.  This means you can add a .zip archive's path to
-``sys.path`` and then use the :option:`-m` switch to execute code from the
+:data:`sys.path` and then use the :option:`-m` switch to execute code from the
 archive.
 
 
@@ -1510,8 +1510,8 @@ complete list of changes, or look through the SVN logs for all the details.
 
 * Also deleted: the :file:`lib-old` directory, which includes ancient modules
   such as :mod:`dircmp` and :mod:`ni`, was removed.  :file:`lib-old` wasn't on the
-  default ``sys.path``, so unless your programs explicitly added the directory to
-  ``sys.path``, this removal shouldn't affect your code.
+  default :data:`sys.path`, so unless your programs explicitly added the
+  directory to :data:`!sys.path`, this removal shouldn't affect your code.
 
 * The :mod:`rlcompleter` module is no longer  dependent on importing the
   :mod:`readline` module and therefore now works on non-Unix platforms. (Patch
@@ -1568,7 +1568,7 @@ complete list of changes, or look through the SVN logs for all the details.
 
 * The Python developers switched from CVS to Subversion during the 2.5
   development process.  Information about the exact build version is available as
-  the ``sys.subversion`` variable, a 3-tuple of ``(interpreter-name, branch-name,
+  the :data:`sys.subversion` variable, a 3-tuple of ``(interpreter-name, branch-name,
   revision-range)``.  For example, at the time of writing my copy of 2.5 was
   reporting ``('CPython', 'trunk', '45313:45315')``.
 

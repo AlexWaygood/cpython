@@ -698,7 +698,7 @@ platforms, omitting ``encoding`` option when opening UTF-8 files
        data = json.load(f)
 
 To find this type of bug, an optional ``EncodingWarning`` is added.
-It is emitted when :data:`sys.flags.warn_default_encoding <sys.flags>`
+It is emitted when :attr:`sys.flags.warn_default_encoding`
 is true and locale-specific default encoding is used.
 
 ``-X warn_default_encoding`` option and :envvar:`PYTHONWARNDEFAULTENCODING`

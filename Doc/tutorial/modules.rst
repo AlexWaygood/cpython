@@ -275,8 +275,8 @@ system calls.  The set of such modules is a configuration option which also
 depends on the underlying platform.  For example, the :mod:`winreg` module is only
 provided on Windows systems. One particular module deserves some attention:
 :mod:`sys`, which is built into every Python interpreter.  The variables
-``sys.ps1`` and ``sys.ps2`` define the strings used as primary and secondary
-prompts::
+:data:`sys.ps1` and :data:`sys.ps2` define the strings used as primary and
+secondary prompts::
 
    >>> import sys
    >>> sys.ps1
@@ -291,7 +291,7 @@ prompts::
 
 These two variables are only defined if the interpreter is in interactive mode.
 
-The variable ``sys.path`` is a list of strings that determines the interpreter's
+The variable :data:`sys.path` is a list of strings that determines the interpreter's
 search path for modules. It is initialized to a default path taken from the
 environment variable :envvar:`PYTHONPATH`, or from a built-in default if
 :envvar:`PYTHONPATH` is not set.  You can modify it using standard list
@@ -434,7 +434,7 @@ your package (expressed in terms of a hierarchical filesystem):
                  ...
 
 When importing the package, Python searches through the directories on
-``sys.path`` looking for the package subdirectory.
+:data:`sys.path` looking for the package subdirectory.
 
 The :file:`__init__.py` files are required to make Python treat directories
 containing the file as packages.  This prevents directories with a common name,

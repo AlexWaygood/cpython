@@ -1023,7 +1023,7 @@ also :func:`os.popen`, :func:`os.fdopen`, and the
 :meth:`~socket.socket.makefile` method of socket objects (and perhaps by
 other functions or methods provided by extension modules).
 
-The objects ``sys.stdin``, ``sys.stdout`` and ``sys.stderr`` are
+The objects :data:`sys.stdin`, :data:`sys.stdout` and :data:`sys.stderr` are
 initialized to file objects corresponding to the interpreter's standard
 input, output and error streams; they are all open in text mode and
 therefore follow the interface defined by the :class:`io.TextIOBase`
@@ -1339,13 +1339,13 @@ unwinds the execution stack, at each unwound level a traceback object is
 inserted in front of the current traceback.  When an exception handler is
 entered, the stack trace is made available to the program. (See section
 :ref:`try`.) It is accessible as the third item of the
-tuple returned by ``sys.exc_info()``, and as the ``__traceback__`` attribute
+tuple returned by :func:`sys.exc_info`, and as the ``__traceback__`` attribute
 of the caught exception.
 
 When the program contains no suitable
 handler, the stack trace is written (nicely formatted) to the standard error
 stream; if the interpreter is interactive, it is also made available to the user
-as ``sys.last_traceback``.
+as :data:`sys.last_traceback`.
 
 For explicitly created tracebacks, it is up to the creator of the traceback
 to determine how the ``tb_next`` attributes should be linked to form a
@@ -1564,7 +1564,7 @@ Basic customization
 
       Due to the precarious circumstances under which :meth:`__del__` methods are
       invoked, exceptions that occur during their execution are ignored, and a warning
-      is printed to ``sys.stderr`` instead.  In particular:
+      is printed to :data:`sys.stderr` instead.  In particular:
 
       * :meth:`__del__` can be invoked when arbitrary code is being executed,
         including from any arbitrary thread.  If :meth:`__del__` needs to take

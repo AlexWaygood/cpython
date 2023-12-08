@@ -617,12 +617,12 @@ exception state.
 The full exception state consists of three objects (all of which can  be
 ``NULL``): the exception type, the corresponding exception  value, and the
 traceback.  These have the same meanings as the Python result of
-``sys.exc_info()``; however, they are not the same: the Python objects represent
+:func:`sys.exc_info`; however, they are not the same: the Python objects represent
 the last exception being handled by a Python  :keyword:`try` ...
 :keyword:`except` statement, while the C level exception state only exists while
 an exception is being passed on between C functions until it reaches the Python
 bytecode interpreter's  main loop, which takes care of transferring it to
-``sys.exc_info()`` and friends.
+:func:`!sys.exc_info` and friends.
 
 .. index:: single: exc_info() (in module sys)
 
@@ -745,9 +745,9 @@ interpreter can only be used after the interpreter has been initialized.
 The basic initialization function is :c:func:`Py_Initialize`. This initializes
 the table of loaded modules, and creates the fundamental modules
 :mod:`builtins`, :mod:`__main__`, and :mod:`sys`.  It also
-initializes the module search path (``sys.path``).
+initializes the module search path (:data:`sys.path`).
 
-:c:func:`Py_Initialize` does not set the "script argument list"  (``sys.argv``).
+:c:func:`Py_Initialize` does not set the "script argument list"  (:data:`sys.argv`).
 If this variable is needed by Python code that will be executed later, setting
 :c:member:`PyConfig.argv` and :c:member:`PyConfig.parse_argv` must be set: see
 :ref:`Python Initialization Configuration <init-config>`.

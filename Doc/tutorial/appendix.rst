@@ -79,8 +79,8 @@ from a script, and not when :file:`/dev/tty` is given as the explicit source of
 commands (which otherwise behaves like an interactive session).  It is executed
 in the same namespace where interactive commands are executed, so that objects
 that it defines or imports can be used without qualification in the interactive
-session. You can also change the prompts ``sys.ps1`` and ``sys.ps2`` in this
-file.
+session. You can also change the prompts :data:`sys.ps1` and :data:`sys.ps2` in
+this file.
 
 If you want to read an additional start-up file from the current directory, you
 can program this in the global start-up file using code like ``if

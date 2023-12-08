@@ -339,9 +339,9 @@ Initializing and finalizing the interpreter
    :ref:`Before Python Initialization <pre-init-safe>` for the few exceptions.
 
    This initializes
-   the table of loaded modules (``sys.modules``), and creates the fundamental
+   the table of loaded modules (:data:`sys.modules`), and creates the fundamental
    modules :mod:`builtins`, :mod:`__main__` and :mod:`sys`.  It also initializes
-   the module search path (``sys.path``). It does not set ``sys.argv``; use
+   the module search path (:data:`sys.path`). It does not set :data:`sys.argv`; use
    the new :c:type:`PyConfig` API of the :ref:`Python Initialization
    Configuration <init-config>` for that.  This is a no-op when called for a
    second time
@@ -450,7 +450,7 @@ Process-wide parameters
    returned string points into static storage; the caller should not modify its
    value.  This corresponds to the :makevar:`prefix` variable in the top-level
    :file:`Makefile` and the :option:`--prefix` argument to the :program:`configure`
-   script at build time.  The value is available to Python code as ``sys.prefix``.
+   script at build time.  The value is available to Python code as :data:`sys.prefix`.
    It is only useful on Unix.  See also the next function.
 
    This function should not be called before :c:func:`Py_Initialize`, otherwise
@@ -473,7 +473,7 @@ Process-wide parameters
    should not modify its value.  This corresponds to the :makevar:`exec_prefix`
    variable in the top-level :file:`Makefile` and the ``--exec-prefix``
    argument to the :program:`configure` script at build  time.  The value is
-   available to Python code as ``sys.exec_prefix``.  It is only useful on Unix.
+   available to Python code as :data:`sys.exec_prefix`.  It is only useful on Unix.
 
    Background: The exec-prefix differs from the prefix when platform dependent
    files (such as executables and shared libraries) are installed in a different
@@ -516,7 +516,7 @@ Process-wide parameters
    side-effect of deriving the default module search path  from the program name
    (set by :c:member:`PyConfig.program_name`). The returned string points into
    static storage; the caller should not modify its value.  The value is available
-   to Python code as ``sys.executable``.
+   to Python code as :data:`sys.executable`.
 
    This function should not be called before :c:func:`Py_Initialize`, otherwise
    it returns ``NULL``.
@@ -583,7 +583,7 @@ Process-wide parameters
    also known as SunOS 5.x, the value is ``'sunos5'``.  On macOS, it is
    ``'darwin'``.  On Windows, it is ``'win'``.  The returned string points into
    static storage; the caller should not modify its value.  The value is available
-   to Python code as ``sys.platform``.
+   to Python code as :data:`sys.platform`.
 
 
 .. c:function:: const char* Py_GetCopyright()
@@ -595,7 +595,7 @@ Process-wide parameters
    .. index:: single: copyright (in module sys)
 
    The returned string points into static storage; the caller should not modify its
-   value.  The value is available to Python code as ``sys.copyright``.
+   value.  The value is available to Python code as :data:`sys.copyright`.
 
 
 .. c:function:: const char* Py_GetCompiler()
@@ -609,7 +609,7 @@ Process-wide parameters
 
    The returned string points into static storage; the caller should not modify its
    value.  The value is available to Python code as part of the variable
-   ``sys.version``.
+   :data:`sys.version`.
 
 
 .. c:function:: const char* Py_GetBuildInfo()
@@ -623,7 +623,7 @@ Process-wide parameters
 
    The returned string points into static storage; the caller should not modify its
    value.  The value is available to Python code as part of the variable
-   ``sys.version``.
+   :data:`sys.version`.
 
 
 .. c:function:: wchar_t* Py_GetPythonHome()
@@ -1350,10 +1350,11 @@ function. You can create and destroy them using the following functions:
    for the execution of Python code.  In particular, the new interpreter has
    separate, independent versions of all imported modules, including the
    fundamental modules :mod:`builtins`, :mod:`__main__` and :mod:`sys`.  The
-   table of loaded modules (``sys.modules``) and the module search path
-   (``sys.path``) are also separate.  The new environment has no ``sys.argv``
-   variable.  It has new standard I/O stream file objects ``sys.stdin``,
-   ``sys.stdout`` and ``sys.stderr`` (however these refer to the same underlying
+   table of loaded modules (:data:`sys.modules`) and the module search path
+   (:data:`sys.path`) are also separate.  The new environment has no
+   :data:`sys.argv` variable.  It has new standard I/O stream file objects
+   :data`sys.stdin`, :data:`sys.stdout` and :data:`sys.stderr`
+   (however these refer to the same underlying
    file descriptors).
 
    The given *config* controls the options with which the interpreter

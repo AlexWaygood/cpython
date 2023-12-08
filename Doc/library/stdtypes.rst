@@ -735,13 +735,13 @@ Here are the rules in detail:
 - If ``x = m / n`` is a nonnegative rational number and ``n`` is
   divisible by ``P`` (but ``m`` is not) then ``n`` has no inverse
   modulo ``P`` and the rule above doesn't apply; in this case define
-  ``hash(x)`` to be the constant value ``sys.hash_info.inf``.
+  ``hash(x)`` to be the constant value :attr:`sys.hash_info.inf`.
 
 - If ``x = m / n`` is a negative rational number define ``hash(x)``
   as ``-hash(-x)``.  If the resulting hash is ``-1``, replace it with
   ``-2``.
 
-- The particular values ``sys.hash_info.inf`` and ``-sys.hash_info.inf``
+- The particular values :attr:`sys.hash_info.inf` and :attr:`!-sys.hash_info.inf`
   are used as hash values for positive
   infinity or negative infinity (respectively).
 
@@ -5578,9 +5578,9 @@ When an operation would exceed the limit, a :exc:`ValueError` is raised:
    >>> assert int(hex(i_squared), base=16) == i*i  # Hexadecimal is unlimited.
 
 The default limit is 4300 digits as provided in
-:data:`sys.int_info.default_max_str_digits <sys.int_info>`.
+:attr:`sys.int_info.default_max_str_digits`.
 The lowest limit that can be configured is 640 digits as provided in
-:data:`sys.int_info.str_digits_check_threshold <sys.int_info>`.
+:attr:`sys.int_info.str_digits_check_threshold`.
 
 Verification:
 
@@ -5629,11 +5629,11 @@ command line flag to configure the limit:
   ``PYTHONINTMAXSTRDIGITS=0 python3`` to disable the limitation.
 * :option:`-X int_max_str_digits <-X>`, e.g.
   ``python3 -X int_max_str_digits=640``
-* :data:`sys.flags.int_max_str_digits` contains the value of
+* :attr:`sys.flags.int_max_str_digits` contains the value of
   :envvar:`PYTHONINTMAXSTRDIGITS` or :option:`-X int_max_str_digits <-X>`.
   If both the env var and the ``-X`` option are set, the ``-X`` option takes
   precedence. A value of *-1* indicates that both were unset, thus a value of
-  :data:`sys.int_info.default_max_str_digits` was used during initialization.
+  :attr:`sys.int_info.default_max_str_digits` was used during initialization.
 
 From code, you can inspect the current limit and set a new one using these
 :mod:`sys` APIs:
@@ -5644,9 +5644,9 @@ From code, you can inspect the current limit and set a new one using these
 
 Information about the default and minimum can be found in :data:`sys.int_info`:
 
-* :data:`sys.int_info.default_max_str_digits <sys.int_info>` is the compiled-in
+* :attr:`sys.int_info.default_max_str_digits` is the compiled-in
   default limit.
-* :data:`sys.int_info.str_digits_check_threshold <sys.int_info>` is the lowest
+* :attr:`sys.int_info.str_digits_check_threshold` is the lowest
   accepted value for the limit (other than 0 which disables it).
 
 .. versionadded:: 3.11
@@ -5670,7 +5670,7 @@ Information about the default and minimum can be found in :data:`sys.int_info`:
 Recommended configuration
 -------------------------
 
-The default :data:`sys.int_info.default_max_str_digits` is expected to be
+The default :attr:`sys.int_info.default_max_str_digits` is expected to be
 reasonable for most applications. If your application requires a different
 limit, set it from your main entry point using Python version agnostic code as
 these APIs were added in security patch releases in versions before 3.12.

@@ -68,7 +68,7 @@ always available.
    .. impl-detail::
 
       When tracing is enabled (see :func:`settrace`), Python hooks are only
-      traced if the callable has a ``__cantrace__`` member that is set to a
+      traced if the callable has a :attr:`!__cantrace__` member that is set to a
       true value. Otherwise, trace functions will skip the hook.
 
 
@@ -166,7 +166,7 @@ always available.
 
    A tuple of strings containing the names of all modules that are compiled into this
    Python interpreter.  (This information is not available in any other way ---
-   ``modules.keys()`` only lists the imported modules.)
+   :data:`sys.modules.keys() <sys.modules>` only lists the imported modules.)
 
    See also the :data:`sys.stdlib_module_names` list.
 
@@ -228,7 +228,7 @@ always available.
 
    .. versionchanged:: 3.12
       Each value in the dictionary is now a single exception instance, rather
-      than a 3-tuple as returned from ``sys.exc_info()``.
+      than a 3-tuple as returned from :func:`sys.exc_info`.
 
 .. function:: breakpointhook()
 
@@ -237,29 +237,29 @@ always available.
    function so that you can choose which debugger gets used.
 
    The signature of this function is dependent on what it calls.  For example,
-   the default binding (e.g. ``pdb.set_trace()``) expects no arguments, but
+   the default binding (e.g. :func:`pdb.set_trace`) expects no arguments, but
    you might bind it to a function that expects additional arguments
-   (positional and/or keyword).  The built-in ``breakpoint()`` function passes
+   (positional and/or keyword).  The built-in :func:`breakpoint` function passes
    its ``*args`` and ``**kws`` straight through.  Whatever
-   ``breakpointhooks()`` returns is returned from ``breakpoint()``.
+   :func:`!breakpointhook` returns is returned from :func:`!breakpoint`.
 
    The default implementation first consults the environment variable
    :envvar:`PYTHONBREAKPOINT`.  If that is set to ``"0"`` then this function
    returns immediately; i.e. it is a no-op.  If the environment variable is
-   not set, or is set to the empty string, ``pdb.set_trace()`` is called.
+   not set, or is set to the empty string, :func:`pdb.set_trace` is called.
    Otherwise this variable should name a function to run, using Python's
    dotted-import nomenclature, e.g. ``package.subpackage.module.function``.
    In this case, ``package.subpackage.module`` would be imported and the
    resulting module must have a callable named ``function()``.  This is run,
    passing in ``*args`` and ``**kws``, and whatever ``function()`` returns,
-   ``sys.breakpointhook()`` returns to the built-in :func:`breakpoint`
+   :func:`!sys.breakpointhook` returns to the built-in :func:`breakpoint`
    function.
 
    Note that if anything goes wrong while importing the callable named by
    :envvar:`PYTHONBREAKPOINT`, a :exc:`RuntimeWarning` is reported and the
    breakpoint is ignored.
 
-   Also note that if ``sys.breakpointhook()`` is overridden programmatically,
+   Also note that if :func:`!sys.breakpointhook` is overridden programmatically,
    :envvar:`PYTHONBREAKPOINT` is *not* consulted.
 
    .. versionadded:: 3.7
@@ -291,14 +291,14 @@ always available.
 .. function:: displayhook(value)
 
    If *value* is not ``None``, this function prints ``repr(value)`` to
-   ``sys.stdout``, and saves *value* in ``builtins._``. If ``repr(value)`` is
+   :data:`sys.stdout`, and saves *value* in ``builtins._``. If ``repr(value)`` is
    not encodable to ``sys.stdout.encoding`` with ``sys.stdout.errors`` error
    handler (which is probably ``'strict'``), encode it to
    ``sys.stdout.encoding`` with ``'backslashreplace'`` error handler.
 
-   ``sys.displayhook`` is called on the result of evaluating an :term:`expression`
+   :func:`!sys.displayhook` is called on the result of evaluating an :term:`expression`
    entered in an interactive Python session.  The display of these values can be
-   customized by assigning another one-argument function to ``sys.displayhook``.
+   customized by assigning another one-argument function to :func:`!sys.displayhook`.
 
    Pseudo-code::
 
@@ -382,14 +382,14 @@ always available.
 
 .. function:: excepthook(type, value, traceback)
 
-   This function prints out a given traceback and exception to ``sys.stderr``.
+   This function prints out a given traceback and exception to :data:`sys.stderr`.
 
    When an exception other than :exc:`SystemExit` is raised and uncaught, the interpreter calls
-   ``sys.excepthook`` with three arguments, the exception class, exception
+   :func:`!sys.excepthook` with three arguments, the exception class, exception
    instance, and a traceback object.  In an interactive session this happens just
    before control is returned to the prompt; in a Python program this happens just
    before the program exits.  The handling of such top-level exceptions can be
-   customized by assigning another three-argument function to ``sys.excepthook``.
+   customized by assigning another three-argument function to :func:`!sys.excepthook`.
 
    .. audit-event:: sys.excepthook hook,type,value,traceback sys.excepthook
 
@@ -398,11 +398,11 @@ always available.
       If no hook has been set, ``hook`` may be ``None``. If any hook raises
       an exception derived from :class:`RuntimeError` the call to the hook will
       be suppressed. Otherwise, the audit hook exception will be reported as
-      unraisable and ``sys.excepthook`` will be called.
+      unraisable and :func:`!sys.excepthook` will be called.
 
    .. seealso::
 
-      The :func:`sys.unraisablehook` function handles unraisable exceptions
+      The :func:`!sys.unraisablehook` function handles unraisable exceptions
       and the :func:`threading.excepthook` function handles exception raised
       by :func:`threading.Thread.run`.
 
@@ -428,7 +428,7 @@ always available.
 .. function:: exception()
 
    This function, when called while an exception handler is executing (such as
-   an ``except`` or ``except*`` clause), returns the exception instance that
+   an :ref:`except` or :ref:`except* <except_star>` clause), returns the exception instance that
    was caught by this handler. When exception handlers are nested within one
    another, only the exception handled by the innermost handler is accessible.
 
@@ -577,30 +577,31 @@ always available.
         - :option:`-X warn_default_encoding <-X>`
 
    .. versionchanged:: 3.2
-      Added ``quiet`` attribute for the new :option:`-q` flag.
+      Added the :attr:`quiet` attribute for the new :option:`-q` flag.
 
-   .. versionadded:: 3.2.3
-      The ``hash_randomization`` attribute.
+   .. versionchanged:: 3.2.3
+      Added the :attr:`hash_randomization` attribute.
 
    .. versionchanged:: 3.3
-      Removed obsolete ``division_warning`` attribute.
+      Removed the obsolete :attr:`!division_warning` attribute.
 
    .. versionchanged:: 3.4
-      Added ``isolated`` attribute for :option:`-I` ``isolated`` flag.
+      Added the :attr:`isolated` attribute for :option:`-I` ``isolated`` flag.
 
    .. versionchanged:: 3.7
-      Added the ``dev_mode`` attribute for the new :ref:`Python Development
-      Mode <devmode>` and the ``utf8_mode`` attribute for the new  :option:`-X`
+      Added the :attr:`dev_mode` attribute for the new :ref:`Python Development
+      Mode <devmode>` and the ``utf8_mode`` attribute for the new :option:`-X`
       ``utf8`` flag.
 
    .. versionchanged:: 3.10
-      Added ``warn_default_encoding`` attribute for :option:`-X` ``warn_default_encoding`` flag.
+      Added the :attr:`warn_default_encoding` attribute for the :option:`-X`
+      ``warn_default_encoding`` flag.
 
    .. versionchanged:: 3.11
-      Added the ``safe_path`` attribute for :option:`-P` option.
+      Added the :attr:`safe_path` attribute for the :option:`-P` option.
 
    .. versionchanged:: 3.11
-      Added the ``int_max_str_digits`` attribute.
+      Added the :attr:`int_max_str_digits` attribute.
 
 
 .. data:: float_info
@@ -860,7 +861,7 @@ always available.
    If given, *default* will be returned if the object does not provide means to
    retrieve the size.  Otherwise a :exc:`TypeError` will be raised.
 
-   :func:`getsizeof` calls the object's ``__sizeof__`` method and adds an
+   :func:`getsizeof` calls the object's :meth:`!__sizeof__` method and adds an
    additional garbage collector overhead if the object is managed by the garbage
    collector.
 
@@ -1076,7 +1077,7 @@ always available.
    :term:`named tuple`  :data:`sys.version_info` may be used for a more
    human-friendly encoding of the same information.
 
-   More details of ``hexversion`` can be found at :ref:`apiabiversion`.
+   More details of :func:`!hexversion` can be found at :ref:`apiabiversion`.
 
 
 .. data:: implementation
@@ -1085,29 +1086,37 @@ always available.
    currently running Python interpreter.  The following attributes are
    required to exist in all Python implementations.
 
-   *name* is the implementation's identifier, e.g. ``'cpython'``.  The actual
-   string is defined by the Python implementation, but it is guaranteed to be
-   lower case.
+   .. attribute:: sys.implementation.name
 
-   *version* is a named tuple, in the same format as
-   :data:`sys.version_info`.  It represents the version of the Python
-   *implementation*.  This has a distinct meaning from the specific
-   version of the Python *language* to which the currently running
-   interpreter conforms, which ``sys.version_info`` represents.  For
-   example, for PyPy 1.8 ``sys.implementation.version`` might be
-   ``sys.version_info(1, 8, 0, 'final', 0)``, whereas ``sys.version_info``
-   would be ``sys.version_info(2, 7, 2, 'final', 0)``.  For CPython they
-   are the same value, since it is the reference implementation.
+      The implementation's identifier, e.g. ``'cpython'``.  The actual
+      string is defined by the Python implementation, but it is guaranteed to be
+      lower case.
 
-   *hexversion* is the implementation version in hexadecimal format, like
-   :data:`sys.hexversion`.
+   .. attribute:: sys.implementation.version
 
-   *cache_tag* is the tag used by the import machinery in the filenames of
-   cached modules.  By convention, it would be a composite of the
-   implementation's name and version, like ``'cpython-33'``.  However, a
-   Python implementation may use some other value if appropriate.  If
-   ``cache_tag`` is set to ``None``, it indicates that module caching should
-   be disabled.
+      A named tuple, in the same format as
+      :data:`sys.version_info`.  It represents the version of the Python
+      *implementation*.  This has a distinct meaning from the specific
+      version of the Python *language* to which the currently running
+      interpreter conforms, which :data:`!sys.version_info` represents.  For
+      example, for PyPy 1.8 ``sys.implementation.version`` might be
+      ``sys.version_info(1, 8, 0, 'final', 0)``, whereas :data:`!sys.version_info`
+      would be ``sys.version_info(2, 7, 2, 'final', 0)``.  For CPython they
+      are the same value, since it is the reference implementation.
+
+   .. attribute:: sys.implementation.hexversion*
+
+      The implementation version in hexadecimal format, like
+      :data:`sys.hexversion`.
+
+   .. attribute:: sys.implementation.cache_tag
+
+      The tag used by the import machinery in the filenames of
+      cached modules.  By convention, it would be a composite of the
+      implementation's name and version, like ``'cpython-33'``.  However, a
+      Python implementation may use some other value if appropriate.  If
+      ``cache_tag`` is set to ``None``, it indicates that module caching should
+      be disabled.
 
    :data:`sys.implementation` may contain additional attributes specific to
    the Python implementation.  These non-standard attributes must start with
@@ -1222,7 +1231,7 @@ always available.
           last_traceback
 
    These three variables are deprecated; use :data:`sys.last_exc` instead.
-   They hold the legacy representation of ``sys.last_exc``, as returned
+   They hold the legacy representation of :data:`!sys.last_exc`, as returned
    from :func:`exc_info` above.
 
 .. data:: maxsize
@@ -1238,7 +1247,7 @@ always available.
    i.e. ``1114111`` (``0x10FFFF`` in hexadecimal).
 
    .. versionchanged:: 3.3
-      Before :pep:`393`, ``sys.maxunicode`` used to be either ``0xFFFF``
+      Before :pep:`393`, :data:`!sys.maxunicode` used to be either ``0xFFFF``
       or ``0x10FFFF``, depending on the configuration option that specified
       whether Unicode characters were stored as UCS-2 or UCS-4.
 
@@ -1382,13 +1391,13 @@ always available.
       On Linux, :data:`sys.platform` doesn't contain the major version anymore.
       It is always ``'linux'``, instead of ``'linux2'`` or ``'linux3'``.  Since
       older Python versions include the version number, it is recommended to
-      always use the ``startswith`` idiom presented above.
+      always use the :meth:`~str.startswith` idiom presented above.
 
    .. versionchanged:: 3.8
       On AIX, :data:`sys.platform` doesn't contain the major version anymore.
       It is always ``'aix'``, instead of ``'aix5'`` or ``'aix7'``.  Since
       older Python versions include the version number, it is recommended to
-      always use the ``startswith`` idiom presented above.
+      always use the :meth:`~str.startswith` idiom presented above.
 
    .. seealso::
 
@@ -1405,7 +1414,7 @@ always available.
    path of standard library and the paths of installed extension modules.
 
    It is equal to ``"lib"`` on most platforms. On Fedora and SuSE, it is equal
-   to ``"lib64"`` on 64-bit platforms which gives the following ``sys.path``
+   to ``"lib64"`` on 64-bit platforms which gives the following :data:`sys.path`
    paths (where ``X.Y`` is the Python ``major.minor`` version):
 
    * ``/usr/lib64/pythonX.Y/``:
@@ -1754,11 +1763,11 @@ always available.
    :term:`File objects <file object>` used by the interpreter for standard
    input, output and errors:
 
-   * ``stdin`` is used for all interactive input (including calls to
+   * :data:`!stdin` is used for all interactive input (including calls to
      :func:`input`);
-   * ``stdout`` is used for the output of :func:`print` and :term:`expression`
+   * :data:`!stdout` is used for the output of :func:`print` and :term:`expression`
      statements and for the prompts of :func:`input`;
-   * The interpreter's own prompts and its error messages go to ``stderr``.
+   * The interpreter's own prompts and its error messages go to :data:`!stderr`.
 
    These streams are regular :term:`text files <text file>` like those
    returned by the :func:`open` function.  Their parameters are chosen as
@@ -1788,14 +1797,14 @@ always available.
      for the Windows console, this only applies when
      :envvar:`PYTHONLEGACYWINDOWSSTDIO` is also set.
 
-   * When interactive, the ``stdout`` stream is line-buffered. Otherwise,
-     it is block-buffered like regular text files.  The ``stderr`` stream
+   * When interactive, the :data:`!stdout` stream is line-buffered. Otherwise,
+     it is block-buffered like regular text files.  The :data:`!stderr` stream
      is line-buffered in both cases.  You can make both streams unbuffered
      by passing the :option:`-u` command-line option or setting the
      :envvar:`PYTHONUNBUFFERED` environment variable.
 
    .. versionchanged:: 3.9
-      Non-interactive ``stderr`` is now line-buffered instead of fully
+      Non-interactive :data:`!stderr` is now line-buffered instead of fully
       buffered.
 
    .. note::
@@ -1814,8 +1823,9 @@ always available.
           __stdout__
           __stderr__
 
-   These objects contain the original values of ``stdin``, ``stderr`` and
-   ``stdout`` at the start of the program.  They are used during finalization,
+   These objects contain the original values of :data:`sys.stdin`,
+   :data:`sys.stderr` and
+   :data:`stdout` at the start of the program.  They are used during finalization,
    and could be useful to print to the actual standard stream no matter if the
    ``sys.std*`` object has been redirected.
 
@@ -1825,8 +1835,9 @@ always available.
    replacing it, and restore the saved object.
 
    .. note::
-       Under some conditions ``stdin``, ``stdout`` and ``stderr`` as well as the
-       original values ``__stdin__``, ``__stdout__`` and ``__stderr__`` can be
+       Under some conditions :data:`sys.stdin`, :data:`sys.stdout` and
+       :data:`sys.stderr` as well as the original values :data:`!__stdin__`,
+       :data:`!__stdout__` and :data:`!__stderr__` can be
        ``None``. It is usually the case for Windows GUI apps that aren't connected
        to a console and Python apps started with :program:`pythonw`.
 
@@ -1841,8 +1852,8 @@ always available.
    modules. Test modules are excluded.
 
    For packages, only the main package is listed: sub-packages and sub-modules
-   are not listed. For example, the ``email`` package is listed, but the
-   ``email.mime`` sub-package and the ``email.message`` sub-module are not
+   are not listed. For example, the :mod:`email` package is listed, but the
+   :mod:`email.mime` sub-package and the :mod:`email.message` sub-module are not
    listed.
 
    See also the :data:`sys.builtin_module_names` list.
@@ -1957,7 +1968,7 @@ always available.
    integers; the release level is ``'alpha'``, ``'beta'``, ``'candidate'``, or
    ``'final'``.  The ``version_info`` value corresponding to the Python version 2.0
    is ``(2, 0, 0, 'final', 0)``.  The components can also be accessed by name,
-   so ``sys.version_info[0]`` is equivalent to ``sys.version_info.major``
+   so ``sys.version_info[0]`` is equivalent to :attr:`sys.version_info.major`
    and so on.
 
    .. versionchanged:: 3.1
