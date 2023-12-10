@@ -170,6 +170,11 @@ nitpick_ignore = [
     # (implementation details of `os.path`):
     ('py:mod', 'ntpath'),
     ('py:mod', 'posixpath'),
+    # Things that were removed in earlier versions of Python:
+    ('py:mod', 'asyncore'),
+    ('py:mod', 'asynchat'),
+    ('py:mod', 'distutils'),
+    ('py:mod', 'smtpd'),
 ]
 
 # Temporary undocumented names.
