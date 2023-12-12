@@ -1680,10 +1680,10 @@ always available.
 .. function:: set_coroutine_origin_tracking_depth(depth)
 
    Allows enabling or disabling coroutine origin tracking. When
-   enabled, the ``cr_origin`` attribute on coroutine objects will
+   enabled, the :attr:`~coroutine.cr_origin` attribute on coroutine objects will
    contain a tuple of (filename, line number, function name) tuples
    describing the traceback where the coroutine object was created,
-   with the most recent call first. When disabled, ``cr_origin`` will
+   with the most recent call first. When disabled, :attr:`!cr_origin` will
    be None.
 
    To enable, pass a *depth* value greater than zero; this sets the

@@ -1523,8 +1523,8 @@ generator to be determined easily.
 
    Get current state of a coroutine object.  The function is intended to be
    used with coroutine objects created by :keyword:`async def` functions, but
-   will accept any coroutine-like object that has ``cr_running`` and
-   ``cr_frame`` attributes.
+   will accept any coroutine-like object that has :attr:`~coroutine.cr_running`
+   and :attr:`~coroutine.cr_frame` attributes.
 
    Possible states are:
 

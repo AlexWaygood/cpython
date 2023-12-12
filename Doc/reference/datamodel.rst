@@ -3325,6 +3325,38 @@ generators, coroutines do not directly support iteration.
    It is a :exc:`RuntimeError` to await on a coroutine more than once.
 
 
+Special read-only attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+
+   * - .. attribute:: coroutine.cr_await
+     - The object being awaited on, or ``None``
+
+   * - .. attribute:: coroutine.cr_frame
+     - The :ref:`frame object <frame-objects>` of the coroutine
+
+   * - .. attribute:: coroutine.cr_running
+     - Whether the coroutine is currently running
+
+   * - .. attribute:: coroutine.cr_code
+     - The :ref:`code object <code-objects>` of the coroutine
+
+   * - .. attribute:: coroutine.cr_origin
+     - Where the coroutine was created, or ``None``.
+       See :func:`sys.set_coroutine_origin_tracking_depth`.
+
+       .. versionadded:: 3.7
+
+   * - .. attribute:: coroutine.cr_suspended
+     - Whether the coroutine is currently suspended
+
+       .. versionadded:: 3.11
+
+
+Coroutine methods
+~~~~~~~~~~~~~~~~~
+
 .. method:: coroutine.send(value)
 
    Starts or resumes execution of the coroutine.  If *value* is ``None``,
