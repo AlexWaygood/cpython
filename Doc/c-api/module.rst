@@ -37,10 +37,11 @@ Module Objects
       single: __package__ (module attribute)
       single: __loader__ (module attribute)
 
-   Return a new module object with the :attr:`__name__` attribute set to *name*.
-   The module's :attr:`__name__`, :attr:`__doc__`, :attr:`__package__`, and
-   :attr:`__loader__` attributes are filled in (all but :attr:`__name__` are set
-   to ``None``); the caller is responsible for providing a :attr:`__file__`
+   Return a new module object with the :attr:`~module.__name__` attribute set
+   to *name*. The module's :attr:`!__name__`, :attr:`~module.__doc__`,
+   :attr:`__package__`, and :attr:`__loader__` attributes are filled in
+   (all but :attr:`!__name__` are set to ``None``);
+   the caller is responsible for providing a :attr:`~module.__file__`
    attribute.
 
    .. versionadded:: 3.3
@@ -60,13 +61,13 @@ Module Objects
    .. index:: single: __dict__ (module attribute)
 
    Return the dictionary object that implements *module*'s namespace; this object
-   is the same as the :attr:`~object.__dict__` attribute of the module object.
+   is the same as the :attr:`~module.__dict__` attribute of the module object.
    If *module* is not a module object (or a subtype of a module object),
    :exc:`SystemError` is raised and ``NULL`` is returned.
 
    It is recommended extensions use other ``PyModule_*`` and
    ``PyObject_*`` functions rather than directly manipulate a module's
-   :attr:`~object.__dict__`.
+   :attr:`~module.__dict__`.
 
 
 .. c:function:: PyObject* PyModule_GetNameObject(PyObject *module)
@@ -75,7 +76,8 @@ Module Objects
       single: __name__ (module attribute)
       single: SystemError (built-in exception)
 
-   Return *module*'s :attr:`__name__` value.  If the module does not provide one,
+   Return *module*'s :attr:`~module.__name__` value.
+   If the module does not provide one,
    or if it is not a string, :exc:`SystemError` is raised and ``NULL`` is returned.
 
    .. versionadded:: 3.3
@@ -106,7 +108,7 @@ Module Objects
       single: SystemError (built-in exception)
 
    Return the name of the file from which *module* was loaded using *module*'s
-   :attr:`__file__` attribute.  If this is not defined, or if it is not a
+   :attr:`~module.__file__` attribute.  If this is not defined, or if it is not a
    unicode string, raise :exc:`SystemError` and return ``NULL``; otherwise return
    a reference to a Unicode object.
 
@@ -293,7 +295,7 @@ By default, multiple modules created from the same definition should be
 independent: changes to one should not affect the others.
 This means that all state should be specific to the module object (using e.g.
 using :c:func:`PyModule_GetState`), or its contents (such as the module's
-:attr:`~object.__dict__` or individual classes created with :c:func:`PyType_FromSpec`).
+:attr:`~module.__dict__` or individual classes created with :c:func:`PyType_FromSpec`).
 
 All modules created using multi-phase initialization are expected to support
 :ref:`sub-interpreters <sub-interpreter-support>`. Making sure multiple modules

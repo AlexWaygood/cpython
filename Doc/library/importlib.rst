@@ -355,14 +355,9 @@ ABC hierarchy::
         (note that some of these attributes can change when a module is
         reloaded):
 
-        - :attr:`__name__`
-            The module's fully qualified name.
-            It is ``'__main__'`` for an executed module.
+        - :attr:`~module.__name__`
 
-        - :attr:`__file__`
-            The location the :term:`loader` used to load the module.
-            For example, for modules loaded from a .py file this is the filename.
-            It is not set on all modules (e.g. built-in modules).
+        - :attr:`~module.__file__`
 
         - :attr:`__cached__`
             The filename of a compiled version of the module's code.
@@ -418,7 +413,8 @@ ABC hierarchy::
         can implement this abstract method to give direct access
         to the data stored. :exc:`OSError` is to be raised if the *path* cannot
         be found. The *path* is expected to be constructed using a module's
-        :attr:`__file__` attribute or an item from a package's :attr:`__path__`.
+        :attr:`~module.__file__` attribute or an item from a package's
+        :attr:`__path__`.
 
         .. versionchanged:: 3.4
            Raises :exc:`OSError` instead of :exc:`NotImplementedError`.
@@ -505,7 +501,8 @@ ABC hierarchy::
 
     .. abstractmethod:: get_filename(fullname)
 
-        An abstract method that is to return the value of :attr:`__file__` for
+        An abstract method that is to return the value of
+        :attr:`~module.__file__` for
         the specified module. If no path is available, :exc:`ImportError` is
         raised.
 
@@ -1150,15 +1147,17 @@ find and load modules.
    A concrete implementation of :class:`importlib.abc.InspectLoader` for
    namespace packages.  This is an alias for a private class and is only made
    public for introspecting the ``__loader__`` attribute on namespace
-   packages::
+   packages:
 
-       >>> from importlib.machinery import NamespaceLoader
-       >>> import my_namespace
-       >>> isinstance(my_namespace.__loader__, NamespaceLoader)
-       True
-       >>> import importlib.abc
-       >>> isinstance(my_namespace.__loader__, importlib.abc.Loader)
-       True
+   .. doctest::
+
+      >>> from importlib.machinery import NamespaceLoader
+      >>> import my_namespace
+      >>> isinstance(my_namespace.__loader__, NamespaceLoader)
+      True
+      >>> import importlib.abc
+      >>> isinstance(my_namespace.__loader__, importlib.abc.Loader)
+      True
 
    .. versionadded:: 3.11
 
@@ -1172,73 +1171,73 @@ find and load modules.
    e.g. ``module.__spec__.origin == module.__file__``.  Note, however, that
    while the *values* are usually equivalent, they can differ since there is
    no synchronization between the two objects.  For example, it is possible to update
-   the module's :attr:`__file__` at runtime and this will not be automatically
+   the module's :attr:`~module.__file__` at runtime and this will not be automatically
    reflected in the module's :attr:`__spec__.origin`, and vice versa.
 
    .. versionadded:: 3.4
 
    .. attribute:: name
 
-   (:attr:`__name__`)
+      (:attr:`__name__`)
 
-   The module's fully qualified name.
-   The :term:`finder` should always set this attribute to a non-empty string.
+      The module's fully qualified name.
+      The :term:`finder` should always set this attribute to a non-empty string.
 
    .. attribute:: loader
 
-   (:attr:`__loader__`)
+      (:attr:`__loader__`)
 
-   The :term:`loader` used to load the module.
-   The :term:`finder` should always set this attribute.
+      The :term:`loader` used to load the module.
+      The :term:`finder` should always set this attribute.
 
    .. attribute:: origin
 
-   (:attr:`__file__`)
+      (:attr:`__file__`)
 
-   The location the :term:`loader` should use to load the module.
-   For example, for modules loaded from a .py file this is the filename.
-   The :term:`finder` should always set this attribute to a meaningful value
-   for the :term:`loader` to use.  In the uncommon case that there is not one
-   (like for namespace packages), it should be set to ``None``.
+      The location the :term:`loader` should use to load the module.
+      For example, for modules loaded from a .py file this is the filename.
+      The :term:`finder` should always set this attribute to a meaningful value
+      for the :term:`loader` to use.  In the uncommon case that there is not one
+      (like for namespace packages), it should be set to ``None``.
 
    .. attribute:: submodule_search_locations
 
-   (:attr:`__path__`)
+      (:attr:`__path__`)
 
-   The list of locations where the package's submodules will be found.
-   Most of the time this is a single directory.
-   The :term:`finder` should set this attribute to a list, even an empty one, to indicate
-   to the import system that the module is a package.  It should be set to ``None`` for
-   non-package modules.  It is set automatically later to a special object for
-   namespace packages.
+      The list of locations where the package's submodules will be found.
+      Most of the time this is a single directory.
+      The :term:`finder` should set this attribute to a list, even an empty one, to indicate
+      to the import system that the module is a package.  It should be set to ``None`` for
+      non-package modules.  It is set automatically later to a special object for
+      namespace packages.
 
    .. attribute:: loader_state
 
-   The :term:`finder` may set this attribute to an object containing additional,
-   module-specific data to use when loading the module.  Otherwise it should be
-   set to ``None``.
+      The :term:`finder` may set this attribute to an object containing additional,
+      module-specific data to use when loading the module.  Otherwise it should be
+      set to ``None``.
 
    .. attribute:: cached
 
-   (:attr:`__cached__`)
+      (:attr:`__cached__`)
 
-   The filename of a compiled version of the module's code.
-   The :term:`finder` should always set this attribute but it may be ``None``
-   for modules that do not need compiled code stored.
+      The filename of a compiled version of the module's code.
+      The :term:`finder` should always set this attribute but it may be ``None``
+      for modules that do not need compiled code stored.
 
    .. attribute:: parent
 
-   (:attr:`__package__`)
+      (:attr:`__package__`)
 
-   (Read-only) The fully qualified name of the package the module is in (or the
-   empty string for a top-level module).
-   If the module is a package then this is the same as :attr:`name`.
+      (Read-only) The fully qualified name of the package the module is in (or the
+      empty string for a top-level module).
+      If the module is a package then this is the same as :attr:`name`.
 
    .. attribute:: has_location
 
-   ``True`` if the spec's :attr:`origin` refers to a loadable location,
-    ``False`` otherwise.  This value impacts how :attr:`origin` is interpreted
-    and how the module's :attr:`__file__` is populated.
+      ``True`` if the spec's :attr:`origin` refers to a loadable location,
+      ``False`` otherwise.  This value impacts how :attr:`origin` is interpreted
+      and how the module's :attr:`__file__` is populated.
 
 
 :mod:`importlib.util` -- Utility code for importers

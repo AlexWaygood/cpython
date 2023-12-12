@@ -94,11 +94,12 @@ The top-level code environment can be:
      Explicit is better than implicit.
      ...
 
-In each of these situations, the top-level module's ``__name__`` is set to
-``'__main__'``.
+In each of these situations, the top-level module's :attr:`~module.__name__` is
+set to ``'__main__'``.
 
 As a result, a module can discover whether or not it is running in the
-top-level environment by checking its own ``__name__``, which allows a common
+top-level environment by checking its own :attr:`~module.__name__`,
+which allows a common
 idiom for conditionally executing code when the module is not initialized from
 an import statement::
 
@@ -108,8 +109,8 @@ an import statement::
 
 .. seealso::
 
-   For a more detailed look at how ``__name__`` is set in all situations, see
-   the tutorial section :ref:`tut-modules`.
+   For a more detailed look at how :attr:`~module.__name__` is set in all
+   situations, see the tutorial section :ref:`tut-modules`.
 
 
 Idiomatic Usage
@@ -244,7 +245,7 @@ short and import functions to execute from other modules.  Those other modules c
 easily unit-tested and are properly reusable.
 
 If used, an ``if __name__ == '__main__'`` block will still work as expected
-for a ``__main__.py`` file within a package, because its ``__name__``
+for a ``__main__.py`` file within a package, because its :attr:`~module.__name__`
 attribute will include the package's path if imported::
 
     >>> import asyncio.__main__
@@ -361,8 +362,8 @@ defined in the REPL becomes part of the ``__main__`` scope::
     >>> namely.print_user_name()
     Jabberwocky
 
-Note that in this case the ``__main__`` scope doesn't contain a ``__file__``
-attribute as it's interactive.
+Note that in this case the ``__main__`` scope doesn't contain a
+:attr:`~module.__file__` attribute as it's interactive.
 
 The ``__main__`` scope is used in the implementation of :mod:`pdb` and
 :mod:`rlcompleter`.

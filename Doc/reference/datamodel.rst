@@ -882,39 +882,48 @@ Attribute assignment updates the module's namespace dictionary, e.g.,
 
 Predefined (writable) attributes:
 
-   :attr:`__name__`
-      The module's name.
+.. list-table::
 
-   :attr:`__doc__`
-      The module's documentation string, or ``None`` if
-      unavailable.
+   * - .. attribute:: module.__name__
+     - The module's name.
+       See also: :attr:`__name__ attributes <definition.__name__>`.
 
-   :attr:`__file__`
-      The pathname of the file from which the
-      module was loaded, if it was loaded from a file.
-      The :attr:`__file__`
-      attribute may be missing for certain types of modules, such as C modules
-      that are statically linked into the interpreter.  For extension modules
-      loaded dynamically from a shared library, it's the pathname of the shared
-      library file.
+   * - .. attribute:: module.__doc__
+     - The module's documentation string, or ``None`` if
+       unavailable.
 
-   :attr:`__annotations__`
-      A dictionary containing
-      :term:`variable annotations <variable annotation>` collected during
-      module body execution.  For best practices on working
-      with :attr:`__annotations__`, please see :ref:`annotations-howto`.
+   * - .. attribute:: module.__file__
+     - The pathname of the file from which the
+       module was loaded, if it was loaded from a file.
+
+       The :attr:`!__file__`
+       attribute may be missing for certain types of modules, such as C modules
+       that are statically linked into the interpreter.  For extension modules
+       loaded dynamically from a shared library, it's the pathname of the shared
+       library file.
+
+   * - .. attribute:: module.__annotations__
+     - A dictionary containing
+       :term:`variable annotations <variable annotation>` collected during
+       module body execution.
+
+       For best practices on working
+       with :attr:`!__annotations__`, see :ref:`annotations-howto`.
 
 .. index:: single: __dict__ (module attribute)
 
-Special read-only attribute: :attr:`~object.__dict__` is the module's
-namespace as a dictionary object.
+.. attribute:: module.__dict__
 
-.. impl-detail::
+   The special read-only attribute :attr:!__dict__` is the module's namespace
+   as a dictionary object.
+   See also: :attr:`__dict__ attributes <object.__dict__>`.
 
-   Because of the way CPython clears module dictionaries, the module
-   dictionary will be cleared when the module falls out of scope even if the
-   dictionary still has live references.  To avoid this, copy the dictionary
-   or keep the module around while using its dictionary directly.
+   .. impl-detail::
+
+      Because of the way CPython clears module dictionaries, the module
+      dictionary will be cleared when the module falls out of scope even if the
+      dictionary still has live references.  To avoid this, copy the dictionary
+      or keep the module around while using its dictionary directly.
 
 
 Custom classes
