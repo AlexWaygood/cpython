@@ -1,0 +1,960 @@
+diff --git a/Lib/_pydatetime.py b/Lib/_pydatetime.py
+index bca2acf1fc..657544aa47 100644
+--- a/Lib/_pydatetime.py
++++ b/Lib/_pydatetime.py
+@@ -600,7 +600,7 @@ class timedelta:
+     # arbitrarily; the exact rationale originally specified in the docstring
+     # was "Because I felt like it."
+ 
+-    __slots__ = '_days', '_seconds', '_microseconds', '_hashcode'
++    __slots__ = '_days', '_hashcode', '_microseconds', '_seconds'
+ 
+     def __new__(cls, days=0, seconds=0, microseconds=0,
+                 milliseconds=0, minutes=0, hours=0, weeks=0):
+@@ -931,7 +931,7 @@ class date:
+     Properties (readonly):
+     year, month, day
+     """
+-    __slots__ = '_year', '_month', '_day', '_hashcode'
++    __slots__ = '_day', '_hashcode', '_month', '_year'
+ 
+     def __new__(cls, year, month=None, day=None):
+         """Constructor.
+@@ -1346,7 +1346,7 @@ class time:
+     Properties (readonly):
+     hour, minute, second, microsecond, tzinfo, fold
+     """
+-    __slots__ = '_hour', '_minute', '_second', '_microsecond', '_tzinfo', '_hashcode', '_fold'
++    __slots__ = '_fold', '_hashcode', '_hour', '_microsecond', '_minute', '_second', '_tzinfo'
+ 
+     def __new__(cls, hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, fold=0):
+         """Constructor.
+@@ -2328,7 +2328,7 @@ def _isoweek1monday(year):
+ 
+ 
+ class timezone(tzinfo):
+-    __slots__ = '_offset', '_name'
++    __slots__ = '_name', '_offset'
+ 
+     # Sentinel value to disallow None
+     _Omitted = object()
+diff --git a/Lib/_pydecimal.py b/Lib/_pydecimal.py
+index 2692f2fcba..cd7929407d 100644
+--- a/Lib/_pydecimal.py
++++ b/Lib/_pydecimal.py
+@@ -523,7 +523,7 @@ def sin(x):
+ class Decimal(object):
+     """Floating point class for decimal arithmetic."""
+ 
+-    __slots__ = ('_exp','_int','_sign', '_is_special')
++    __slots__ = ('_exp', '_int', '_is_special', '_sign')
+     # Generally, the value of the Decimal instance is given by
+     #  (-1)**_sign * _int * 10**_exp
+     # Special values are signified by _is_special == True
+@@ -5626,7 +5626,7 @@ def to_integral_value(self, a):
+     to_integral = to_integral_value
+ 
+ class _WorkRep(object):
+-    __slots__ = ('sign','int','exp')
++    __slots__ = ('exp', 'int', 'sign')
+     # sign: 0 or 1
+     # int:  int
+     # exp:  None, int, or string
+diff --git a/Lib/_threading_local.py b/Lib/_threading_local.py
+index b006d76c4e..3acba9e055 100644
+--- a/Lib/_threading_local.py
++++ b/Lib/_threading_local.py
+@@ -145,7 +145,7 @@
+ 
+ class _localimpl:
+     """A class managing thread-local dicts"""
+-    __slots__ = 'key', 'dicts', 'localargs', 'locallock', '__weakref__'
++    __slots__ = '__weakref__', 'dicts', 'key', 'localargs', 'locallock'
+ 
+     def __init__(self):
+         # The key used in the Thread objects' attribute dicts.
+@@ -202,7 +202,7 @@ def _patch(self):
+ 
+ 
+ class local:
+-    __slots__ = '_local__impl', '__dict__'
++    __slots__ = '__dict__', '_local__impl'
+ 
+     def __new__(cls, /, *args, **kw):
+         if (args or kw) and (cls.__init__ is object.__init__):
+diff --git a/Lib/asyncio/events.py b/Lib/asyncio/events.py
+index 072a99fee1..772cc2f221 100644
+--- a/Lib/asyncio/events.py
++++ b/Lib/asyncio/events.py
+@@ -29,9 +29,15 @@
+ class Handle:
+     """Object returned by callback registration methods."""
+ 
+-    __slots__ = ('_callback', '_args', '_cancelled', '_loop',
+-                 '_source_traceback', '_repr', '__weakref__',
+-                 '_context')
++    __slots__ = (
++        '__weakref__',
++        '_args',
++        '_callback',
++        '_cancelled',
++        '_context',
++        '_loop',
++        '_repr',
++        '_source_traceback')
+ 
+     def __init__(self, callback, args, loop, context=None):
+         if context is None:
+diff --git a/Lib/asyncio/transports.py b/Lib/asyncio/transports.py
+index 30fd41d49a..f3e641cb53 100644
+--- a/Lib/asyncio/transports.py
++++ b/Lib/asyncio/transports.py
+@@ -265,7 +265,7 @@ class _FlowControlMixin(Transport):
+     resume_writing() may be called.
+     """
+ 
+-    __slots__ = ('_loop', '_protocol_paused', '_high_water', '_low_water')
++    __slots__ = ('_high_water', '_loop', '_low_water', '_protocol_paused')
+ 
+     def __init__(self, extra=None, loop=None):
+         super().__init__(extra)
+diff --git a/Lib/collections/__init__.py b/Lib/collections/__init__.py
+index 2e527dfd81..62f76b903d 100644
+--- a/Lib/collections/__init__.py
++++ b/Lib/collections/__init__.py
+@@ -78,7 +78,7 @@ def __reversed__(self):
+             yield self._mapping[key]
+ 
+ class _Link(object):
+-    __slots__ = 'prev', 'next', 'key', '__weakref__'
++    __slots__ = '__weakref__', 'key', 'next', 'prev'
+ 
+ class OrderedDict(dict):
+     'Dictionary that remembers insertion order'
+diff --git a/Lib/dataclasses.py b/Lib/dataclasses.py
+index 2fba32b5ff..84e4905862 100644
+--- a/Lib/dataclasses.py
++++ b/Lib/dataclasses.py
+@@ -293,18 +293,19 @@ def __class_getitem__(cls, type):
+ # When cls._FIELDS is filled in with a list of Field objects, the name
+ # and type fields will have been populated.
+ class Field:
+-    __slots__ = ('name',
+-                 'type',
+-                 'default',
+-                 'default_factory',
+-                 'repr',
+-                 'hash',
+-                 'init',
+-                 'compare',
+-                 'metadata',
+-                 'kw_only',
+-                 '_field_type',  # Private: not to be used by user code.
+-                 )
++    __slots__ = (
++        '_field_type',  # Private: not to be used by user code.
++        'compare',
++        'default',
++        'default_factory',
++        'hash',
++        'init',
++        'kw_only',
++        'metadata',
++        'name',
++        'repr',
++        'type',
++    )
+ 
+     def __init__(self, default, default_factory, init, repr, hash, compare,
+                  metadata, kw_only):
+@@ -357,17 +358,18 @@ def __set_name__(self, owner, name):
+ 
+ 
+ class _DataclassParams:
+-    __slots__ = ('init',
+-                 'repr',
+-                 'eq',
+-                 'order',
+-                 'unsafe_hash',
+-                 'frozen',
+-                 'match_args',
+-                 'kw_only',
+-                 'slots',
+-                 'weakref_slot',
+-                 )
++    __slots__ = (
++        'eq',
++        'frozen',
++        'init',
++        'kw_only',
++        'match_args',
++        'order',
++        'repr',
++        'slots',
++        'unsafe_hash',
++        'weakref_slot',
++    )
+ 
+     def __init__(self,
+                  init, repr, eq, order, unsafe_hash, frozen,
+diff --git a/Lib/fractions.py b/Lib/fractions.py
+index 389ab386b6..f4f524d66e 100644
+--- a/Lib/fractions.py
++++ b/Lib/fractions.py
+@@ -197,7 +197,7 @@ class Fraction(numbers.Rational):
+ 
+     """
+ 
+-    __slots__ = ('_numerator', '_denominator')
++    __slots__ = ('_denominator', '_numerator')
+ 
+     # We're immutable, so use __new__ not __init__
+     def __new__(cls, numerator=0, denominator=None):
+diff --git a/Lib/functools.py b/Lib/functools.py
+index 55990e742b..a936d85185 100644
+--- a/Lib/functools.py
++++ b/Lib/functools.py
+@@ -279,7 +279,7 @@ class partial:
+     and keywords.
+     """
+ 
+-    __slots__ = "func", "args", "keywords", "__dict__", "__weakref__"
++    __slots__ = "__dict__", "__weakref__", "args", "func", "keywords"
+ 
+     def __new__(cls, func, /, *args, **keywords):
+         if not callable(func):
+diff --git a/Lib/inspect.py b/Lib/inspect.py
+index f0b72662a9..d27ff1a2fc 100644
+--- a/Lib/inspect.py
++++ b/Lib/inspect.py
+@@ -2751,7 +2751,7 @@ class Parameter:
+         `Parameter.KEYWORD_ONLY`, `Parameter.VAR_KEYWORD`.
+     """
+ 
+-    __slots__ = ('_name', '_kind', '_default', '_annotation')
++    __slots__ = ('_annotation', '_default', '_kind', '_name')
+ 
+     POSITIONAL_ONLY         = _POSITIONAL_ONLY
+     POSITIONAL_OR_KEYWORD   = _POSITIONAL_OR_KEYWORD
+@@ -2906,7 +2906,7 @@ class BoundArguments:
+         Dict of keyword arguments values.
+     """
+ 
+-    __slots__ = ('arguments', '_signature', '__weakref__')
++    __slots__ = ('__weakref__', '_signature', 'arguments')
+ 
+     def __init__(self, signature, arguments):
+         self.arguments = arguments
+@@ -3042,7 +3042,7 @@ class Signature:
+         to parameters (simulating 'functools.partial' behavior.)
+     """
+ 
+-    __slots__ = ('_return_annotation', '_parameters')
++    __slots__ = ('_parameters', '_return_annotation')
+ 
+     _parameter_cls = Parameter
+     _bound_arguments_cls = BoundArguments
+diff --git a/Lib/ipaddress.py b/Lib/ipaddress.py
+index e398cc1383..e7e6e20f79 100644
+--- a/Lib/ipaddress.py
++++ b/Lib/ipaddress.py
+@@ -1277,7 +1277,7 @@ class IPv4Address(_BaseV4, _BaseAddress):
+ 
+     """Represent and manipulate single IPv4 Addresses."""
+ 
+-    __slots__ = ('_ip', '__weakref__')
++    __slots__ = ('__weakref__', '_ip')
+ 
+     def __init__(self, address):
+ 
+@@ -1891,7 +1891,7 @@ class IPv6Address(_BaseV6, _BaseAddress):
+ 
+     """Represent and manipulate single IPv6 Addresses."""
+ 
+-    __slots__ = ('_ip', '_scope_id', '__weakref__')
++    __slots__ = ('__weakref__', '_ip', '_scope_id')
+ 
+     def __init__(self, address):
+         """Instantiate a new IPv6 address object.
+diff --git a/Lib/multiprocessing/managers.py b/Lib/multiprocessing/managers.py
+index 76b915de74..60d6c622c1 100644
+--- a/Lib/multiprocessing/managers.py
++++ b/Lib/multiprocessing/managers.py
+@@ -63,7 +63,7 @@ class Token(object):
+     '''
+     Type to uniquely identify a shared object
+     '''
+-    __slots__ = ('typeid', 'address', 'id')
++    __slots__ = ('address', 'id', 'typeid')
+ 
+     def __init__(self, typeid, address, id):
+         (self.typeid, self.address, self.id) = (typeid, address, id)
+diff --git a/Lib/operator.py b/Lib/operator.py
+index 30116c1189..2f7371f42a 100644
+--- a/Lib/operator.py
++++ b/Lib/operator.py
+@@ -274,7 +274,7 @@ class itemgetter:
+     After f = itemgetter(2), the call f(r) returns r[2].
+     After g = itemgetter(2, 5, 3), the call g(r) returns (r[2], r[5], r[3])
+     """
+-    __slots__ = ('_items', '_call')
++    __slots__ = ('_call', '_items')
+ 
+     def __init__(self, item, *items):
+         if not items:
+@@ -306,7 +306,7 @@ class methodcaller:
+     After g = methodcaller('name', 'date', foo=1), the call g(r) returns
+     r.name('date', foo=1).
+     """
+-    __slots__ = ('_name', '_args', '_kwargs')
++    __slots__ = ('_args', '_kwargs', '_name')
+ 
+     def __init__(self, name, /, *args, **kwargs):
+         self._name = name
+diff --git a/Lib/pathlib/__init__.py b/Lib/pathlib/__init__.py
+index f14d35bb00..94a4e08948 100644
+--- a/Lib/pathlib/__init__.py
++++ b/Lib/pathlib/__init__.py
+@@ -45,7 +45,7 @@
+ class _PathParents(Sequence):
+     """This object provides sequence-like access to the logical ancestors
+     of a path.  Don't try to construct it yourself."""
+-    __slots__ = ('_path', '_drv', '_root', '_tail')
++    __slots__ = ('_drv', '_path', '_root', '_tail')
+ 
+     def __init__(self, path):
+         self._path = path
+@@ -85,10 +85,6 @@ class PurePath(_abc.PurePathBase):
+     """
+ 
+     __slots__ = (
+-        # The `_raw_paths` slot stores unnormalized string paths. This is set
+-        # in the `__init__()` method.
+-        '_raw_paths',
+-
+         # The `_drv`, `_root` and `_tail_cached` slots store parsed and
+         # normalized parts of the path. They are set when any of the `drive`,
+         # `root` or `_tail` properties are accessed for the first time. The
+@@ -96,28 +92,29 @@ class PurePath(_abc.PurePathBase):
+         # `os.path.splitroot()`, except that the tail is further split on path
+         # separators (i.e. it is a list of strings), and that the root and
+         # tail are normalized.
+-        '_drv', '_root', '_tail_cached',
+-
++        '_drv',
++        # The `_hash` slot stores the hash of the case-normalized string
++        # path. It's set when `__hash__()` is called for the first time.
++        '_hash',
++        # The `_parts_normcase_cached` slot stores the case-normalized
++        # string path after splitting on path separators. It's set when the
++        # `_parts_normcase` property is accessed for the first time. It's used
++        # to implement comparison methods like `__lt__()`.
++        '_parts_normcase_cached',
++        # The `_raw_paths` slot stores unnormalized string paths. This is set
++        # in the `__init__()` method.
++        '_raw_paths',
++        '_root',
+         # The `_str` slot stores the string representation of the path,
+         # computed from the drive, root and tail when `__str__()` is called
+         # for the first time. It's used to implement `_str_normcase`
+         '_str',
+-
+         # The `_str_normcase_cached` slot stores the string path with
+         # normalized case. It is set when the `_str_normcase` property is
+         # accessed for the first time. It's used to implement `__eq__()`
+         # `__hash__()`, and `_parts_normcase`
+         '_str_normcase_cached',
+-
+-        # The `_parts_normcase_cached` slot stores the case-normalized
+-        # string path after splitting on path separators. It's set when the
+-        # `_parts_normcase` property is accessed for the first time. It's used
+-        # to implement comparison methods like `__lt__()`.
+-        '_parts_normcase_cached',
+-
+-        # The `_hash` slot stores the hash of the case-normalized string
+-        # path. It's set when `__hash__()` is called for the first time.
+-        '_hash',
++        '_tail_cached',
+     )
+     pathmod = os.path
+ 
+diff --git a/Lib/pickletools.py b/Lib/pickletools.py
+index 95a77aeb2a..87cd91645a 100644
+--- a/Lib/pickletools.py
++++ b/Lib/pickletools.py
+@@ -173,21 +173,18 @@
+ 
+ class ArgumentDescriptor(object):
+     __slots__ = (
+-        # name of descriptor record, also a module global name; a string
+-        'name',
+-
++        # human-readable docs for this arg descriptor; a string
++        'doc',
+         # length of argument, in bytes; an int; UP_TO_NEWLINE and
+         # TAKEN_FROM_ARGUMENT{1,4,8} are negative values for variable-length
+         # cases
+         'n',
+-
++        # name of descriptor record, also a module global name; a string
++        'name',
+         # a function taking a file-like object, reading this kind of argument
+         # from the object at the current position, advancing the current
+         # position by n bytes, and returning the value of the argument
+         'reader',
+-
+-        # human-readable docs for this arg descriptor; a string
+-        'doc',
+     )
+ 
+     def __init__(self, name, n, reader, doc):
+@@ -947,15 +944,13 @@ def read_long4(f):
+ 
+ class StackObject(object):
+     __slots__ = (
++        # human-readable docs for this kind of stack object; a string
++        'doc',
+         # name of descriptor record, for info only
+         'name',
+-
+         # type of object, or tuple of type objects (meaning the object can
+         # be of any type in the tuple)
+         'obtype',
+-
+-        # human-readable docs for this kind of stack object; a string
+-        'doc',
+     )
+ 
+     def __init__(self, name, obtype, doc):
+@@ -1093,13 +1088,6 @@ def __repr__(self):
+ class OpcodeInfo(object):
+ 
+     __slots__ = (
+-        # symbolic name of opcode; a string
+-        'name',
+-
+-        # the code used in a bytestream to represent the opcode; a
+-        # one-character string
+-        'code',
+-
+         # If the opcode has an argument embedded in the byte string, an
+         # instance of ArgumentDescriptor specifying its type.  Note that
+         # arg.reader(s) can be used to read and decode the argument from
+@@ -1107,18 +1095,19 @@ class OpcodeInfo(object):
+         # argument bytes.  If the opcode doesn't have an argument embedded
+         # in the bytestream, arg should be None.
+         'arg',
+-
+-        # what the stack looks like before this opcode runs; a list
+-        'stack_before',
+-
+-        # what the stack looks like after this opcode runs; a list
+-        'stack_after',
+-
+-        # the protocol number in which this opcode was introduced; an int
+-        'proto',
+-
++        # the code used in a bytestream to represent the opcode; a
++        # one-character string
++        'code',
+         # human-readable docs for this opcode; a string
+         'doc',
++        # symbolic name of opcode; a string
++        'name',
++        # the protocol number in which this opcode was introduced; an int
++        'proto',
++        # what the stack looks like after this opcode runs; a list
++        'stack_after',
++        # what the stack looks like before this opcode runs; a list
++        'stack_before',
+     )
+ 
+     def __init__(self, name, code, arg,
+diff --git a/Lib/socket.py b/Lib/socket.py
+index 77986fc2e4..909a881808 100644
+--- a/Lib/socket.py
++++ b/Lib/socket.py
+@@ -216,7 +216,7 @@ class socket(_socket.socket):
+ 
+     """A subclass of _socket.socket adding the makefile() method."""
+ 
+-    __slots__ = ["__weakref__", "_io_refs", "_closed"]
++    __slots__ = ["__weakref__", "_closed", "_io_refs"]
+ 
+     def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+         # For user code address family and type values are IntEnum members, but
+diff --git a/Lib/test/datetimetester.py b/Lib/test/datetimetester.py
+index 8bda17358d..1d84157323 100644
+--- a/Lib/test/datetimetester.py
++++ b/Lib/test/datetimetester.py
+@@ -150,7 +150,7 @@ def __init__(self, offset=None, name=None, dstoffset=None):
+         FixedOffset.__init__(self, offset, name, dstoffset)
+ 
+ class PicklableFixedOffsetWithSlots(PicklableFixedOffset):
+-    __slots__ = '_FixedOffset__offset', '_FixedOffset__name', 'spam'
++    __slots__ = '_FixedOffset__name', '_FixedOffset__offset', 'spam'
+ 
+ class _TZInfo(tzinfo):
+     def utcoffset(self, datetime_module):
+diff --git a/Lib/test/test_binop.py b/Lib/test/test_binop.py
+index 299af09c49..19fafe865d 100644
+--- a/Lib/test/test_binop.py
++++ b/Lib/test/test_binop.py
+@@ -29,7 +29,7 @@ class Rat(object):
+ 
+     """Rational number implemented as a normalized pair of ints."""
+ 
+-    __slots__ = ['_Rat__num', '_Rat__den']
++    __slots__ = ['_Rat__den', '_Rat__num']
+ 
+     def __init__(self, num=0, den=1):
+         """Constructor: Rat([num[, den]]).
+diff --git a/Lib/test/test_bytes.py b/Lib/test/test_bytes.py
+index a3804a945f..50f162cb2b 100644
+--- a/Lib/test/test_bytes.py
++++ b/Lib/test/test_bytes.py
+@@ -2092,7 +2092,7 @@ class ByteArraySubclass(bytearray):
+     pass
+ 
+ class ByteArraySubclassWithSlots(bytearray):
+-    __slots__ = ('x', 'y', '__dict__')
++    __slots__ = ('__dict__', 'x', 'y')
+ 
+ class BytesSubclass(bytes):
+     pass
+diff --git a/Lib/test/test_deque.py b/Lib/test/test_deque.py
+index ae1dfacd72..1d6199e3f4 100644
+--- a/Lib/test/test_deque.py
++++ b/Lib/test/test_deque.py
+@@ -782,7 +782,7 @@ class Deque(deque):
+     pass
+ 
+ class DequeWithSlots(deque):
+-    __slots__ = ('x', 'y', '__dict__')
++    __slots__ = ('__dict__', 'x', 'y')
+ 
+ class DequeWithBadIter(deque):
+     def __iter__(self):
+diff --git a/Lib/test/test_gc.py b/Lib/test/test_gc.py
+index 1d71dd9e26..6b5ff082f6 100644
+--- a/Lib/test/test_gc.py
++++ b/Lib/test/test_gc.py
+@@ -1042,7 +1042,7 @@ def test_trash_weakref_clear(self):
+         callback = unittest.mock.Mock()
+ 
+         class A:
+-            __slots__ = ['a', 'y', 'wz']
++            __slots__ = ['a', 'wz', 'y']
+ 
+         class Z:
+             pass
+diff --git a/Lib/test/test_patma.py b/Lib/test/test_patma.py
+index 298e78ccee..ab5b856991 100644
+--- a/Lib/test/test_patma.py
++++ b/Lib/test/test_patma.py
+@@ -3303,7 +3303,7 @@ class Class:
+ 
+     def test_match_args_must_be_a_tuple_2(self):
+         class Class:
+-            __match_args__ = ["spam", "eggs"]
++            __match_args__ = ["eggs", "spam"]
+             spam = 0
+             eggs = 1
+         x = Class()
+diff --git a/Lib/test/test_property.py b/Lib/test/test_property.py
+index c12c908d2e..cf7d424ea9 100644
+--- a/Lib/test/test_property.py
++++ b/Lib/test/test_property.py
+@@ -275,7 +275,7 @@ def documented_getter():
+     def test_property_with_slots_and_doc_slot_docstring_present(self):
+         # https://github.com/python/cpython/issues/98963#issuecomment-1574413319
+         class slotted_prop(property):
+-            __slots__ = ("foo", "__doc__")
++            __slots__ = ("__doc__", "foo")
+ 
+         p = slotted_prop(doc="what's up")
+         self.assertEqual("what's up", p.__doc__)  # new in 3.12: This gets set.
+diff --git a/Lib/test/test_set.py b/Lib/test/test_set.py
+index d9102eb98a..d19a377b85 100644
+--- a/Lib/test/test_set.py
++++ b/Lib/test/test_set.py
+@@ -809,7 +809,7 @@ def test_singleton_empty_frozenset(self):
+ 
+ 
+ class SetSubclassWithSlots(set):
+-    __slots__ = ('x', 'y', '__dict__')
++    __slots__ = ('__dict__', 'x', 'y')
+ 
+ class TestSetSubclassWithSlots(unittest.TestCase):
+     thetype = SetSubclassWithSlots
+@@ -817,7 +817,7 @@ class TestSetSubclassWithSlots(unittest.TestCase):
+     test_pickling = TestJointOps.test_pickling
+ 
+ class FrozenSetSubclassWithSlots(frozenset):
+-    __slots__ = ('x', 'y', '__dict__')
++    __slots__ = ('__dict__', 'x', 'y')
+ 
+ class TestFrozenSetSubclassWithSlots(TestSetSubclassWithSlots):
+     thetype = FrozenSetSubclassWithSlots
+diff --git a/Lib/traceback.py b/Lib/traceback.py
+index d27c7a726d..8d22a83b92 100644
+--- a/Lib/traceback.py
++++ b/Lib/traceback.py
+@@ -310,8 +310,16 @@ class FrameSummary:
+       mapping the name to the repr() of the variable.
+     """
+ 
+-    __slots__ = ('filename', 'lineno', 'end_lineno', 'colno', 'end_colno',
+-                 'name', '_lines', '_lines_dedented', 'locals')
++    __slots__ = (
++        '_lines',
++        '_lines_dedented',
++        'colno',
++        'end_colno',
++        'end_lineno',
++        'filename',
++        'lineno',
++        'locals',
++        'name')
+ 
+     def __init__(self, filename, lineno, name, *, lookup_line=True,
+             locals=None, line=None,
+diff --git a/Lib/tracemalloc.py b/Lib/tracemalloc.py
+index cec99c5970..aca59617cf 100644
+--- a/Lib/tracemalloc.py
++++ b/Lib/tracemalloc.py
+@@ -32,7 +32,7 @@ class Statistic:
+     Statistic difference on memory allocations between two Snapshot instance.
+     """
+ 
+-    __slots__ = ('traceback', 'size', 'count')
++    __slots__ = ('count', 'size', 'traceback')
+ 
+     def __init__(self, traceback, size, count):
+         self.traceback = traceback
+@@ -72,7 +72,7 @@ class StatisticDiff:
+     Statistic difference on memory allocations between an old and a new
+     Snapshot instance.
+     """
+-    __slots__ = ('traceback', 'size', 'size_diff', 'count', 'count_diff')
++    __slots__ = ('count', 'count_diff', 'size', 'size_diff', 'traceback')
+ 
+     def __init__(self, traceback, size, size_diff, count, count_diff):
+         self.traceback = traceback
+diff --git a/Lib/typing.py b/Lib/typing.py
+index d278b4effc..711e5d7a2a 100644
+--- a/Lib/typing.py
++++ b/Lib/typing.py
+@@ -448,7 +448,7 @@ def __iter__(self): raise TypeError()
+ # Internal indicator of special typing constructs.
+ # See __doc__ instance attribute for specific docs.
+ class _SpecialForm(_Final, _NotIterable, _root=True):
+-    __slots__ = ('_name', '__doc__', '_getitem')
++    __slots__ = ('__doc__', '_getitem', '_name')
+ 
+     def __init__(self, getitem):
+         self._getitem = getitem
+@@ -854,10 +854,14 @@ def is_str(val: Union[str, float]):
+ class ForwardRef(_Final, _root=True):
+     """Internal wrapper to hold a forward reference."""
+ 
+-    __slots__ = ('__forward_arg__', '__forward_code__',
+-                 '__forward_evaluated__', '__forward_value__',
+-                 '__forward_is_argument__', '__forward_is_class__',
+-                 '__forward_module__')
++    __slots__ = (
++        '__forward_arg__',
++        '__forward_code__',
++        '__forward_evaluated__',
++        '__forward_is_argument__',
++        '__forward_is_class__',
++        '__forward_module__',
++        '__forward_value__')
+ 
+     def __init__(self, arg, is_argument=True, module=None, *, is_class=False):
+         if not isinstance(arg, str):
+diff --git a/Lib/uuid.py b/Lib/uuid.py
+index 470bc0d685..4b405c35b9 100644
+--- a/Lib/uuid.py
++++ b/Lib/uuid.py
+@@ -134,7 +134,7 @@ class UUID:
+                     uuid_generate_time_safe(3).
+     """
+ 
+-    __slots__ = ('int', 'is_safe', '__weakref__')
++    __slots__ = ('__weakref__', 'int', 'is_safe')
+ 
+     def __init__(self, hex=None, bytes=None, bytes_le=None, fields=None,
+                        int=None, version=None,
+diff --git a/Lib/weakref.py b/Lib/weakref.py
+index 25b70927e2..1d20272ce3 100644
+--- a/Lib/weakref.py
++++ b/Lib/weakref.py
+@@ -41,7 +41,7 @@ class WeakMethod(ref):
+     a bound method, working around the lifetime problem of bound methods.
+     """
+ 
+-    __slots__ = "_func_ref", "_meth_type", "_alive", "__weakref__"
++    __slots__ = "__weakref__", "_alive", "_func_ref", "_meth_type"
+ 
+     def __new__(cls, meth, callback=None):
+         try:
+@@ -563,7 +563,7 @@ class finalize:
+     _registered_with_atexit = False
+ 
+     class _Info:
+-        __slots__ = ("weakref", "func", "args", "kwargs", "atexit", "index")
++        __slots__ = ("args", "atexit", "func", "index", "kwargs", "weakref")
+ 
+     def __init__(self, obj, func, /, *args, **kwargs):
+         if not self._registered_with_atexit:
+diff --git a/Lib/xml/dom/expatbuilder.py b/Lib/xml/dom/expatbuilder.py
+index 7dd667bf3f..812e00f1b2 100644
+--- a/Lib/xml/dom/expatbuilder.py
++++ b/Lib/xml/dom/expatbuilder.py
+@@ -509,7 +509,7 @@ def acceptNode(self, node):
+ 
+ 
+ class FilterCrutch(object):
+-    __slots__ = '_builder', '_level', '_old_start', '_old_end'
++    __slots__ = '_builder', '_level', '_old_end', '_old_start'
+ 
+     def __init__(self, builder):
+         self._level = 0
+diff --git a/Lib/xml/dom/minidom.py b/Lib/xml/dom/minidom.py
+index db51f350ea..052e2e2990 100644
+--- a/Lib/xml/dom/minidom.py
++++ b/Lib/xml/dom/minidom.py
+@@ -359,8 +359,15 @@ def __init__(self):
+ 
+ 
+ class Attr(Node):
+-    __slots__=('_name', '_value', 'namespaceURI',
+-               '_prefix', 'childNodes', '_localName', 'ownerDocument', 'ownerElement')
++    __slots__=(
++        '_localName',
++        '_name',
++        '_prefix',
++        '_value',
++        'childNodes',
++        'namespaceURI',
++        'ownerDocument',
++        'ownerElement')
+     nodeType = Node.ATTRIBUTE_NODE
+     attributes = None
+     specified = False
+@@ -656,7 +663,7 @@ def __setstate__(self, state):
+ 
+ 
+ class TypeInfo(object):
+-    __slots__ = 'namespace', 'name'
++    __slots__ = 'name', 'namespace'
+ 
+     def __init__(self, namespace, name):
+         self.namespace = namespace
+@@ -678,9 +685,19 @@ def _get_namespace(self):
+ _no_type = TypeInfo(None, None)
+ 
+ class Element(Node):
+-    __slots__=('ownerDocument', 'parentNode', 'tagName', 'nodeName', 'prefix',
+-               'namespaceURI', '_localName', 'childNodes', '_attrs', '_attrsNS',
+-               'nextSibling', 'previousSibling')
++    __slots__=(
++        '_attrs',
++        '_attrsNS',
++        '_localName',
++        'childNodes',
++        'namespaceURI',
++        'nextSibling',
++        'nodeName',
++        'ownerDocument',
++        'parentNode',
++        'prefix',
++        'previousSibling',
++        'tagName')
+     nodeType = Node.ELEMENT_NODE
+     nodeValue = None
+     schemaType = _no_type
+@@ -1007,7 +1024,7 @@ def replaceChild(self, newChild, oldChild):
+ 
+ class ProcessingInstruction(Childless, Node):
+     nodeType = Node.PROCESSING_INSTRUCTION_NODE
+-    __slots__ = ('target', 'data')
++    __slots__ = ('data', 'target')
+ 
+     def __init__(self, target, data):
+         self.target = target
+@@ -1032,7 +1049,7 @@ def writexml(self, writer, indent="", addindent="", newl=""):
+ 
+ 
+ class CharacterData(Childless, Node):
+-    __slots__=('_data', 'ownerDocument','parentNode', 'previousSibling', 'nextSibling')
++    __slots__=('_data', 'nextSibling', 'ownerDocument', 'parentNode', 'previousSibling')
+ 
+     def __init__(self):
+         self.ownerDocument = self.parentNode = None
+@@ -1560,8 +1577,12 @@ def _clear_id_cache(node):
+         node.ownerDocument._id_search_stack= None
+ 
+ class Document(Node, DocumentLS):
+-    __slots__ = ('_elem_info', 'doctype',
+-                 '_id_search_stack', 'childNodes', '_id_cache')
++    __slots__ = (
++        '_elem_info',
++        '_id_cache',
++        '_id_search_stack',
++        'childNodes',
++        'doctype')
+     _child_node_types = (Node.ELEMENT_NODE, Node.PROCESSING_INSTRUCTION_NODE,
+                          Node.COMMENT_NODE, Node.DOCUMENT_TYPE_NODE)
+ 
+diff --git a/Lib/xml/dom/xmlbuilder.py b/Lib/xml/dom/xmlbuilder.py
+index 8a20026349..affd9fb9fb 100644
+--- a/Lib/xml/dom/xmlbuilder.py
++++ b/Lib/xml/dom/xmlbuilder.py
+@@ -254,8 +254,14 @@ def _guess_media_encoding(self, source):
+ 
+ 
+ class DOMInputSource(object):
+-    __slots__ = ('byteStream', 'characterStream', 'stringData',
+-                 'encoding', 'publicId', 'systemId', 'baseURI')
++    __slots__ = (
++        'baseURI',
++        'byteStream',
++        'characterStream',
++        'encoding',
++        'publicId',
++        'stringData',
++        'systemId')
+ 
+     def __init__(self):
+         self.byteStream = None
+diff --git a/Lib/zipfile/__init__.py b/Lib/zipfile/__init__.py
+index 8005b4b34c..e71e93808d 100644
+--- a/Lib/zipfile/__init__.py
++++ b/Lib/zipfile/__init__.py
+@@ -375,27 +375,27 @@ class ZipInfo:
+     """Class with attributes describing each file in the ZIP archive."""
+ 
+     __slots__ = (
+-        'orig_filename',
+-        'filename',
+-        'date_time',
+-        'compress_type',
+-        'compress_level',
++        'CRC',
++        '_end_offset',
++        '_raw_time',
+         'comment',
+-        'extra',
++        'compress_level',
++        'compress_size',
++        'compress_type',
+         'create_system',
+         'create_version',
++        'date_time',
++        'external_attr',
++        'extra',
+         'extract_version',
+-        'reserved',
++        'file_size',
++        'filename',
+         'flag_bits',
+-        'volume',
+-        'internal_attr',
+-        'external_attr',
+         'header_offset',
+-        'CRC',
+-        'compress_size',
+-        'file_size',
+-        '_raw_time',
+-        '_end_offset',
++        'internal_attr',
++        'orig_filename',
++        'reserved',
++        'volume',
+     )
+ 
+     def __init__(self, filename="NoName", date_time=(1980,1,1,0,0,0)):
+diff --git a/Lib/zoneinfo/_common.py b/Lib/zoneinfo/_common.py
+index 98cdfe37ca..b320305427 100644
+--- a/Lib/zoneinfo/_common.py
++++ b/Lib/zoneinfo/_common.py
+@@ -126,13 +126,13 @@ def get_abbr(idx):
+ 
+ class _TZifHeader:
+     __slots__ = [
+-        "version",
+-        "isutcnt",
++        "charcnt",
+         "isstdcnt",
++        "isutcnt",
+         "leapcnt",
+         "timecnt",
+         "typecnt",
+-        "charcnt",
++        "version",
+     ]
+ 
+     def __init__(self, *args):
+diff --git a/Lib/zoneinfo/_zoneinfo.py b/Lib/zoneinfo/_zoneinfo.py
+index b77dc0ed39..e02ca5a082 100644
+--- a/Lib/zoneinfo/_zoneinfo.py
++++ b/Lib/zoneinfo/_zoneinfo.py
+@@ -394,7 +394,7 @@ def _ts_to_local(trans_idx, trans_list_utc, utcoffsets):
+ 
+ 
+ class _ttinfo:
+-    __slots__ = ["utcoff", "dstoff", "tzname"]
++    __slots__ = ["dstoff", "tzname", "utcoff"]
+ 
+     def __init__(self, utcoff, dstoff, tzname):
+         self.utcoff = utcoff
+@@ -420,13 +420,13 @@ def __repr__(self):  # pragma: nocover
+ 
+ class _TZStr:
+     __slots__ = (
+-        "std",
+         "dst",
+-        "start",
++        "dst_diff",
+         "end",
+         "get_trans_info",
+         "get_trans_info_fromutc",
+-        "dst_diff",
++        "start",
++        "std",
+     )
+ 
+     def __init__(
+@@ -514,7 +514,7 @@ def _post_epoch_days_before_year(year):
+ 
+ 
+ class _DayOffset:
+-    __slots__ = ["d", "julian", "hour", "minute", "second"]
++    __slots__ = ["d", "hour", "julian", "minute", "second"]
+ 
+     def __init__(self, d, julian, hour=2, minute=0, second=0):
+         min_day = 0 + julian  # convert bool to int
+@@ -541,7 +541,7 @@ def year_to_epoch(self, year):
+ 
+ 
+ class _CalendarOffset:
+-    __slots__ = ["m", "w", "d", "hour", "minute", "second"]
++    __slots__ = ["d", "hour", "m", "minute", "second", "w"]
+ 
+     _DAYS_BEFORE_MONTH = (
+         -1,
+diff --git a/Tools/c-analyzer/c_common/clsutil.py b/Tools/c-analyzer/c_common/clsutil.py
+index aa5f6b9831..8b61321355 100644
+--- a/Tools/c-analyzer/c_common/clsutil.py
++++ b/Tools/c-analyzer/c_common/clsutil.py
+@@ -9,7 +9,7 @@ class Slot:
+     e.g. tuple subclasses.
+     """
+ 
+-    __slots__ = ('initial', 'default', 'readonly', 'instances', 'name')
++    __slots__ = ('default', 'initial', 'instances', 'name', 'readonly')
+ 
+     def __init__(self, initial=_NOT_SET, *,
+                  default=_NOT_SET,

@@ -1,0 +1,4278 @@
+diff --git a/Lib/_collections_abc.py b/Lib/_collections_abc.py
+index 601107d2d8..56b495b308 100644
+--- a/Lib/_collections_abc.py
++++ b/Lib/_collections_abc.py
+@@ -41,15 +41,33 @@ def _f(): pass
+ FunctionType = type(_f)
+ del _f
+ 
+-__all__ = ["Awaitable", "Coroutine",
+-           "AsyncIterable", "AsyncIterator", "AsyncGenerator",
+-           "Hashable", "Iterable", "Iterator", "Generator", "Reversible",
+-           "Sized", "Container", "Callable", "Collection",
+-           "Set", "MutableSet",
+-           "Mapping", "MutableMapping",
+-           "MappingView", "KeysView", "ItemsView", "ValuesView",
+-           "Sequence", "MutableSequence",
+-           "ByteString", "Buffer",
++__all__ = [
++    "AsyncGenerator",
++    "AsyncIterable",
++    "AsyncIterator",
++    "Awaitable",
++    "Buffer",
++    "ByteString",
++    "Callable",
++    "Collection",
++    "Container",
++    "Coroutine",
++    "Generator",
++    "Hashable",
++    "ItemsView",
++    "Iterable",
++    "Iterator",
++    "KeysView",
++    "Mapping",
++    "MappingView",
++    "MutableMapping",
++    "MutableSequence",
++    "MutableSet",
++    "Reversible",
++    "Sequence",
++    "Set",
++    "Sized",
++    "ValuesView",
+            ]
+ 
+ # This module has been renamed from collections.abc to _collections_abc to
+diff --git a/Lib/_osx_support.py b/Lib/_osx_support.py
+index 0cb064fcd7..9395fd0c3e 100644
+--- a/Lib/_osx_support.py
++++ b/Lib/_osx_support.py
+@@ -6,8 +6,8 @@
+ 
+ __all__ = [
+     'compiler_fixup',
+-    'customize_config_vars',
+     'customize_compiler',
++    'customize_config_vars',
+     'get_platform_osx',
+ ]
+ 
+diff --git a/Lib/_pydatetime.py b/Lib/_pydatetime.py
+index bca2acf1fc..ebf2820949 100644
+--- a/Lib/_pydatetime.py
++++ b/Lib/_pydatetime.py
+@@ -4,8 +4,16 @@
+ time zone and DST data sources.
+ """
+ 
+-__all__ = ("date", "datetime", "time", "timedelta", "timezone", "tzinfo",
+-           "MINYEAR", "MAXYEAR", "UTC")
++__all__ = (
++    "MAXYEAR",
++    "MINYEAR",
++    "UTC",
++    "date",
++    "datetime",
++    "time",
++    "timedelta",
++    "timezone",
++    "tzinfo",)
+ 
+ 
+ import time as _time
+diff --git a/Lib/_pydecimal.py b/Lib/_pydecimal.py
+index 2692f2fcba..382f9c4807 100644
+--- a/Lib/_pydecimal.py
++++ b/Lib/_pydecimal.py
+@@ -113,38 +113,53 @@
+ """
+ 
+ __all__ = [
++    'BasicContext',
++    'Clamped',
++    'Context',
++    'ConversionSyntax',
+     # Two major classes
+-    'Decimal', 'Context',
+-
++    'Decimal',
++    # Exceptions
++    'DecimalException',
+     # Named tuple representation
+     'DecimalTuple',
+-
+     # Contexts
+-    'DefaultContext', 'BasicContext', 'ExtendedContext',
+-
+-    # Exceptions
+-    'DecimalException', 'Clamped', 'InvalidOperation', 'DivisionByZero',
+-    'Inexact', 'Rounded', 'Subnormal', 'Overflow', 'Underflow',
+-    'FloatOperation',
+-
++    'DefaultContext',
++    'DivisionByZero',
+     # Exceptional conditions that trigger InvalidOperation
+-    'DivisionImpossible', 'InvalidContext', 'ConversionSyntax', 'DivisionUndefined',
+-
+-    # Constants for use in setting up contexts
+-    'ROUND_DOWN', 'ROUND_HALF_UP', 'ROUND_HALF_EVEN', 'ROUND_CEILING',
+-    'ROUND_FLOOR', 'ROUND_UP', 'ROUND_HALF_DOWN', 'ROUND_05UP',
+-
+-    # Functions for manipulating contexts
+-    'setcontext', 'getcontext', 'localcontext',
+-
+-    # Limits for the C version for compatibility
+-    'MAX_PREC',  'MAX_EMAX', 'MIN_EMIN', 'MIN_ETINY',
+-
++    'DivisionImpossible',
++    'DivisionUndefined',
++    'ExtendedContext',
++    'FloatOperation',
++    # C version: compile time choice that enables the coroutine local context
++    'HAVE_CONTEXTVAR',
+     # C version: compile time choice that enables the thread local context (deprecated, now always true)
+     'HAVE_THREADS',
+-
+-    # C version: compile time choice that enables the coroutine local context
+-    'HAVE_CONTEXTVAR'
++    'Inexact',
++    'InvalidContext',
++    'InvalidOperation',
++    'MAX_EMAX',
++    # Limits for the C version for compatibility
++    'MAX_PREC',
++    'MIN_EMIN',
++    'MIN_ETINY',
++    'Overflow',
++    'ROUND_05UP',
++    'ROUND_CEILING',
++    # Constants for use in setting up contexts
++    'ROUND_DOWN',
++    'ROUND_FLOOR',
++    'ROUND_HALF_DOWN',
++    'ROUND_HALF_EVEN',
++    'ROUND_HALF_UP',
++    'ROUND_UP',
++    'Rounded',
++    'Subnormal',
++    'Underflow',
++    'getcontext',
++    'localcontext',
++    # Functions for manipulating contexts
++    'setcontext',
+ ]
+ 
+ __xname__ = __name__    # sys.modules lookup (--without-threads)
+diff --git a/Lib/argparse.py b/Lib/argparse.py
+index a32884db80..80e3330598 100644
+--- a/Lib/argparse.py
++++ b/Lib/argparse.py
+@@ -64,22 +64,22 @@
+ 
+ __version__ = '1.1'
+ __all__ = [
+-    'ArgumentParser',
++    'Action',
++    'ArgumentDefaultsHelpFormatter',
+     'ArgumentError',
++    'ArgumentParser',
+     'ArgumentTypeError',
+     'BooleanOptionalAction',
+     'FileType',
+     'HelpFormatter',
+-    'ArgumentDefaultsHelpFormatter',
+-    'RawDescriptionHelpFormatter',
+-    'RawTextHelpFormatter',
+     'MetavarTypeHelpFormatter',
+     'Namespace',
+-    'Action',
+     'ONE_OR_MORE',
+     'OPTIONAL',
+     'PARSER',
+     'REMAINDER',
++    'RawDescriptionHelpFormatter',
++    'RawTextHelpFormatter',
+     'SUPPRESS',
+     'ZERO_OR_MORE',
+ ]
+diff --git a/Lib/asyncio/coroutines.py b/Lib/asyncio/coroutines.py
+index ab4f30eb51..96323badc7 100644
+--- a/Lib/asyncio/coroutines.py
++++ b/Lib/asyncio/coroutines.py
+@@ -1,4 +1,4 @@
+-__all__ = 'iscoroutinefunction', 'iscoroutine'
++__all__ = 'iscoroutine', 'iscoroutinefunction'
+ 
+ import collections.abc
+ import inspect
+diff --git a/Lib/asyncio/events.py b/Lib/asyncio/events.py
+index ebc3836bdc..1338ba6491 100644
+--- a/Lib/asyncio/events.py
++++ b/Lib/asyncio/events.py
+@@ -1,14 +1,21 @@
+ """Event loop and event loop policy."""
+ 
+ __all__ = (
++    'AbstractEventLoop',
+     'AbstractEventLoopPolicy',
+-    'AbstractEventLoop', 'AbstractServer',
+-    'Handle', 'TimerHandle',
+-    'get_event_loop_policy', 'set_event_loop_policy',
+-    'get_event_loop', 'set_event_loop', 'new_event_loop',
+-    'get_child_watcher', 'set_child_watcher',
+-    '_set_running_loop', 'get_running_loop',
++    'AbstractServer',
++    'Handle',
++    'TimerHandle',
+     '_get_running_loop',
++    '_set_running_loop',
++    'get_child_watcher',
++    'get_event_loop',
++    'get_event_loop_policy',
++    'get_running_loop',
++    'new_event_loop',
++    'set_child_watcher',
++    'set_event_loop',
++    'set_event_loop_policy',
+ )
+ 
+ import contextvars
+diff --git a/Lib/asyncio/exceptions.py b/Lib/asyncio/exceptions.py
+index 5ece595aad..5504e07001 100644
+--- a/Lib/asyncio/exceptions.py
++++ b/Lib/asyncio/exceptions.py
+@@ -1,10 +1,14 @@
+ """asyncio exceptions."""
+ 
+ 
+-__all__ = ('BrokenBarrierError',
+-           'CancelledError', 'InvalidStateError', 'TimeoutError',
+-           'IncompleteReadError', 'LimitOverrunError',
+-           'SendfileNotAvailableError')
++__all__ = (
++    'BrokenBarrierError',
++    'CancelledError',
++    'IncompleteReadError',
++    'InvalidStateError',
++    'LimitOverrunError',
++    'SendfileNotAvailableError',
++    'TimeoutError',)
+ 
+ 
+ class CancelledError(BaseException):
+diff --git a/Lib/asyncio/futures.py b/Lib/asyncio/futures.py
+index 5d35321db7..0048c9ac27 100644
+--- a/Lib/asyncio/futures.py
++++ b/Lib/asyncio/futures.py
+@@ -1,7 +1,9 @@
+ """A Future class similar to the one in PEP 3148."""
+ 
+ __all__ = (
+-    'Future', 'wrap_future', 'isfuture',
++    'Future',
++    'isfuture',
++    'wrap_future',
+ )
+ 
+ import concurrent.futures
+diff --git a/Lib/asyncio/locks.py b/Lib/asyncio/locks.py
+index 04158e667a..240aae538a 100644
+--- a/Lib/asyncio/locks.py
++++ b/Lib/asyncio/locks.py
+@@ -1,7 +1,12 @@
+ """Synchronization primitives."""
+ 
+-__all__ = ('Lock', 'Event', 'Condition', 'Semaphore',
+-           'BoundedSemaphore', 'Barrier')
++__all__ = (
++    'Barrier',
++    'BoundedSemaphore',
++    'Condition',
++    'Event',
++    'Lock',
++    'Semaphore',)
+ 
+ import collections
+ import enum
+diff --git a/Lib/asyncio/protocols.py b/Lib/asyncio/protocols.py
+index 09987b164c..0cfaf3ec69 100644
+--- a/Lib/asyncio/protocols.py
++++ b/Lib/asyncio/protocols.py
+@@ -1,8 +1,11 @@
+ """Abstract Protocol base classes."""
+ 
+ __all__ = (
+-    'BaseProtocol', 'Protocol', 'DatagramProtocol',
+-    'SubprocessProtocol', 'BufferedProtocol',
++    'BaseProtocol',
++    'BufferedProtocol',
++    'DatagramProtocol',
++    'Protocol',
++    'SubprocessProtocol',
+ )
+ 
+ 
+diff --git a/Lib/asyncio/queues.py b/Lib/asyncio/queues.py
+index a9656a6df5..e3ada472ac 100644
+--- a/Lib/asyncio/queues.py
++++ b/Lib/asyncio/queues.py
+@@ -1,4 +1,4 @@
+-__all__ = ('Queue', 'PriorityQueue', 'LifoQueue', 'QueueFull', 'QueueEmpty')
++__all__ = ('LifoQueue', 'PriorityQueue', 'Queue', 'QueueEmpty', 'QueueFull')
+ 
+ import collections
+ import heapq
+diff --git a/Lib/asyncio/streams.py b/Lib/asyncio/streams.py
+index df58b7a799..0f9ea142d5 100644
+--- a/Lib/asyncio/streams.py
++++ b/Lib/asyncio/streams.py
+@@ -1,6 +1,9 @@
+ __all__ = (
+-    'StreamReader', 'StreamWriter', 'StreamReaderProtocol',
+-    'open_connection', 'start_server')
++    'StreamReader',
++    'StreamReaderProtocol',
++    'StreamWriter',
++    'open_connection',
++    'start_server',)
+ 
+ import collections
+ import socket
+diff --git a/Lib/asyncio/tasks.py b/Lib/asyncio/tasks.py
+index fafee3e738..d0e52b84f9 100644
+--- a/Lib/asyncio/tasks.py
++++ b/Lib/asyncio/tasks.py
+@@ -1,13 +1,27 @@
+ """Support for tasks, coroutines and the scheduler."""
+ 
+ __all__ = (
+-    'Task', 'create_task',
+-    'FIRST_COMPLETED', 'FIRST_EXCEPTION', 'ALL_COMPLETED',
+-    'wait', 'wait_for', 'as_completed', 'sleep',
+-    'gather', 'shield', 'ensure_future', 'run_coroutine_threadsafe',
+-    'current_task', 'all_tasks',
+-    'create_eager_task_factory', 'eager_task_factory',
+-    '_register_task', '_unregister_task', '_enter_task', '_leave_task',
++    'ALL_COMPLETED',
++    'FIRST_COMPLETED',
++    'FIRST_EXCEPTION',
++    'Task',
++    '_enter_task',
++    '_leave_task',
++    '_register_task',
++    '_unregister_task',
++    'all_tasks',
++    'as_completed',
++    'create_eager_task_factory',
++    'create_task',
++    'current_task',
++    'eager_task_factory',
++    'ensure_future',
++    'gather',
++    'run_coroutine_threadsafe',
++    'shield',
++    'sleep',
++    'wait',
++    'wait_for',
+ )
+ 
+ import concurrent.futures
+diff --git a/Lib/asyncio/transports.py b/Lib/asyncio/transports.py
+index 30fd41d49a..265687d0b3 100644
+--- a/Lib/asyncio/transports.py
++++ b/Lib/asyncio/transports.py
+@@ -1,8 +1,12 @@
+ """Abstract Transport class."""
+ 
+ __all__ = (
+-    'BaseTransport', 'ReadTransport', 'WriteTransport',
+-    'Transport', 'DatagramTransport', 'SubprocessTransport',
++    'BaseTransport',
++    'DatagramTransport',
++    'ReadTransport',
++    'SubprocessTransport',
++    'Transport',
++    'WriteTransport',
+ )
+ 
+ 
+diff --git a/Lib/asyncio/unix_events.py b/Lib/asyncio/unix_events.py
+index 41ccf1b78f..d432bb6483 100644
+--- a/Lib/asyncio/unix_events.py
++++ b/Lib/asyncio/unix_events.py
+@@ -27,12 +27,15 @@
+ 
+ 
+ __all__ = (
+-    'SelectorEventLoop',
+-    'AbstractChildWatcher', 'SafeChildWatcher',
+-    'FastChildWatcher', 'PidfdChildWatcher',
+-    'MultiLoopChildWatcher', 'ThreadedChildWatcher',
++    'AbstractChildWatcher',
+     'DefaultEventLoopPolicy',
+     'EventLoop',
++    'FastChildWatcher',
++    'MultiLoopChildWatcher',
++    'PidfdChildWatcher',
++    'SafeChildWatcher',
++    'SelectorEventLoop',
++    'ThreadedChildWatcher',
+ )
+ 
+ 
+diff --git a/Lib/asyncio/windows_events.py b/Lib/asyncio/windows_events.py
+index b62ea75fee..83c0db087f 100644
+--- a/Lib/asyncio/windows_events.py
++++ b/Lib/asyncio/windows_events.py
+@@ -27,9 +27,13 @@
+ 
+ 
+ __all__ = (
+-    'SelectorEventLoop', 'ProactorEventLoop', 'IocpProactor',
+-    'DefaultEventLoopPolicy', 'WindowsSelectorEventLoopPolicy',
+-    'WindowsProactorEventLoopPolicy', 'EventLoop',
++    'DefaultEventLoopPolicy',
++    'EventLoop',
++    'IocpProactor',
++    'ProactorEventLoop',
++    'SelectorEventLoop',
++    'WindowsProactorEventLoopPolicy',
++    'WindowsSelectorEventLoopPolicy',
+ )
+ 
+ 
+diff --git a/Lib/asyncio/windows_utils.py b/Lib/asyncio/windows_utils.py
+index ef277fac3e..7ea4d81792 100644
+--- a/Lib/asyncio/windows_utils.py
++++ b/Lib/asyncio/windows_utils.py
+@@ -14,7 +14,7 @@
+ import warnings
+ 
+ 
+-__all__ = 'pipe', 'Popen', 'PIPE', 'PipeHandle'
++__all__ = 'PIPE', 'PipeHandle', 'Popen', 'pipe'
+ 
+ 
+ # Constants/globals
+diff --git a/Lib/base64.py b/Lib/base64.py
+index e3e983b306..8059f43ee1 100755
+--- a/Lib/base64.py
++++ b/Lib/base64.py
+@@ -12,20 +12,31 @@
+ 
+ 
+ __all__ = [
+-    # Legacy interface exports traditional RFC 2045 Base64 encodings
+-    'encode', 'decode', 'encodebytes', 'decodebytes',
++    'a85decode',
++    'a85encode',
++    'b16decode',
++    'b16encode',
++    'b32decode',
++    'b32encode',
++    'b32hexdecode',
++    'b32hexencode',
++    'b64decode',
+     # Generalized interface for other encodings
+-    'b64encode', 'b64decode', 'b32encode', 'b32decode',
+-    'b32hexencode', 'b32hexdecode', 'b16encode', 'b16decode',
++    'b64encode',
++    'b85decode',
+     # Base85 and Ascii85 encodings
+-    'b85encode', 'b85decode', 'a85encode', 'a85decode',
++    'b85encode',
++    'decode',
++    'decodebytes',
++    # Legacy interface exports traditional RFC 2045 Base64 encodings
++    'encode',
++    'encodebytes',
++    'standard_b64decode',
+     # Standard Base64 encoding
+-    'standard_b64encode', 'standard_b64decode',
+-    # Some common Base64 alternatives.  As referenced by RFC 3458, see thread
+-    # starting at:
+-    #
++    'standard_b64encode',
++    'urlsafe_b64decode',
+     # http://zgp.org/pipermail/p2p-hackers/2001-September/000316.html
+-    'urlsafe_b64encode', 'urlsafe_b64decode',
++    'urlsafe_b64encode',
+     ]
+ 
+ 
+diff --git a/Lib/bdb.py b/Lib/bdb.py
+index 1acf7957f0..79a64b199d 100644
+--- a/Lib/bdb.py
++++ b/Lib/bdb.py
+@@ -5,7 +5,7 @@
+ import os
+ from inspect import CO_GENERATOR, CO_COROUTINE, CO_ASYNC_GENERATOR
+ 
+-__all__ = ["BdbQuit", "Bdb", "Breakpoint"]
++__all__ = ["Bdb", "BdbQuit", "Breakpoint"]
+ 
+ GENERATOR_AND_COROUTINE_FLAGS = CO_GENERATOR | CO_COROUTINE | CO_ASYNC_GENERATOR
+ 
+diff --git a/Lib/bz2.py b/Lib/bz2.py
+index fabe4f73c8..f585727ac9 100644
+--- a/Lib/bz2.py
++++ b/Lib/bz2.py
+@@ -4,8 +4,13 @@
+ (de)compression, and functions for one-shot (de)compression.
+ """
+ 
+-__all__ = ["BZ2File", "BZ2Compressor", "BZ2Decompressor",
+-           "open", "compress", "decompress"]
++__all__ = [
++    "BZ2Compressor",
++    "BZ2Decompressor",
++    "BZ2File",
++    "compress",
++    "decompress",
++    "open",]
+ 
+ __author__ = "Nadeem Vawda <nadeem.vawda@gmail.com>"
+ 
+diff --git a/Lib/cProfile.py b/Lib/cProfile.py
+index 135a12c396..026a2f773e 100755
+--- a/Lib/cProfile.py
++++ b/Lib/cProfile.py
+@@ -4,7 +4,7 @@
+    Compatible with the 'profile' module.
+ """
+ 
+-__all__ = ["run", "runctx", "Profile"]
++__all__ = ["Profile", "run", "runctx"]
+ 
+ import _lsprof
+ import importlib.machinery
+diff --git a/Lib/calendar.py b/Lib/calendar.py
+index 03469d8ac9..650a55bc1d 100644
+--- a/Lib/calendar.py
++++ b/Lib/calendar.py
+@@ -11,17 +11,52 @@
+ import locale as _locale
+ from itertools import repeat
+ 
+-__all__ = ["IllegalMonthError", "IllegalWeekdayError", "setfirstweekday",
+-           "firstweekday", "isleap", "leapdays", "weekday", "monthrange",
+-           "monthcalendar", "prmonth", "month", "prcal", "calendar",
+-           "timegm", "month_name", "month_abbr", "day_name", "day_abbr",
+-           "Calendar", "TextCalendar", "HTMLCalendar", "LocaleTextCalendar",
+-           "LocaleHTMLCalendar", "weekheader",
+-           "Day", "Month", "JANUARY", "FEBRUARY", "MARCH",
+-           "APRIL", "MAY", "JUNE", "JULY",
+-           "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER",
+-           "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY",
+-           "SATURDAY", "SUNDAY"]
++__all__ = [
++    "APRIL",
++    "AUGUST",
++    "Calendar",
++    "DECEMBER",
++    "Day",
++    "FEBRUARY",
++    "FRIDAY",
++    "HTMLCalendar",
++    "IllegalMonthError",
++    "IllegalWeekdayError",
++    "JANUARY",
++    "JULY",
++    "JUNE",
++    "LocaleHTMLCalendar",
++    "LocaleTextCalendar",
++    "MARCH",
++    "MAY",
++    "MONDAY",
++    "Month",
++    "NOVEMBER",
++    "OCTOBER",
++    "SATURDAY",
++    "SEPTEMBER",
++    "SUNDAY",
++    "THURSDAY",
++    "TUESDAY",
++    "TextCalendar",
++    "WEDNESDAY",
++    "calendar",
++    "day_abbr",
++    "day_name",
++    "firstweekday",
++    "isleap",
++    "leapdays",
++    "month",
++    "month_abbr",
++    "month_name",
++    "monthcalendar",
++    "monthrange",
++    "prcal",
++    "prmonth",
++    "setfirstweekday",
++    "timegm",
++    "weekday",
++    "weekheader",]
+ 
+ # Exception raised for bad input (with string parameter for details)
+ error = ValueError
+diff --git a/Lib/code.py b/Lib/code.py
+index f4aecddeca..bd3d2ca4a2 100644
+--- a/Lib/code.py
++++ b/Lib/code.py
+@@ -10,8 +10,11 @@
+ import traceback
+ from codeop import CommandCompiler, compile_command
+ 
+-__all__ = ["InteractiveInterpreter", "InteractiveConsole", "interact",
+-           "compile_command"]
++__all__ = [
++    "InteractiveConsole",
++    "InteractiveInterpreter",
++    "compile_command",
++    "interact",]
+ 
+ class InteractiveInterpreter:
+     """Base class for InteractiveConsole.
+diff --git a/Lib/codecs.py b/Lib/codecs.py
+index 9b35b6127d..e8f226ffe7 100644
+--- a/Lib/codecs.py
++++ b/Lib/codecs.py
+@@ -17,20 +17,51 @@
+ except ImportError as why:
+     raise SystemError('Failed to load the builtin codecs: %s' % why)
+ 
+-__all__ = ["register", "lookup", "open", "EncodedFile", "BOM", "BOM_BE",
+-           "BOM_LE", "BOM32_BE", "BOM32_LE", "BOM64_BE", "BOM64_LE",
+-           "BOM_UTF8", "BOM_UTF16", "BOM_UTF16_LE", "BOM_UTF16_BE",
+-           "BOM_UTF32", "BOM_UTF32_LE", "BOM_UTF32_BE",
+-           "CodecInfo", "Codec", "IncrementalEncoder", "IncrementalDecoder",
+-           "StreamReader", "StreamWriter",
+-           "StreamReaderWriter", "StreamRecoder",
+-           "getencoder", "getdecoder", "getincrementalencoder",
+-           "getincrementaldecoder", "getreader", "getwriter",
+-           "encode", "decode", "iterencode", "iterdecode",
+-           "strict_errors", "ignore_errors", "replace_errors",
+-           "xmlcharrefreplace_errors",
+-           "backslashreplace_errors", "namereplace_errors",
+-           "register_error", "lookup_error"]
++__all__ = [
++    "BOM",
++    "BOM32_BE",
++    "BOM32_LE",
++    "BOM64_BE",
++    "BOM64_LE",
++    "BOM_BE",
++    "BOM_LE",
++    "BOM_UTF16",
++    "BOM_UTF16_BE",
++    "BOM_UTF16_LE",
++    "BOM_UTF32",
++    "BOM_UTF32_BE",
++    "BOM_UTF32_LE",
++    "BOM_UTF8",
++    "Codec",
++    "CodecInfo",
++    "EncodedFile",
++    "IncrementalDecoder",
++    "IncrementalEncoder",
++    "StreamReader",
++    "StreamReaderWriter",
++    "StreamRecoder",
++    "StreamWriter",
++    "backslashreplace_errors",
++    "decode",
++    "encode",
++    "getdecoder",
++    "getencoder",
++    "getincrementaldecoder",
++    "getincrementalencoder",
++    "getreader",
++    "getwriter",
++    "ignore_errors",
++    "iterdecode",
++    "iterencode",
++    "lookup",
++    "lookup_error",
++    "namereplace_errors",
++    "open",
++    "register",
++    "register_error",
++    "replace_errors",
++    "strict_errors",
++    "xmlcharrefreplace_errors",]
+ 
+ ### Constants
+ 
+diff --git a/Lib/codeop.py b/Lib/codeop.py
+index 91146be2c4..c6e378280e 100644
+--- a/Lib/codeop.py
++++ b/Lib/codeop.py
+@@ -38,7 +38,7 @@
+ _features = [getattr(__future__, fname)
+              for fname in __future__.all_feature_names]
+ 
+-__all__ = ["compile_command", "Compile", "CommandCompiler"]
++__all__ = ["CommandCompiler", "Compile", "compile_command"]
+ 
+ # The following flags match the values from Include/cpython/compile.h
+ # Caveat emptor: These flags are undocumented on purpose and depending
+diff --git a/Lib/colorsys.py b/Lib/colorsys.py
+index bc897bd0f9..e3d271e21f 100644
+--- a/Lib/colorsys.py
++++ b/Lib/colorsys.py
+@@ -21,8 +21,13 @@
+ # http://en.wikipedia.org/wiki/HLS_color_space
+ # http://en.wikipedia.org/wiki/HSV_color_space
+ 
+-__all__ = ["rgb_to_yiq","yiq_to_rgb","rgb_to_hls","hls_to_rgb",
+-           "rgb_to_hsv","hsv_to_rgb"]
++__all__ = [
++    "hls_to_rgb",
++    "hsv_to_rgb",
++    "rgb_to_hls",
++    "rgb_to_hsv",
++    "rgb_to_yiq",
++    "yiq_to_rgb",]
+ 
+ # Some floating point constants
+ 
+diff --git a/Lib/concurrent/futures/__init__.py b/Lib/concurrent/futures/__init__.py
+index 292e886d5a..9394aa5a95 100644
+--- a/Lib/concurrent/futures/__init__.py
++++ b/Lib/concurrent/futures/__init__.py
+@@ -18,18 +18,18 @@
+                                       as_completed)
+ 
+ __all__ = (
+-    'FIRST_COMPLETED',
+-    'FIRST_EXCEPTION',
+     'ALL_COMPLETED',
+-    'CancelledError',
+-    'TimeoutError',
+     'BrokenExecutor',
+-    'Future',
++    'CancelledError',
+     'Executor',
+-    'wait',
+-    'as_completed',
++    'FIRST_COMPLETED',
++    'FIRST_EXCEPTION',
++    'Future',
+     'ProcessPoolExecutor',
+     'ThreadPoolExecutor',
++    'TimeoutError',
++    'as_completed',
++    'wait',
+ )
+ 
+ 
+diff --git a/Lib/configparser.py b/Lib/configparser.py
+index 71362d23ec..6e9e65143c 100644
+--- a/Lib/configparser.py
++++ b/Lib/configparser.py
+@@ -148,14 +148,26 @@
+ import re
+ import sys
+ 
+-__all__ = ("NoSectionError", "DuplicateOptionError", "DuplicateSectionError",
+-           "NoOptionError", "InterpolationError", "InterpolationDepthError",
+-           "InterpolationMissingOptionError", "InterpolationSyntaxError",
+-           "ParsingError", "MissingSectionHeaderError",
+-           "ConfigParser", "RawConfigParser",
+-           "Interpolation", "BasicInterpolation",  "ExtendedInterpolation",
+-           "SectionProxy", "ConverterMapping",
+-           "DEFAULTSECT", "MAX_INTERPOLATION_DEPTH")
++__all__ = (
++    "BasicInterpolation",
++    "ConfigParser",
++    "ConverterMapping",
++    "DEFAULTSECT",
++    "DuplicateOptionError",
++    "DuplicateSectionError",
++    "ExtendedInterpolation",
++    "Interpolation",
++    "InterpolationDepthError",
++    "InterpolationError",
++    "InterpolationMissingOptionError",
++    "InterpolationSyntaxError",
++    "MAX_INTERPOLATION_DEPTH",
++    "MissingSectionHeaderError",
++    "NoOptionError",
++    "NoSectionError",
++    "ParsingError",
++    "RawConfigParser",
++    "SectionProxy",)
+ 
+ _default_dict = dict
+ DEFAULTSECT = "DEFAULT"
+diff --git a/Lib/contextlib.py b/Lib/contextlib.py
+index 5b646fabca..0217c8cd1b 100644
+--- a/Lib/contextlib.py
++++ b/Lib/contextlib.py
+@@ -7,11 +7,21 @@
+ from functools import wraps
+ from types import MethodType, GenericAlias
+ 
+-__all__ = ["asynccontextmanager", "contextmanager", "closing", "nullcontext",
+-           "AbstractContextManager", "AbstractAsyncContextManager",
+-           "AsyncExitStack", "ContextDecorator", "ExitStack",
+-           "redirect_stdout", "redirect_stderr", "suppress", "aclosing",
+-           "chdir"]
++__all__ = [
++    "AbstractAsyncContextManager",
++    "AbstractContextManager",
++    "AsyncExitStack",
++    "ContextDecorator",
++    "ExitStack",
++    "aclosing",
++    "asynccontextmanager",
++    "chdir",
++    "closing",
++    "contextmanager",
++    "nullcontext",
++    "redirect_stderr",
++    "redirect_stdout",
++    "suppress",]
+ 
+ 
+ class AbstractContextManager(abc.ABC):
+diff --git a/Lib/copyreg.py b/Lib/copyreg.py
+index 578392409b..aa5468467a 100644
+--- a/Lib/copyreg.py
++++ b/Lib/copyreg.py
+@@ -4,8 +4,12 @@
+ C, not for instances of user-defined classes.
+ """
+ 
+-__all__ = ["pickle", "constructor",
+-           "add_extension", "remove_extension", "clear_extension_cache"]
++__all__ = [
++    "add_extension",
++    "clear_extension_cache",
++    "constructor",
++    "pickle",
++    "remove_extension",]
+ 
+ dispatch_table = {}
+ 
+diff --git a/Lib/csv.py b/Lib/csv.py
+index 77f30c8d2b..23cd21de63 100644
+--- a/Lib/csv.py
++++ b/Lib/csv.py
+@@ -15,13 +15,30 @@
+ 
+ from io import StringIO
+ 
+-__all__ = ["QUOTE_MINIMAL", "QUOTE_ALL", "QUOTE_NONNUMERIC", "QUOTE_NONE",
+-           "QUOTE_STRINGS", "QUOTE_NOTNULL",
+-           "Error", "Dialect", "__doc__", "excel", "excel_tab",
+-           "field_size_limit", "reader", "writer",
+-           "register_dialect", "get_dialect", "list_dialects", "Sniffer",
+-           "unregister_dialect", "__version__", "DictReader", "DictWriter",
+-           "unix_dialect"]
++__all__ = [
++    "Dialect",
++    "DictReader",
++    "DictWriter",
++    "Error",
++    "QUOTE_ALL",
++    "QUOTE_MINIMAL",
++    "QUOTE_NONE",
++    "QUOTE_NONNUMERIC",
++    "QUOTE_NOTNULL",
++    "QUOTE_STRINGS",
++    "Sniffer",
++    "__doc__",
++    "__version__",
++    "excel",
++    "excel_tab",
++    "field_size_limit",
++    "get_dialect",
++    "list_dialects",
++    "reader",
++    "register_dialect",
++    "unix_dialect",
++    "unregister_dialect",
++    "writer",]
+ 
+ class Dialect:
+     """Describe a CSV dialect.
+diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
+index 583c47daff..9776a3226f 100644
+--- a/Lib/ctypes/macholib/dyld.py
++++ b/Lib/ctypes/macholib/dyld.py
+@@ -13,8 +13,10 @@ def _dyld_shared_cache_contains_path(*args):
+         raise NotImplementedError
+ 
+ __all__ = [
+-    'dyld_find', 'framework_find',
+-    'framework_info', 'dylib_info',
++    'dyld_find',
++    'dylib_info',
++    'framework_find',
++    'framework_info',
+ ]
+ 
+ # These are the defaults as per man dyld(1)
+diff --git a/Lib/dataclasses.py b/Lib/dataclasses.py
+index 2fba32b5ff..04a935182f 100644
+--- a/Lib/dataclasses.py
++++ b/Lib/dataclasses.py
+@@ -11,21 +11,21 @@
+ from types import FunctionType, GenericAlias
+ 
+ 
+-__all__ = ['dataclass',
+-           'field',
+-           'Field',
+-           'FrozenInstanceError',
+-           'InitVar',
+-           'KW_ONLY',
+-           'MISSING',
+-
+-           # Helper functions.
++__all__ = [
++    'Field',
++    'FrozenInstanceError',
++    'InitVar',
++    'KW_ONLY',
++    'MISSING',
++    'asdict',
++    'astuple',
++    'dataclass',
++    'field',
++    # Helper functions.
+            'fields',
+-           'asdict',
+-           'astuple',
+-           'make_dataclass',
+-           'replace',
+-           'is_dataclass',
++    'is_dataclass',
++    'make_dataclass',
++    'replace',
+            ]
+ 
+ # Conditions for adding methods.  The boxes indicate what action the
+diff --git a/Lib/datetime.py b/Lib/datetime.py
+index a33d2d724c..bf0f2e9ee9 100644
+--- a/Lib/datetime.py
++++ b/Lib/datetime.py
+@@ -5,5 +5,13 @@
+     from _pydatetime import *
+     from _pydatetime import __doc__
+ 
+-__all__ = ("date", "datetime", "time", "timedelta", "timezone", "tzinfo",
+-           "MINYEAR", "MAXYEAR", "UTC")
++__all__ = (
++    "MAXYEAR",
++    "MINYEAR",
++    "UTC",
++    "date",
++    "datetime",
++    "time",
++    "timedelta",
++    "timezone",
++    "tzinfo",)
+diff --git a/Lib/dbm/__init__.py b/Lib/dbm/__init__.py
+index 8055d3769f..2ffbee5cd3 100644
+--- a/Lib/dbm/__init__.py
++++ b/Lib/dbm/__init__.py
+@@ -27,7 +27,7 @@
+ implementations.
+ """
+ 
+-__all__ = ['open', 'whichdb', 'error']
++__all__ = ['error', 'open', 'whichdb']
+ 
+ import io
+ import os
+diff --git a/Lib/difflib.py b/Lib/difflib.py
+index ba0b256969..e07a6ebdd2 100644
+--- a/Lib/difflib.py
++++ b/Lib/difflib.py
+@@ -26,9 +26,19 @@
+     For producing HTML side by side comparison with change highlights.
+ """
+ 
+-__all__ = ['get_close_matches', 'ndiff', 'restore', 'SequenceMatcher',
+-           'Differ','IS_CHARACTER_JUNK', 'IS_LINE_JUNK', 'context_diff',
+-           'unified_diff', 'diff_bytes', 'HtmlDiff', 'Match']
++__all__ = [
++    'Differ',
++    'HtmlDiff',
++    'IS_CHARACTER_JUNK',
++    'IS_LINE_JUNK',
++    'Match',
++    'SequenceMatcher',
++    'context_diff',
++    'diff_bytes',
++    'get_close_matches',
++    'ndiff',
++    'restore',
++    'unified_diff',]
+ 
+ from heapq import nlargest as _nlargest
+ from collections import namedtuple as _namedtuple
+diff --git a/Lib/doctest.py b/Lib/doctest.py
+index 114aac62a3..082570c1c0 100644
+--- a/Lib/doctest.py
++++ b/Lib/doctest.py
+@@ -48,48 +48,47 @@ def _test():
+ __docformat__ = 'reStructuredText en'
+ 
+ __all__ = [
+-    # 0, Option Flags
+-    'register_optionflag',
+-    'DONT_ACCEPT_TRUE_FOR_1',
+-    'DONT_ACCEPT_BLANKLINE',
+-    'NORMALIZE_WHITESPACE',
+-    'ELLIPSIS',
+-    'SKIP',
+-    'IGNORE_EXCEPTION_DETAIL',
+     'COMPARISON_FLAGS',
+-    'REPORT_UDIFF',
+-    'REPORT_CDIFF',
+-    'REPORT_NDIFF',
+-    'REPORT_ONLY_FIRST_FAILURE',
+-    'REPORTING_FLAGS',
+-    'FAIL_FAST',
+-    # 1. Utility Functions
+-    # 2. Example & DocTest
+-    'Example',
++    'DONT_ACCEPT_BLANKLINE',
++    'DONT_ACCEPT_TRUE_FOR_1',
++    'DebugRunner',
++    'DocFileSuite',
+     'DocTest',
+-    # 3. Doctest Parser
+-    'DocTestParser',
++    'DocTestFailure',
+     # 4. Doctest Finder
+     'DocTestFinder',
++    # 3. Doctest Parser
++    'DocTestParser',
+     # 5. Doctest Runner
+     'DocTestRunner',
++    # 7. Unittest Support
++    'DocTestSuite',
++    'ELLIPSIS',
++    # 2. Example & DocTest
++    'Example',
++    'FAIL_FAST',
++    'IGNORE_EXCEPTION_DETAIL',
++    'NORMALIZE_WHITESPACE',
+     'OutputChecker',
+-    'DocTestFailure',
++    'REPORTING_FLAGS',
++    'REPORT_CDIFF',
++    'REPORT_NDIFF',
++    'REPORT_ONLY_FIRST_FAILURE',
++    'REPORT_UDIFF',
++    'SKIP',
+     'UnexpectedException',
+-    'DebugRunner',
+-    # 6. Test Functions
+-    'testmod',
+-    'testfile',
++    'debug',
++    'debug_src',
++    # 0, Option Flags
++    'register_optionflag',
+     'run_docstring_examples',
+-    # 7. Unittest Support
+-    'DocTestSuite',
+-    'DocFileSuite',
+-    'set_unittest_reportflags',
+     # 8. Debugging Support
+     'script_from_examples',
++    'set_unittest_reportflags',
++    'testfile',
++    # 6. Test Functions
++    'testmod',
+     'testsource',
+-    'debug_src',
+-    'debug',
+ ]
+ 
+ import __future__
+diff --git a/Lib/email/__init__.py b/Lib/email/__init__.py
+index 9fa4778300..811104b7ce 100644
+--- a/Lib/email/__init__.py
++++ b/Lib/email/__init__.py
+@@ -14,10 +14,10 @@
+     'header',
+     'iterators',
+     'message',
+-    'message_from_file',
+     'message_from_binary_file',
+-    'message_from_string',
+     'message_from_bytes',
++    'message_from_file',
++    'message_from_string',
+     'mime',
+     'parser',
+     'quoprimime',
+diff --git a/Lib/email/_encoded_words.py b/Lib/email/_encoded_words.py
+index 6795a606de..9790b1f07d 100644
+--- a/Lib/email/_encoded_words.py
++++ b/Lib/email/_encoded_words.py
+@@ -46,14 +46,15 @@
+ from string import ascii_letters, digits
+ from email import errors
+ 
+-__all__ = ['decode_q',
+-           'encode_q',
+-           'decode_b',
+-           'encode_b',
+-           'len_q',
+-           'len_b',
+-           'decode',
+-           'encode',
++__all__ = [
++    'decode',
++    'decode_b',
++    'decode_q',
++    'encode',
++    'encode_b',
++    'encode_q',
++    'len_b',
++    'len_q',
+            ]
+ 
+ #
+diff --git a/Lib/email/_policybase.py b/Lib/email/_policybase.py
+index c9cbadd2a8..02e293046c 100644
+--- a/Lib/email/_policybase.py
++++ b/Lib/email/_policybase.py
+@@ -9,8 +9,8 @@
+ from email.utils import _has_surrogates
+ 
+ __all__ = [
+-    'Policy',
+     'Compat32',
++    'Policy',
+     'compat32',
+     ]
+ 
+diff --git a/Lib/email/feedparser.py b/Lib/email/feedparser.py
+index 06d6b4a3af..1badf2e9d0 100644
+--- a/Lib/email/feedparser.py
++++ b/Lib/email/feedparser.py
+@@ -19,7 +19,7 @@
+ object's .defects attribute.
+ """
+ 
+-__all__ = ['FeedParser', 'BytesFeedParser']
++__all__ = ['BytesFeedParser', 'FeedParser']
+ 
+ import re
+ 
+diff --git a/Lib/email/generator.py b/Lib/email/generator.py
+index 7ccbe10eb7..ed50cd492d 100644
+--- a/Lib/email/generator.py
++++ b/Lib/email/generator.py
+@@ -4,7 +4,7 @@
+ 
+ """Classes to generate plain text from a message object tree."""
+ 
+-__all__ = ['Generator', 'DecodedGenerator', 'BytesGenerator']
++__all__ = ['BytesGenerator', 'DecodedGenerator', 'Generator']
+ 
+ import re
+ import sys
+diff --git a/Lib/email/message.py b/Lib/email/message.py
+index fe769580fe..17caf9bddf 100644
+--- a/Lib/email/message.py
++++ b/Lib/email/message.py
+@@ -4,7 +4,7 @@
+ 
+ """Basic message object for the email package object model."""
+ 
+-__all__ = ['Message', 'EmailMessage']
++__all__ = ['EmailMessage', 'Message']
+ 
+ import binascii
+ import re
+diff --git a/Lib/email/parser.py b/Lib/email/parser.py
+index 06d99b17f2..7ec47ad978 100644
+--- a/Lib/email/parser.py
++++ b/Lib/email/parser.py
+@@ -4,8 +4,13 @@
+ 
+ """A parser of RFC 2822 and MIME email messages."""
+ 
+-__all__ = ['Parser', 'HeaderParser', 'BytesParser', 'BytesHeaderParser',
+-           'FeedParser', 'BytesFeedParser']
++__all__ = [
++    'BytesFeedParser',
++    'BytesHeaderParser',
++    'BytesParser',
++    'FeedParser',
++    'HeaderParser',
++    'Parser',]
+ 
+ from io import StringIO, TextIOWrapper
+ 
+diff --git a/Lib/email/policy.py b/Lib/email/policy.py
+index 611deb50bb..3fbea71123 100644
+--- a/Lib/email/policy.py
++++ b/Lib/email/policy.py
+@@ -12,13 +12,13 @@
+ 
+ __all__ = [
+     'Compat32',
+-    'compat32',
+-    'Policy',
+     'EmailPolicy',
++    'HTTP',
++    'Policy',
++    'SMTP',
++    'compat32',
+     'default',
+     'strict',
+-    'SMTP',
+-    'HTTP',
+     ]
+ 
+ linesep_splitter = re.compile(r'\n|\r')
+diff --git a/Lib/email/utils.py b/Lib/email/utils.py
+index 103cef61a8..08505e6c29 100644
+--- a/Lib/email/utils.py
++++ b/Lib/email/utils.py
+@@ -9,16 +9,16 @@
+     'decode_params',
+     'decode_rfc2231',
+     'encode_rfc2231',
++    'format_datetime',
+     'formataddr',
+     'formatdate',
+-    'format_datetime',
+     'getaddresses',
+     'make_msgid',
+     'mktime_tz',
+     'parseaddr',
+     'parsedate',
+-    'parsedate_tz',
+     'parsedate_to_datetime',
++    'parsedate_tz',
+     'unquote',
+     ]
+ 
+diff --git a/Lib/ensurepip/__init__.py b/Lib/ensurepip/__init__.py
+index a09bf3201e..229bd9f1b4 100644
+--- a/Lib/ensurepip/__init__.py
++++ b/Lib/ensurepip/__init__.py
+@@ -8,7 +8,7 @@
+ from importlib import resources
+ 
+ 
+-__all__ = ["version", "bootstrap"]
++__all__ = ["bootstrap", "version"]
+ _PACKAGE_NAMES = ('pip',)
+ _PIP_VERSION = "23.3.2"
+ _PROJECTS = [
+diff --git a/Lib/enum.py b/Lib/enum.py
+index a8a50a5838..dae396860d 100644
+--- a/Lib/enum.py
++++ b/Lib/enum.py
+@@ -4,13 +4,36 @@
+ 
+ 
+ __all__ = [
+-        'EnumType', 'EnumMeta', 'EnumDict',
+-        'Enum', 'IntEnum', 'StrEnum', 'Flag', 'IntFlag', 'ReprEnum',
+-        'auto', 'unique', 'property', 'verify', 'member', 'nonmember',
+-        'FlagBoundary', 'STRICT', 'CONFORM', 'EJECT', 'KEEP',
+-        'global_flag_repr', 'global_enum_repr', 'global_str', 'global_enum',
+-        'EnumCheck', 'CONTINUOUS', 'NAMED_FLAGS', 'UNIQUE',
+-        'pickle_by_global_name', 'pickle_by_enum_name',
++    'CONFORM',
++    'CONTINUOUS',
++    'EJECT',
++    'Enum',
++    'EnumCheck',
++    'EnumDict',
++    'EnumMeta',
++    'EnumType',
++    'Flag',
++    'FlagBoundary',
++    'IntEnum',
++    'IntFlag',
++    'KEEP',
++    'NAMED_FLAGS',
++    'ReprEnum',
++    'STRICT',
++    'StrEnum',
++    'UNIQUE',
++    'auto',
++    'global_enum',
++    'global_enum_repr',
++    'global_flag_repr',
++    'global_str',
++    'member',
++    'nonmember',
++    'pickle_by_enum_name',
++    'pickle_by_global_name',
++    'property',
++    'unique',
++    'verify',
+         ]
+ 
+ 
+diff --git a/Lib/filecmp.py b/Lib/filecmp.py
+index 30bd900fa8..21320589dc 100644
+--- a/Lib/filecmp.py
++++ b/Lib/filecmp.py
+@@ -15,7 +15,7 @@
+ from itertools import filterfalse
+ from types import GenericAlias
+ 
+-__all__ = ['clear_cache', 'cmp', 'dircmp', 'cmpfiles', 'DEFAULT_IGNORES']
++__all__ = ['DEFAULT_IGNORES', 'clear_cache', 'cmp', 'cmpfiles', 'dircmp']
+ 
+ _cache = {}
+ BUFSIZE = 8*1024
+diff --git a/Lib/fileinput.py b/Lib/fileinput.py
+index 1b25f28f3d..7eeb768e0d 100644
+--- a/Lib/fileinput.py
++++ b/Lib/fileinput.py
+@@ -69,9 +69,19 @@
+ import sys, os
+ from types import GenericAlias
+ 
+-__all__ = ["input", "close", "nextfile", "filename", "lineno", "filelineno",
+-           "fileno", "isfirstline", "isstdin", "FileInput", "hook_compressed",
+-           "hook_encoded"]
++__all__ = [
++    "FileInput",
++    "close",
++    "filelineno",
++    "filename",
++    "fileno",
++    "hook_compressed",
++    "hook_encoded",
++    "input",
++    "isfirstline",
++    "isstdin",
++    "lineno",
++    "nextfile",]
+ 
+ _state = None
+ 
+diff --git a/Lib/ftplib.py b/Lib/ftplib.py
+index a56e0c3085..dff6f65fec 100644
+--- a/Lib/ftplib.py
++++ b/Lib/ftplib.py
+@@ -40,8 +40,13 @@
+ import socket
+ from socket import _GLOBAL_DEFAULT_TIMEOUT
+ 
+-__all__ = ["FTP", "error_reply", "error_temp", "error_perm", "error_proto",
+-           "all_errors"]
++__all__ = [
++    "FTP",
++    "all_errors",
++    "error_perm",
++    "error_proto",
++    "error_reply",
++    "error_temp",]
+ 
+ # Magic number from <socket.h>
+ MSG_OOB = 0x1                           # Process data out of band
+diff --git a/Lib/functools.py b/Lib/functools.py
+index 55990e742b..c3455e8314 100644
+--- a/Lib/functools.py
++++ b/Lib/functools.py
+@@ -9,10 +9,21 @@
+ #   Copyright (C) 2006-2013 Python Software Foundation.
+ # See C source code for _functools credits/copyright
+ 
+-__all__ = ['update_wrapper', 'wraps', 'WRAPPER_ASSIGNMENTS', 'WRAPPER_UPDATES',
+-           'total_ordering', 'cache', 'cmp_to_key', 'lru_cache', 'reduce',
+-           'partial', 'partialmethod', 'singledispatch', 'singledispatchmethod',
+-           'cached_property']
++__all__ = [
++    'WRAPPER_ASSIGNMENTS',
++    'WRAPPER_UPDATES',
++    'cache',
++    'cached_property',
++    'cmp_to_key',
++    'lru_cache',
++    'partial',
++    'partialmethod',
++    'reduce',
++    'singledispatch',
++    'singledispatchmethod',
++    'total_ordering',
++    'update_wrapper',
++    'wraps',]
+ 
+ from abc import get_cache_token
+ from collections import namedtuple
+diff --git a/Lib/getpass.py b/Lib/getpass.py
+index bd0097ced9..198d828539 100644
+--- a/Lib/getpass.py
++++ b/Lib/getpass.py
+@@ -19,7 +19,7 @@
+ import os
+ import sys
+ 
+-__all__ = ["getpass","getuser","GetPassWarning"]
++__all__ = ["GetPassWarning", "getpass", "getuser"]
+ 
+ 
+ class GetPassWarning(UserWarning): pass
+diff --git a/Lib/gettext.py b/Lib/gettext.py
+index 62cff81b7b..55f15f99ad 100644
+--- a/Lib/gettext.py
++++ b/Lib/gettext.py
+@@ -52,11 +52,23 @@
+ import sys
+ 
+ 
+-__all__ = ['NullTranslations', 'GNUTranslations', 'Catalog',
+-           'bindtextdomain', 'find', 'translation', 'install',
+-           'textdomain', 'dgettext', 'dngettext', 'gettext',
+-           'ngettext', 'pgettext', 'dpgettext', 'npgettext',
+-           'dnpgettext'
++__all__ = [
++    'Catalog',
++    'GNUTranslations',
++    'NullTranslations',
++    'bindtextdomain',
++    'dgettext',
++    'dngettext',
++    'dnpgettext',
++    'dpgettext',
++    'find',
++    'gettext',
++    'install',
++    'ngettext',
++    'npgettext',
++    'pgettext',
++    'textdomain',
++    'translation',
+            ]
+ 
+ _default_localedir = os.path.join(sys.base_prefix, 'share', 'locale')
+diff --git a/Lib/glob.py b/Lib/glob.py
+index 4a335a1076..8e46cd8dfb 100644
+--- a/Lib/glob.py
++++ b/Lib/glob.py
+@@ -8,7 +8,7 @@
+ import stat
+ import sys
+ 
+-__all__ = ["glob", "iglob", "escape"]
++__all__ = ["escape", "glob", "iglob"]
+ 
+ def glob(pathname, *, root_dir=None, dir_fd=None, recursive=False,
+         include_hidden=False):
+diff --git a/Lib/graphlib.py b/Lib/graphlib.py
+index 636545648e..e5c327bb20 100644
+--- a/Lib/graphlib.py
++++ b/Lib/graphlib.py
+@@ -1,6 +1,6 @@
+ from types import GenericAlias
+ 
+-__all__ = ["TopologicalSorter", "CycleError"]
++__all__ = ["CycleError", "TopologicalSorter"]
+ 
+ _NODE_OUT = -1
+ _NODE_DONE = -2
+diff --git a/Lib/gzip.py b/Lib/gzip.py
+index 177f9080dc..cf86e7ea3f 100644
+--- a/Lib/gzip.py
++++ b/Lib/gzip.py
+@@ -11,7 +11,7 @@
+ import io
+ import _compression
+ 
+-__all__ = ["BadGzipFile", "GzipFile", "open", "compress", "decompress"]
++__all__ = ["BadGzipFile", "GzipFile", "compress", "decompress", "open"]
+ 
+ FTEXT, FHCRC, FEXTRA, FNAME, FCOMMENT = 1, 2, 4, 8, 16
+ 
+diff --git a/Lib/heapq.py b/Lib/heapq.py
+index 2fd9d1ff4b..6ea9521e31 100644
+--- a/Lib/heapq.py
++++ b/Lib/heapq.py
+@@ -126,8 +126,15 @@
+ From all times, sorting has always been a Great Art! :-)
+ """
+ 
+-__all__ = ['heappush', 'heappop', 'heapify', 'heapreplace', 'merge',
+-           'nlargest', 'nsmallest', 'heappushpop']
++__all__ = [
++    'heapify',
++    'heappop',
++    'heappush',
++    'heappushpop',
++    'heapreplace',
++    'merge',
++    'nlargest',
++    'nsmallest',]
+ 
+ def heappush(heap, item):
+     """Push item onto heap, maintaining the heap invariant."""
+diff --git a/Lib/html/entities.py b/Lib/html/entities.py
+index eb6dc12190..e50d7d09c2 100644
+--- a/Lib/html/entities.py
++++ b/Lib/html/entities.py
+@@ -1,6 +1,6 @@
+ """HTML character entity references."""
+ 
+-__all__ = ['html5', 'name2codepoint', 'codepoint2name', 'entitydefs']
++__all__ = ['codepoint2name', 'entitydefs', 'html5', 'name2codepoint']
+ 
+ 
+ # maps HTML4 entity name to the Unicode code point
+diff --git a/Lib/http/__init__.py b/Lib/http/__init__.py
+index e093a1fec4..0eff6f0e4b 100644
+--- a/Lib/http/__init__.py
++++ b/Lib/http/__init__.py
+@@ -1,6 +1,6 @@
+ from enum import StrEnum, IntEnum, _simple_enum
+ 
+-__all__ = ['HTTPStatus', 'HTTPMethod']
++__all__ = ['HTTPMethod', 'HTTPStatus']
+ 
+ 
+ @_simple_enum(IntEnum)
+diff --git a/Lib/http/client.py b/Lib/http/client.py
+index 5eebfccafb..81468aba55 100644
+--- a/Lib/http/client.py
++++ b/Lib/http/client.py
+@@ -81,13 +81,25 @@
+ 
+ # HTTPMessage, parse_headers(), and the HTTP status code constants are
+ # intentionally omitted for simplicity
+-__all__ = ["HTTPResponse", "HTTPConnection",
+-           "HTTPException", "NotConnected", "UnknownProtocol",
+-           "UnknownTransferEncoding", "UnimplementedFileMode",
+-           "IncompleteRead", "InvalidURL", "ImproperConnectionState",
+-           "CannotSendRequest", "CannotSendHeader", "ResponseNotReady",
+-           "BadStatusLine", "LineTooLong", "RemoteDisconnected", "error",
+-           "responses"]
++__all__ = [
++    "BadStatusLine",
++    "CannotSendHeader",
++    "CannotSendRequest",
++    "HTTPConnection",
++    "HTTPException",
++    "HTTPResponse",
++    "ImproperConnectionState",
++    "IncompleteRead",
++    "InvalidURL",
++    "LineTooLong",
++    "NotConnected",
++    "RemoteDisconnected",
++    "ResponseNotReady",
++    "UnimplementedFileMode",
++    "UnknownProtocol",
++    "UnknownTransferEncoding",
++    "error",
++    "responses",]
+ 
+ HTTP_PORT = 80
+ HTTPS_PORT = 443
+diff --git a/Lib/http/cookies.py b/Lib/http/cookies.py
+index 35ac2dc6ae..86177c6cfb 100644
+--- a/Lib/http/cookies.py
++++ b/Lib/http/cookies.py
+@@ -133,7 +133,7 @@
+ import string
+ import types
+ 
+-__all__ = ["CookieError", "BaseCookie", "SimpleCookie"]
++__all__ = ["BaseCookie", "CookieError", "SimpleCookie"]
+ 
+ _nulljoin = ''.join
+ _semispacejoin = '; '.join
+diff --git a/Lib/http/server.py b/Lib/http/server.py
+index ee7a9b6aa5..c74260ccef 100644
+--- a/Lib/http/server.py
++++ b/Lib/http/server.py
+@@ -83,8 +83,11 @@
+ __version__ = "0.6"
+ 
+ __all__ = [
+-    "HTTPServer", "ThreadingHTTPServer", "BaseHTTPRequestHandler",
+-    "SimpleHTTPRequestHandler", "CGIHTTPRequestHandler",
++    "BaseHTTPRequestHandler",
++    "CGIHTTPRequestHandler",
++    "HTTPServer",
++    "SimpleHTTPRequestHandler",
++    "ThreadingHTTPServer",
+ ]
+ 
+ import copy
+diff --git a/Lib/imaplib.py b/Lib/imaplib.py
+index 577b4b9b03..9c62732d62 100644
+--- a/Lib/imaplib.py
++++ b/Lib/imaplib.py
+@@ -32,8 +32,13 @@
+ except ImportError:
+     HAVE_SSL = False
+ 
+-__all__ = ["IMAP4", "IMAP4_stream", "Internaldate2tuple",
+-           "Int2AP", "ParseFlags", "Time2Internaldate"]
++__all__ = [
++    "IMAP4",
++    "IMAP4_stream",
++    "Int2AP",
++    "Internaldate2tuple",
++    "ParseFlags",
++    "Time2Internaldate",]
+ 
+ #       Globals
+ 
+diff --git a/Lib/importlib/abc.py b/Lib/importlib/abc.py
+index b56fa94eb9..c9355555b7 100644
+--- a/Lib/importlib/abc.py
++++ b/Lib/importlib/abc.py
+@@ -19,9 +19,14 @@
+ 
+ 
+ __all__ = [
+-    'Loader', 'MetaPathFinder', 'PathEntryFinder',
+-    'ResourceLoader', 'InspectLoader', 'ExecutionLoader',
+-    'FileLoader', 'SourceLoader',
++    'ExecutionLoader',
++    'FileLoader',
++    'InspectLoader',
++    'Loader',
++    'MetaPathFinder',
++    'PathEntryFinder',
++    'ResourceLoader',
++    'SourceLoader',
+ ]
+ 
+ 
+diff --git a/Lib/importlib/readers.py b/Lib/importlib/readers.py
+index df7fb92e5c..0cd0e13559 100644
+--- a/Lib/importlib/readers.py
++++ b/Lib/importlib/readers.py
+@@ -9,4 +9,4 @@
+     FileReader, ZipReader, MultiplexedPath, NamespaceReader,
+ )
+ 
+-__all__ = ['FileReader', 'ZipReader', 'MultiplexedPath', 'NamespaceReader']
++__all__ = ['FileReader', 'MultiplexedPath', 'NamespaceReader', 'ZipReader']
+diff --git a/Lib/importlib/simple.py b/Lib/importlib/simple.py
+index 845bb90364..a7d0265d8f 100644
+--- a/Lib/importlib/simple.py
++++ b/Lib/importlib/simple.py
+@@ -10,5 +10,8 @@
+ )
+ 
+ __all__ = [
+-    'SimpleReader', 'ResourceHandle', 'ResourceContainer', 'TraversableReader',
++    'ResourceContainer',
++    'ResourceHandle',
++    'SimpleReader',
++    'TraversableReader',
+ ]
+diff --git a/Lib/io.py b/Lib/io.py
+index f0e2fa15d5..db8999a0f7 100644
+--- a/Lib/io.py
++++ b/Lib/io.py
+@@ -41,12 +41,29 @@
+               "Amaury Forgeot d'Arc <amauryfa@gmail.com>, "
+               "Benjamin Peterson <benjamin@python.org>")
+ 
+-__all__ = ["BlockingIOError", "open", "open_code", "IOBase", "RawIOBase",
+-           "FileIO", "BytesIO", "StringIO", "BufferedIOBase",
+-           "BufferedReader", "BufferedWriter", "BufferedRWPair",
+-           "BufferedRandom", "TextIOBase", "TextIOWrapper",
+-           "UnsupportedOperation", "SEEK_SET", "SEEK_CUR", "SEEK_END",
+-           "DEFAULT_BUFFER_SIZE", "text_encoding", "IncrementalNewlineDecoder"]
++__all__ = [
++    "BlockingIOError",
++    "BufferedIOBase",
++    "BufferedRWPair",
++    "BufferedRandom",
++    "BufferedReader",
++    "BufferedWriter",
++    "BytesIO",
++    "DEFAULT_BUFFER_SIZE",
++    "FileIO",
++    "IOBase",
++    "IncrementalNewlineDecoder",
++    "RawIOBase",
++    "SEEK_CUR",
++    "SEEK_END",
++    "SEEK_SET",
++    "StringIO",
++    "TextIOBase",
++    "TextIOWrapper",
++    "UnsupportedOperation",
++    "open",
++    "open_code",
++    "text_encoding",]
+ 
+ 
+ import _io
+diff --git a/Lib/json/__init__.py b/Lib/json/__init__.py
+index ed2c74771e..743b21be65 100644
+--- a/Lib/json/__init__.py
++++ b/Lib/json/__init__.py
+@@ -97,8 +97,13 @@
+ """
+ __version__ = '2.0.9'
+ __all__ = [
+-    'dump', 'dumps', 'load', 'loads',
+-    'JSONDecoder', 'JSONDecodeError', 'JSONEncoder',
++    'JSONDecodeError',
++    'JSONDecoder',
++    'JSONEncoder',
++    'dump',
++    'dumps',
++    'load',
++    'loads',
+ ]
+ 
+ __author__ = 'Bob Ippolito <bob@redivi.com>'
+diff --git a/Lib/json/decoder.py b/Lib/json/decoder.py
+index d69a45d679..5510321c75 100644
+--- a/Lib/json/decoder.py
++++ b/Lib/json/decoder.py
+@@ -8,7 +8,7 @@
+ except ImportError:
+     c_scanstring = None
+ 
+-__all__ = ['JSONDecoder', 'JSONDecodeError']
++__all__ = ['JSONDecodeError', 'JSONDecoder']
+ 
+ FLAGS = re.VERBOSE | re.MULTILINE | re.DOTALL
+ 
+diff --git a/Lib/linecache.py b/Lib/linecache.py
+index 329a140534..49363f39fe 100644
+--- a/Lib/linecache.py
++++ b/Lib/linecache.py
+@@ -8,7 +8,7 @@
+ import sys
+ import os
+ 
+-__all__ = ["getline", "clearcache", "checkcache", "lazycache"]
++__all__ = ["checkcache", "clearcache", "getline", "lazycache"]
+ 
+ 
+ # The cache. Maps filenames to either a thunk which will provide source code,
+diff --git a/Lib/locale.py b/Lib/locale.py
+index e0cb4c5449..e8e9180378 100644
+--- a/Lib/locale.py
++++ b/Lib/locale.py
+@@ -24,11 +24,29 @@
+ 
+ # Yuck:  LC_MESSAGES is non-standard:  can't tell whether it exists before
+ # trying the import.  So __all__ is also fiddled at the end of the file.
+-__all__ = ["getlocale", "getdefaultlocale", "getpreferredencoding", "Error",
+-           "setlocale", "localeconv", "strcoll", "strxfrm",
+-           "str", "atof", "atoi", "format_string", "currency",
+-           "normalize", "LC_CTYPE", "LC_COLLATE", "LC_TIME", "LC_MONETARY",
+-           "LC_NUMERIC", "LC_ALL", "CHAR_MAX", "getencoding"]
++__all__ = [
++    "CHAR_MAX",
++    "Error",
++    "LC_ALL",
++    "LC_COLLATE",
++    "LC_CTYPE",
++    "LC_MONETARY",
++    "LC_NUMERIC",
++    "LC_TIME",
++    "atof",
++    "atoi",
++    "currency",
++    "format_string",
++    "getdefaultlocale",
++    "getencoding",
++    "getlocale",
++    "getpreferredencoding",
++    "localeconv",
++    "normalize",
++    "setlocale",
++    "str",
++    "strcoll",
++    "strxfrm",]
+ 
+ def _strcoll(a,b):
+     """ strcoll(string,string) -> int.
+diff --git a/Lib/logging/__init__.py b/Lib/logging/__init__.py
+index eb7e020d1e..f88c34ae61 100644
+--- a/Lib/logging/__init__.py
++++ b/Lib/logging/__init__.py
+@@ -30,16 +30,51 @@
+ from string import Formatter as StrFormatter
+ 
+ 
+-__all__ = ['BASIC_FORMAT', 'BufferingFormatter', 'CRITICAL', 'DEBUG', 'ERROR',
+-           'FATAL', 'FileHandler', 'Filter', 'Formatter', 'Handler', 'INFO',
+-           'LogRecord', 'Logger', 'LoggerAdapter', 'NOTSET', 'NullHandler',
+-           'StreamHandler', 'WARN', 'WARNING', 'addLevelName', 'basicConfig',
+-           'captureWarnings', 'critical', 'debug', 'disable', 'error',
+-           'exception', 'fatal', 'getLevelName', 'getLogger', 'getLoggerClass',
+-           'info', 'log', 'makeLogRecord', 'setLoggerClass', 'shutdown',
+-           'warning', 'getLogRecordFactory', 'setLogRecordFactory',
+-           'lastResort', 'raiseExceptions', 'getLevelNamesMapping',
+-           'getHandlerByName', 'getHandlerNames']
++__all__ = [
++    'BASIC_FORMAT',
++    'BufferingFormatter',
++    'CRITICAL',
++    'DEBUG',
++    'ERROR',
++    'FATAL',
++    'FileHandler',
++    'Filter',
++    'Formatter',
++    'Handler',
++    'INFO',
++    'LogRecord',
++    'Logger',
++    'LoggerAdapter',
++    'NOTSET',
++    'NullHandler',
++    'StreamHandler',
++    'WARN',
++    'WARNING',
++    'addLevelName',
++    'basicConfig',
++    'captureWarnings',
++    'critical',
++    'debug',
++    'disable',
++    'error',
++    'exception',
++    'fatal',
++    'getHandlerByName',
++    'getHandlerNames',
++    'getLevelName',
++    'getLevelNamesMapping',
++    'getLogRecordFactory',
++    'getLogger',
++    'getLoggerClass',
++    'info',
++    'lastResort',
++    'log',
++    'makeLogRecord',
++    'raiseExceptions',
++    'setLogRecordFactory',
++    'setLoggerClass',
++    'shutdown',
++    'warning',]
+ 
+ import threading
+ 
+diff --git a/Lib/lzma.py b/Lib/lzma.py
+index 800f52198f..d8ce83ad79 100644
+--- a/Lib/lzma.py
++++ b/Lib/lzma.py
+@@ -9,16 +9,42 @@
+ """
+ 
+ __all__ = [
+-    "CHECK_NONE", "CHECK_CRC32", "CHECK_CRC64", "CHECK_SHA256",
+-    "CHECK_ID_MAX", "CHECK_UNKNOWN",
+-    "FILTER_LZMA1", "FILTER_LZMA2", "FILTER_DELTA", "FILTER_X86", "FILTER_IA64",
+-    "FILTER_ARM", "FILTER_ARMTHUMB", "FILTER_POWERPC", "FILTER_SPARC",
+-    "FORMAT_AUTO", "FORMAT_XZ", "FORMAT_ALONE", "FORMAT_RAW",
+-    "MF_HC3", "MF_HC4", "MF_BT2", "MF_BT3", "MF_BT4",
+-    "MODE_FAST", "MODE_NORMAL", "PRESET_DEFAULT", "PRESET_EXTREME",
+-
+-    "LZMACompressor", "LZMADecompressor", "LZMAFile", "LZMAError",
+-    "open", "compress", "decompress", "is_check_supported",
++    "CHECK_CRC32",
++    "CHECK_CRC64",
++    "CHECK_ID_MAX",
++    "CHECK_NONE",
++    "CHECK_SHA256",
++    "CHECK_UNKNOWN",
++    "FILTER_ARM",
++    "FILTER_ARMTHUMB",
++    "FILTER_DELTA",
++    "FILTER_IA64",
++    "FILTER_LZMA1",
++    "FILTER_LZMA2",
++    "FILTER_POWERPC",
++    "FILTER_SPARC",
++    "FILTER_X86",
++    "FORMAT_ALONE",
++    "FORMAT_AUTO",
++    "FORMAT_RAW",
++    "FORMAT_XZ",
++    "LZMACompressor",
++    "LZMADecompressor",
++    "LZMAError",
++    "LZMAFile",
++    "MF_BT2",
++    "MF_BT3",
++    "MF_BT4",
++    "MF_HC3",
++    "MF_HC4",
++    "MODE_FAST",
++    "MODE_NORMAL",
++    "PRESET_DEFAULT",
++    "PRESET_EXTREME",
++    "compress",
++    "decompress",
++    "is_check_supported",
++    "open",
+ ]
+ 
+ import builtins
+diff --git a/Lib/mailbox.py b/Lib/mailbox.py
+index 81ea210cf8..c3b74c94dd 100644
+--- a/Lib/mailbox.py
++++ b/Lib/mailbox.py
+@@ -24,10 +24,24 @@
+ except ImportError:
+     fcntl = None
+ 
+-__all__ = ['Mailbox', 'Maildir', 'mbox', 'MH', 'Babyl', 'MMDF',
+-           'Message', 'MaildirMessage', 'mboxMessage', 'MHMessage',
+-           'BabylMessage', 'MMDFMessage', 'Error', 'NoSuchMailboxError',
+-           'NotEmptyError', 'ExternalClashError', 'FormatError']
++__all__ = [
++    'Babyl',
++    'BabylMessage',
++    'Error',
++    'ExternalClashError',
++    'FormatError',
++    'MH',
++    'MHMessage',
++    'MMDF',
++    'MMDFMessage',
++    'Mailbox',
++    'Maildir',
++    'MaildirMessage',
++    'Message',
++    'NoSuchMailboxError',
++    'NotEmptyError',
++    'mbox',
++    'mboxMessage',]
+ 
+ linesep = os.linesep.encode('ascii')
+ 
+diff --git a/Lib/mimetypes.py b/Lib/mimetypes.py
+index 37228de482..ff4c0fc674 100644
+--- a/Lib/mimetypes.py
++++ b/Lib/mimetypes.py
+@@ -39,10 +39,19 @@
+     _winreg = None
+ 
+ __all__ = [
+-    "knownfiles", "inited", "MimeTypes",
+-    "guess_type", "guess_all_extensions", "guess_extension",
+-    "add_type", "init", "read_mime_types",
+-    "suffix_map", "encodings_map", "types_map", "common_types"
++    "MimeTypes",
++    "add_type",
++    "common_types",
++    "encodings_map",
++    "guess_all_extensions",
++    "guess_extension",
++    "guess_type",
++    "init",
++    "inited",
++    "knownfiles",
++    "read_mime_types",
++    "suffix_map",
++    "types_map",
+ ]
+ 
+ knownfiles = [
+diff --git a/Lib/multiprocessing/dummy/__init__.py b/Lib/multiprocessing/dummy/__init__.py
+index 6a1468609e..6ca069cb8c 100644
+--- a/Lib/multiprocessing/dummy/__init__.py
++++ b/Lib/multiprocessing/dummy/__init__.py
+@@ -8,9 +8,22 @@
+ #
+ 
+ __all__ = [
+-    'Process', 'current_process', 'active_children', 'freeze_support',
+-    'Lock', 'RLock', 'Semaphore', 'BoundedSemaphore', 'Condition',
+-    'Event', 'Barrier', 'Queue', 'Manager', 'Pipe', 'Pool', 'JoinableQueue'
++    'Barrier',
++    'BoundedSemaphore',
++    'Condition',
++    'Event',
++    'JoinableQueue',
++    'Lock',
++    'Manager',
++    'Pipe',
++    'Pool',
++    'Process',
++    'Queue',
++    'RLock',
++    'Semaphore',
++    'active_children',
++    'current_process',
++    'freeze_support',
+     ]
+ 
+ #
+diff --git a/Lib/multiprocessing/forkserver.py b/Lib/multiprocessing/forkserver.py
+index 4642707dae..7f5dd6f9b7 100644
+--- a/Lib/multiprocessing/forkserver.py
++++ b/Lib/multiprocessing/forkserver.py
+@@ -15,8 +15,11 @@
+ from . import spawn
+ from . import util
+ 
+-__all__ = ['ensure_running', 'get_inherited_fds', 'connect_to_new_process',
+-           'set_forkserver_preload']
++__all__ = [
++    'connect_to_new_process',
++    'ensure_running',
++    'get_inherited_fds',
++    'set_forkserver_preload',]
+ 
+ #
+ #
+diff --git a/Lib/multiprocessing/managers.py b/Lib/multiprocessing/managers.py
+index 96cebc6eab..afb4ea53e3 100644
+--- a/Lib/multiprocessing/managers.py
++++ b/Lib/multiprocessing/managers.py
+@@ -8,7 +8,7 @@
+ # Licensed to PSF under a Contributor Agreement.
+ #
+ 
+-__all__ = [ 'BaseManager', 'SyncManager', 'BaseProxy', 'Token' ]
++__all__ = [ 'BaseManager', 'BaseProxy', 'SyncManager', 'Token' ]
+ 
+ #
+ # Imports
+diff --git a/Lib/multiprocessing/process.py b/Lib/multiprocessing/process.py
+index 271ba3fd32..235b168328 100644
+--- a/Lib/multiprocessing/process.py
++++ b/Lib/multiprocessing/process.py
+@@ -7,8 +7,11 @@
+ # Licensed to PSF under a Contributor Agreement.
+ #
+ 
+-__all__ = ['BaseProcess', 'current_process', 'active_children',
+-           'parent_process']
++__all__ = [
++    'BaseProcess',
++    'active_children',
++    'current_process',
++    'parent_process',]
+ 
+ #
+ # Imports
+diff --git a/Lib/multiprocessing/queues.py b/Lib/multiprocessing/queues.py
+index 852ae87b27..0b80279182 100644
+--- a/Lib/multiprocessing/queues.py
++++ b/Lib/multiprocessing/queues.py
+@@ -7,7 +7,7 @@
+ # Licensed to PSF under a Contributor Agreement.
+ #
+ 
+-__all__ = ['Queue', 'SimpleQueue', 'JoinableQueue']
++__all__ = ['JoinableQueue', 'Queue', 'SimpleQueue']
+ 
+ import sys
+ import os
+diff --git a/Lib/multiprocessing/reduction.py b/Lib/multiprocessing/reduction.py
+index 5593f0682f..6abefa58a1 100644
+--- a/Lib/multiprocessing/reduction.py
++++ b/Lib/multiprocessing/reduction.py
+@@ -18,7 +18,7 @@
+ 
+ from . import context
+ 
+-__all__ = ['send_handle', 'recv_handle', 'ForkingPickler', 'register', 'dump']
++__all__ = ['ForkingPickler', 'dump', 'recv_handle', 'register', 'send_handle']
+ 
+ 
+ HAVE_SEND_HANDLE = (sys.platform == 'win32' or
+@@ -136,7 +136,7 @@ def detach(self):
+ 
+ else:
+     # Unix
+-    __all__ += ['DupFd', 'sendfds', 'recvfds']
++    __all__ += ['DupFd', 'recvfds', 'sendfds']
+     import array
+ 
+     # On MacOSX we should acknowledge receipt of fds -- see Issue14669
+diff --git a/Lib/multiprocessing/shared_memory.py b/Lib/multiprocessing/shared_memory.py
+index 67e70fdc27..c1a26bc869 100644
+--- a/Lib/multiprocessing/shared_memory.py
++++ b/Lib/multiprocessing/shared_memory.py
+@@ -5,7 +5,7 @@
+ """
+ 
+ 
+-__all__ = [ 'SharedMemory', 'ShareableList' ]
++__all__ = [ 'ShareableList', 'SharedMemory' ]
+ 
+ 
+ from functools import partial
+diff --git a/Lib/multiprocessing/sharedctypes.py b/Lib/multiprocessing/sharedctypes.py
+index 6071707027..f314e67811 100644
+--- a/Lib/multiprocessing/sharedctypes.py
++++ b/Lib/multiprocessing/sharedctypes.py
+@@ -16,7 +16,7 @@
+ from .context import reduction, assert_spawning
+ _ForkingPickler = reduction.ForkingPickler
+ 
+-__all__ = ['RawValue', 'RawArray', 'Value', 'Array', 'copy', 'synchronized']
++__all__ = ['Array', 'RawArray', 'RawValue', 'Value', 'copy', 'synchronized']
+ 
+ #
+ #
+diff --git a/Lib/multiprocessing/spawn.py b/Lib/multiprocessing/spawn.py
+index daac1ecc34..bc4ef5c287 100644
+--- a/Lib/multiprocessing/spawn.py
++++ b/Lib/multiprocessing/spawn.py
+@@ -18,8 +18,14 @@
+ from .context import reduction
+ from . import util
+ 
+-__all__ = ['_main', 'freeze_support', 'set_executable', 'get_executable',
+-           'get_preparation_data', 'get_command_line', 'import_main_path']
++__all__ = [
++    '_main',
++    'freeze_support',
++    'get_command_line',
++    'get_executable',
++    'get_preparation_data',
++    'import_main_path',
++    'set_executable',]
+ 
+ #
+ # _python_exe is the assumed path to the python executable.
+diff --git a/Lib/multiprocessing/synchronize.py b/Lib/multiprocessing/synchronize.py
+index 3ccbfe311c..469e5be7bc 100644
+--- a/Lib/multiprocessing/synchronize.py
++++ b/Lib/multiprocessing/synchronize.py
+@@ -8,7 +8,12 @@
+ #
+ 
+ __all__ = [
+-    'Lock', 'RLock', 'Semaphore', 'BoundedSemaphore', 'Condition', 'Event'
++    'BoundedSemaphore',
++    'Condition',
++    'Event',
++    'Lock',
++    'RLock',
++    'Semaphore',
+     ]
+ 
+ import threading
+diff --git a/Lib/multiprocessing/util.py b/Lib/multiprocessing/util.py
+index 32871850dd..2361a01d51 100644
+--- a/Lib/multiprocessing/util.py
++++ b/Lib/multiprocessing/util.py
+@@ -19,10 +19,21 @@
+ from . import process
+ 
+ __all__ = [
+-    'sub_debug', 'debug', 'info', 'sub_warning', 'get_logger',
+-    'log_to_stderr', 'get_temp_dir', 'register_after_fork',
+-    'is_exiting', 'Finalize', 'ForkAwareThreadLock', 'ForkAwareLocal',
+-    'close_all_fds_except', 'SUBDEBUG', 'SUBWARNING',
++    'Finalize',
++    'ForkAwareLocal',
++    'ForkAwareThreadLock',
++    'SUBDEBUG',
++    'SUBWARNING',
++    'close_all_fds_except',
++    'debug',
++    'get_logger',
++    'get_temp_dir',
++    'info',
++    'is_exiting',
++    'log_to_stderr',
++    'register_after_fork',
++    'sub_debug',
++    'sub_warning',
+     ]
+ 
+ #
+diff --git a/Lib/netrc.py b/Lib/netrc.py
+index b285fd8e35..f50ff5a938 100644
+--- a/Lib/netrc.py
++++ b/Lib/netrc.py
+@@ -4,7 +4,7 @@
+ 
+ import os, stat
+ 
+-__all__ = ["netrc", "NetrcParseError"]
++__all__ = ["NetrcParseError", "netrc"]
+ 
+ 
+ class NetrcParseError(Exception):
+diff --git a/Lib/ntpath.py b/Lib/ntpath.py
+index 3061a4a5ef..79a8e3fba3 100644
+--- a/Lib/ntpath.py
++++ b/Lib/ntpath.py
+@@ -23,13 +23,47 @@
+ import genericpath
+ from genericpath import *
+ 
+-__all__ = ["normcase","isabs","join","splitdrive","splitroot","split","splitext",
+-           "basename","dirname","commonprefix","getsize","getmtime",
+-           "getatime","getctime", "islink","exists","lexists","isdir","isfile",
+-           "ismount", "expanduser","expandvars","normpath","abspath",
+-           "curdir","pardir","sep","pathsep","defpath","altsep",
+-           "extsep","devnull","realpath","supports_unicode_filenames","relpath",
+-           "samefile", "sameopenfile", "samestat", "commonpath", "isjunction"]
++__all__ = [
++    "abspath",
++    "altsep",
++    "basename",
++    "commonpath",
++    "commonprefix",
++    "curdir",
++    "defpath",
++    "devnull",
++    "dirname",
++    "exists",
++    "expanduser",
++    "expandvars",
++    "extsep",
++    "getatime",
++    "getctime",
++    "getmtime",
++    "getsize",
++    "isabs",
++    "isdir",
++    "isfile",
++    "isjunction",
++    "islink",
++    "ismount",
++    "join",
++    "lexists",
++    "normcase",
++    "normpath",
++    "pardir",
++    "pathsep",
++    "realpath",
++    "relpath",
++    "samefile",
++    "sameopenfile",
++    "samestat",
++    "sep",
++    "split",
++    "splitdrive",
++    "splitext",
++    "splitroot",
++    "supports_unicode_filenames",]
+ 
+ def _get_bothseps(path):
+     if isinstance(path, bytes):
+diff --git a/Lib/numbers.py b/Lib/numbers.py
+index a2913e32cf..8761168994 100644
+--- a/Lib/numbers.py
++++ b/Lib/numbers.py
+@@ -32,7 +32,7 @@
+ 
+ from abc import ABCMeta, abstractmethod
+ 
+-__all__ = ["Number", "Complex", "Real", "Rational", "Integral"]
++__all__ = ["Complex", "Integral", "Number", "Rational", "Real"]
+ 
+ class Number(metaclass=ABCMeta):
+     """All numbers inherit from this class.
+diff --git a/Lib/opcode.py b/Lib/opcode.py
+index 88f4df7c0e..d0a8a99281 100644
+--- a/Lib/opcode.py
++++ b/Lib/opcode.py
+@@ -5,9 +5,23 @@
+ """
+ 
+ 
+-__all__ = ["cmp_op", "stack_effect", "hascompare", "opname", "opmap",
+-           "HAVE_ARGUMENT", "EXTENDED_ARG", "hasarg", "hasconst", "hasname",
+-           "hasjump", "hasjrel", "hasjabs", "hasfree", "haslocal", "hasexc"]
++__all__ = [
++    "EXTENDED_ARG",
++    "HAVE_ARGUMENT",
++    "cmp_op",
++    "hasarg",
++    "hascompare",
++    "hasconst",
++    "hasexc",
++    "hasfree",
++    "hasjabs",
++    "hasjrel",
++    "hasjump",
++    "haslocal",
++    "hasname",
++    "opmap",
++    "opname",
++    "stack_effect",]
+ 
+ import _opcode
+ from _opcode import stack_effect
+diff --git a/Lib/optparse.py b/Lib/optparse.py
+index 1c450c6fcb..e24dc0795b 100644
+--- a/Lib/optparse.py
++++ b/Lib/optparse.py
+@@ -23,23 +23,24 @@
+ 
+ __version__ = "1.5.3"
+ 
+-__all__ = ['Option',
+-           'make_option',
+-           'SUPPRESS_HELP',
+-           'SUPPRESS_USAGE',
+-           'Values',
+-           'OptionContainer',
+-           'OptionGroup',
+-           'OptionParser',
+-           'HelpFormatter',
+-           'IndentedHelpFormatter',
+-           'TitledHelpFormatter',
+-           'OptParseError',
+-           'OptionError',
+-           'OptionConflictError',
+-           'OptionValueError',
+-           'BadOptionError',
+-           'check_choice']
++__all__ = [
++    'BadOptionError',
++    'HelpFormatter',
++    'IndentedHelpFormatter',
++    'OptParseError',
++    'Option',
++    'OptionConflictError',
++    'OptionContainer',
++    'OptionError',
++    'OptionGroup',
++    'OptionParser',
++    'OptionValueError',
++    'SUPPRESS_HELP',
++    'SUPPRESS_USAGE',
++    'TitledHelpFormatter',
++    'Values',
++    'check_choice',
++    'make_option',]
+ 
+ __copyright__ = """
+ Copyright (c) 2001-2006 Gregory P. Ward.  All rights reserved.
+diff --git a/Lib/os.py b/Lib/os.py
+index 7f38e14e7b..4fd63b85ca 100644
+--- a/Lib/os.py
++++ b/Lib/os.py
+@@ -33,10 +33,25 @@
+ _names = sys.builtin_module_names
+ 
+ # Note:  more names are added to __all__ later.
+-__all__ = ["altsep", "curdir", "pardir", "sep", "pathsep", "linesep",
+-           "defpath", "name", "path", "devnull", "SEEK_SET", "SEEK_CUR",
+-           "SEEK_END", "fsencode", "fsdecode", "get_exec_path", "fdopen",
+-           "extsep"]
++__all__ = [
++    "SEEK_CUR",
++    "SEEK_END",
++    "SEEK_SET",
++    "altsep",
++    "curdir",
++    "defpath",
++    "devnull",
++    "extsep",
++    "fdopen",
++    "fsdecode",
++    "fsencode",
++    "get_exec_path",
++    "linesep",
++    "name",
++    "pardir",
++    "path",
++    "pathsep",
++    "sep",]
+ 
+ def _exists(name):
+     return name in globals()
+diff --git a/Lib/pathlib/__init__.py b/Lib/pathlib/__init__.py
+index 9d3fcd8941..e799905f13 100644
+--- a/Lib/pathlib/__init__.py
++++ b/Lib/pathlib/__init__.py
+@@ -27,9 +27,13 @@
+ 
+ 
+ __all__ = [
++    "Path",
++    "PosixPath",
++    "PurePath",
++    "PurePosixPath",
++    "PureWindowsPath",
+     "UnsupportedOperation",
+-    "PurePath", "PurePosixPath", "PureWindowsPath",
+-    "Path", "PosixPath", "WindowsPath",
++    "WindowsPath",
+     ]
+ 
+ 
+diff --git a/Lib/pdb.py b/Lib/pdb.py
+index 83b7fefec6..707bdc15e9 100755
+--- a/Lib/pdb.py
++++ b/Lib/pdb.py
+@@ -93,8 +93,16 @@ class Restart(Exception):
+     """Causes a debugger to be restarted for the debugged python program."""
+     pass
+ 
+-__all__ = ["run", "pm", "Pdb", "runeval", "runctx", "runcall", "set_trace",
+-           "post_mortem", "help"]
++__all__ = [
++    "Pdb",
++    "help",
++    "pm",
++    "post_mortem",
++    "run",
++    "runcall",
++    "runctx",
++    "runeval",
++    "set_trace",]
+ 
+ def find_function(funcname, filename):
+     cre = re.compile(r'def\s+%s\s*[(]' % re.escape(funcname))
+diff --git a/Lib/pickle.py b/Lib/pickle.py
+index 33c97c8c5e..4051ea0c4d 100644
+--- a/Lib/pickle.py
++++ b/Lib/pickle.py
+@@ -36,8 +36,16 @@
+ import codecs
+ import _compat_pickle
+ 
+-__all__ = ["PickleError", "PicklingError", "UnpicklingError", "Pickler",
+-           "Unpickler", "dump", "dumps", "load", "loads"]
++__all__ = [
++    "PickleError",
++    "Pickler",
++    "PicklingError",
++    "Unpickler",
++    "UnpicklingError",
++    "dump",
++    "dumps",
++    "load",
++    "loads",]
+ 
+ try:
+     from _pickle import PickleBuffer
+diff --git a/Lib/pkgutil.py b/Lib/pkgutil.py
+index dccbec52aa..08925a9875 100644
+--- a/Lib/pkgutil.py
++++ b/Lib/pkgutil.py
+@@ -12,10 +12,16 @@
+ import warnings
+ 
+ __all__ = [
+-    'get_importer', 'iter_importers', 'get_loader', 'find_loader',
+-    'walk_packages', 'iter_modules', 'get_data',
+-    'read_code', 'extend_path',
+     'ModuleInfo',
++    'extend_path',
++    'find_loader',
++    'get_data',
++    'get_importer',
++    'get_loader',
++    'iter_importers',
++    'iter_modules',
++    'read_code',
++    'walk_packages',
+ ]
+ 
+ 
+diff --git a/Lib/plistlib.py b/Lib/plistlib.py
+index 188a0b399b..b580742b04 100644
+--- a/Lib/plistlib.py
++++ b/Lib/plistlib.py
+@@ -55,7 +55,14 @@
+     print(pl["foo"])
+ """
+ __all__ = [
+-    "InvalidFileException", "FMT_XML", "FMT_BINARY", "load", "dump", "loads", "dumps", "UID"
++    "FMT_BINARY",
++    "FMT_XML",
++    "InvalidFileException",
++    "UID",
++    "dump",
++    "dumps",
++    "load",
++    "loads",
+ ]
+ 
+ import binascii
+diff --git a/Lib/posixpath.py b/Lib/posixpath.py
+index e4f155e41a..e910eb6517 100644
+--- a/Lib/posixpath.py
++++ b/Lib/posixpath.py
+@@ -28,14 +28,47 @@
+ import genericpath
+ from genericpath import *
+ 
+-__all__ = ["normcase","isabs","join","splitdrive","splitroot","split","splitext",
+-           "basename","dirname","commonprefix","getsize","getmtime",
+-           "getatime","getctime","islink","exists","lexists","isdir","isfile",
+-           "ismount", "expanduser","expandvars","normpath","abspath",
+-           "samefile","sameopenfile","samestat",
+-           "curdir","pardir","sep","pathsep","defpath","altsep","extsep",
+-           "devnull","realpath","supports_unicode_filenames","relpath",
+-           "commonpath", "isjunction"]
++__all__ = [
++    "abspath",
++    "altsep",
++    "basename",
++    "commonpath",
++    "commonprefix",
++    "curdir",
++    "defpath",
++    "devnull",
++    "dirname",
++    "exists",
++    "expanduser",
++    "expandvars",
++    "extsep",
++    "getatime",
++    "getctime",
++    "getmtime",
++    "getsize",
++    "isabs",
++    "isdir",
++    "isfile",
++    "isjunction",
++    "islink",
++    "ismount",
++    "join",
++    "lexists",
++    "normcase",
++    "normpath",
++    "pardir",
++    "pathsep",
++    "realpath",
++    "relpath",
++    "samefile",
++    "sameopenfile",
++    "samestat",
++    "sep",
++    "split",
++    "splitdrive",
++    "splitext",
++    "splitroot",
++    "supports_unicode_filenames",]
+ 
+ 
+ def _get_sep(path):
+diff --git a/Lib/pprint.py b/Lib/pprint.py
+index 9314701db3..712606968b 100644
+--- a/Lib/pprint.py
++++ b/Lib/pprint.py
+@@ -41,8 +41,14 @@
+ import types as _types
+ from io import StringIO as _StringIO
+ 
+-__all__ = ["pprint","pformat","isreadable","isrecursive","saferepr",
+-           "PrettyPrinter", "pp"]
++__all__ = [
++    "PrettyPrinter",
++    "isreadable",
++    "isrecursive",
++    "pformat",
++    "pp",
++    "pprint",
++    "saferepr",]
+ 
+ 
+ def pprint(object, stream=None, indent=1, width=80, depth=None, *,
+diff --git a/Lib/profile.py b/Lib/profile.py
+index 4b82523b03..c3f733d4f9 100755
+--- a/Lib/profile.py
++++ b/Lib/profile.py
+@@ -30,7 +30,7 @@
+ import time
+ import marshal
+ 
+-__all__ = ["run", "runctx", "Profile"]
++__all__ = ["Profile", "run", "runctx"]
+ 
+ # Sample timer for use with
+ #i_count = 0
+diff --git a/Lib/pstats.py b/Lib/pstats.py
+index 2f054bb401..6e1363d0b4 100644
+--- a/Lib/pstats.py
++++ b/Lib/pstats.py
+@@ -31,7 +31,7 @@
+ from dataclasses import dataclass
+ from typing import Dict
+ 
+-__all__ = ["Stats", "SortKey", "FunctionProfile", "StatsProfile"]
++__all__ = ["FunctionProfile", "SortKey", "Stats", "StatsProfile"]
+ 
+ @_simple_enum(StrEnum)
+ class SortKey:
+diff --git a/Lib/pty.py b/Lib/pty.py
+index 1d97994abe..5d3a9f6aed 100644
+--- a/Lib/pty.py
++++ b/Lib/pty.py
+@@ -15,7 +15,7 @@
+ from os import close, waitpid
+ from tty import setraw, tcgetattr, tcsetattr
+ 
+-__all__ = ["openpty", "fork", "spawn"]
++__all__ = ["fork", "openpty", "spawn"]
+ 
+ STDIN_FILENO = 0
+ STDOUT_FILENO = 1
+diff --git a/Lib/py_compile.py b/Lib/py_compile.py
+index 388614e51b..d951c5a40c 100644
+--- a/Lib/py_compile.py
++++ b/Lib/py_compile.py
+@@ -12,7 +12,7 @@
+ import sys
+ import traceback
+ 
+-__all__ = ["compile", "main", "PyCompileError", "PycInvalidationMode"]
++__all__ = ["PyCompileError", "PycInvalidationMode", "compile", "main"]
+ 
+ 
+ class PyCompileError(Exception):
+diff --git a/Lib/pyclbr.py b/Lib/pyclbr.py
+index 37f86995d6..09d464fab8 100644
+--- a/Lib/pyclbr.py
++++ b/Lib/pyclbr.py
+@@ -45,7 +45,7 @@
+ import sys
+ import importlib.util
+ 
+-__all__ = ["readmodule", "readmodule_ex", "Class", "Function"]
++__all__ = ["Class", "Function", "readmodule", "readmodule_ex"]
+ 
+ _modules = {}  # Initialize cache of modules we've seen.
+ 
+diff --git a/Lib/queue.py b/Lib/queue.py
+index 55f5008846..157c15f7ec 100644
+--- a/Lib/queue.py
++++ b/Lib/queue.py
+@@ -10,7 +10,7 @@
+ except ImportError:
+     SimpleQueue = None
+ 
+-__all__ = ['Empty', 'Full', 'Queue', 'PriorityQueue', 'LifoQueue', 'SimpleQueue']
++__all__ = ['Empty', 'Full', 'LifoQueue', 'PriorityQueue', 'Queue', 'SimpleQueue']
+ 
+ 
+ try:
+diff --git a/Lib/quopri.py b/Lib/quopri.py
+index f36cf7b395..085e4d2b96 100755
+--- a/Lib/quopri.py
++++ b/Lib/quopri.py
+@@ -4,7 +4,7 @@
+ 
+ # (Dec 1991 version).
+ 
+-__all__ = ["encode", "decode", "encodestring", "decodestring"]
++__all__ = ["decode", "decodestring", "encode", "encodestring"]
+ 
+ ESCAPE = b'='
+ MAXLINESIZE = 76
+diff --git a/Lib/re/__init__.py b/Lib/re/__init__.py
+index 7e8abbf6ff..d8884f545e 100644
+--- a/Lib/re/__init__.py
++++ b/Lib/re/__init__.py
+@@ -130,11 +130,37 @@
+ 
+ # public symbols
+ __all__ = [
+-    "match", "fullmatch", "search", "sub", "subn", "split",
+-    "findall", "finditer", "compile", "purge", "escape",
+-    "error", "Pattern", "Match", "A", "I", "L", "M", "S", "X", "U",
+-    "ASCII", "IGNORECASE", "LOCALE", "MULTILINE", "DOTALL", "VERBOSE",
+-    "UNICODE", "NOFLAG", "RegexFlag", "PatternError"
++    "A",
++    "ASCII",
++    "DOTALL",
++    "I",
++    "IGNORECASE",
++    "L",
++    "LOCALE",
++    "M",
++    "MULTILINE",
++    "Match",
++    "NOFLAG",
++    "Pattern",
++    "PatternError",
++    "RegexFlag",
++    "S",
++    "U",
++    "UNICODE",
++    "VERBOSE",
++    "X",
++    "compile",
++    "error",
++    "escape",
++    "findall",
++    "finditer",
++    "fullmatch",
++    "match",
++    "purge",
++    "search",
++    "split",
++    "sub",
++    "subn",
+ ]
+ 
+ __version__ = "2.2.1"
+diff --git a/Lib/reprlib.py b/Lib/reprlib.py
+index 05bb1a0eb0..e13edc902f 100644
+--- a/Lib/reprlib.py
++++ b/Lib/reprlib.py
+@@ -1,6 +1,6 @@
+ """Redo the builtin repr() (representation) but with limits on most sizes."""
+ 
+-__all__ = ["Repr", "repr", "recursive_repr"]
++__all__ = ["Repr", "recursive_repr", "repr"]
+ 
+ import builtins
+ from itertools import islice
+diff --git a/Lib/secrets.py b/Lib/secrets.py
+index 566a09b731..daf043a39f 100644
+--- a/Lib/secrets.py
++++ b/Lib/secrets.py
+@@ -6,9 +6,15 @@
+ 
+ """
+ 
+-__all__ = ['choice', 'randbelow', 'randbits', 'SystemRandom',
+-           'token_bytes', 'token_hex', 'token_urlsafe',
+-           'compare_digest',
++__all__ = [
++    'SystemRandom',
++    'choice',
++    'compare_digest',
++    'randbelow',
++    'randbits',
++    'token_bytes',
++    'token_hex',
++    'token_urlsafe',
+            ]
+ 
+ 
+diff --git a/Lib/shelve.py b/Lib/shelve.py
+index 50584716e9..0bb02679e7 100644
+--- a/Lib/shelve.py
++++ b/Lib/shelve.py
+@@ -61,7 +61,7 @@
+ 
+ import collections.abc
+ 
+-__all__ = ["Shelf", "BsdDbShelf", "DbfilenameShelf", "open"]
++__all__ = ["BsdDbShelf", "DbfilenameShelf", "Shelf", "open"]
+ 
+ class _ClosedDict(collections.abc.MutableMapping):
+     'Marker for a closed dict.  Access attempts raise a ValueError.'
+diff --git a/Lib/shlex.py b/Lib/shlex.py
+index f4821616b6..d41eeb07b6 100644
+--- a/Lib/shlex.py
++++ b/Lib/shlex.py
+@@ -14,7 +14,7 @@
+ 
+ from io import StringIO
+ 
+-__all__ = ["shlex", "split", "quote", "join"]
++__all__ = ["join", "quote", "shlex", "split"]
+ 
+ class shlex:
+     "A lexical analyzer class for simple shell-like syntaxes."
+diff --git a/Lib/shutil.py b/Lib/shutil.py
+index acc9419be4..d50d7a4b87 100644
+--- a/Lib/shutil.py
++++ b/Lib/shutil.py
+@@ -53,14 +53,32 @@
+ # CMD defaults in Windows 10
+ _WIN_DEFAULT_PATHEXT = ".COM;.EXE;.BAT;.CMD;.VBS;.JS;.WS;.MSC"
+ 
+-__all__ = ["copyfileobj", "copyfile", "copymode", "copystat", "copy", "copy2",
+-           "copytree", "move", "rmtree", "Error", "SpecialFileError",
+-           "ExecError", "make_archive", "get_archive_formats",
+-           "register_archive_format", "unregister_archive_format",
+-           "get_unpack_formats", "register_unpack_format",
+-           "unregister_unpack_format", "unpack_archive",
+-           "ignore_patterns", "chown", "which", "get_terminal_size",
+-           "SameFileError"]
++__all__ = [
++    "Error",
++    "ExecError",
++    "SameFileError",
++    "SpecialFileError",
++    "chown",
++    "copy",
++    "copy2",
++    "copyfile",
++    "copyfileobj",
++    "copymode",
++    "copystat",
++    "copytree",
++    "get_archive_formats",
++    "get_terminal_size",
++    "get_unpack_formats",
++    "ignore_patterns",
++    "make_archive",
++    "move",
++    "register_archive_format",
++    "register_unpack_format",
++    "rmtree",
++    "unpack_archive",
++    "unregister_archive_format",
++    "unregister_unpack_format",
++    "which",]
+            # disk_usage is added later, if available on the platform
+ 
+ class Error(OSError):
+diff --git a/Lib/smtplib.py b/Lib/smtplib.py
+index b3cc68a789..7c0ea5e5a3 100755
+--- a/Lib/smtplib.py
++++ b/Lib/smtplib.py
+@@ -54,10 +54,20 @@
+ import sys
+ from email.base64mime import body_encode as encode_base64
+ 
+-__all__ = ["SMTPException", "SMTPNotSupportedError", "SMTPServerDisconnected", "SMTPResponseException",
+-           "SMTPSenderRefused", "SMTPRecipientsRefused", "SMTPDataError",
+-           "SMTPConnectError", "SMTPHeloError", "SMTPAuthenticationError",
+-           "quoteaddr", "quotedata", "SMTP"]
++__all__ = [
++    "SMTP",
++    "SMTPAuthenticationError",
++    "SMTPConnectError",
++    "SMTPDataError",
++    "SMTPException",
++    "SMTPHeloError",
++    "SMTPNotSupportedError",
++    "SMTPRecipientsRefused",
++    "SMTPResponseException",
++    "SMTPSenderRefused",
++    "SMTPServerDisconnected",
++    "quoteaddr",
++    "quotedata",]
+ 
+ SMTP_PORT = 25
+ SMTP_SSL_PORT = 465
+diff --git a/Lib/socket.py b/Lib/socket.py
+index 5f0a1f40e2..09a3137b2d 100644
+--- a/Lib/socket.py
++++ b/Lib/socket.py
+@@ -63,8 +63,14 @@
+ EAGAIN = getattr(errno, 'EAGAIN', 11)
+ EWOULDBLOCK = getattr(errno, 'EWOULDBLOCK', 11)
+ 
+-__all__ = ["fromfd", "getfqdn", "create_connection", "create_server",
+-           "has_dualstack_ipv6", "AddressFamily", "SocketKind"]
++__all__ = [
++    "AddressFamily",
++    "SocketKind",
++    "create_connection",
++    "create_server",
++    "fromfd",
++    "getfqdn",
++    "has_dualstack_ipv6",]
+ __all__.extend(os._get_exports_list(_socket))
+ 
+ # Set up the socket.AF_* socket.SOCK_* constants as members of IntEnums for
+diff --git a/Lib/socketserver.py b/Lib/socketserver.py
+index cd028ef1c6..0d2cdaff61 100644
+--- a/Lib/socketserver.py
++++ b/Lib/socketserver.py
+@@ -131,10 +131,16 @@ class will essentially render the service "deaf" while one request is
+ from io import BufferedIOBase
+ from time import monotonic as time
+ 
+-__all__ = ["BaseServer", "TCPServer", "UDPServer",
+-           "ThreadingUDPServer", "ThreadingTCPServer",
+-           "BaseRequestHandler", "StreamRequestHandler",
+-           "DatagramRequestHandler", "ThreadingMixIn"]
++__all__ = [
++    "BaseRequestHandler",
++    "BaseServer",
++    "DatagramRequestHandler",
++    "StreamRequestHandler",
++    "TCPServer",
++    "ThreadingMixIn",
++    "ThreadingTCPServer",
++    "ThreadingUDPServer",
++    "UDPServer",]
+ if hasattr(os, "fork"):
+     __all__.extend(["ForkingUDPServer","ForkingTCPServer", "ForkingMixIn"])
+ if hasattr(socket, "AF_UNIX"):
+diff --git a/Lib/string.py b/Lib/string.py
+index 2eab6d4f59..c27aebcb64 100644
+--- a/Lib/string.py
++++ b/Lib/string.py
+@@ -14,9 +14,19 @@
+ 
+ """
+ 
+-__all__ = ["ascii_letters", "ascii_lowercase", "ascii_uppercase", "capwords",
+-           "digits", "hexdigits", "octdigits", "printable", "punctuation",
+-           "whitespace", "Formatter", "Template"]
++__all__ = [
++    "Formatter",
++    "Template",
++    "ascii_letters",
++    "ascii_lowercase",
++    "ascii_uppercase",
++    "capwords",
++    "digits",
++    "hexdigits",
++    "octdigits",
++    "printable",
++    "punctuation",
++    "whitespace",]
+ 
+ import _string
+ 
+diff --git a/Lib/struct.py b/Lib/struct.py
+index d6bba58863..734287df7c 100644
+--- a/Lib/struct.py
++++ b/Lib/struct.py
+@@ -1,13 +1,15 @@
+ __all__ = [
+-    # Functions
+-    'calcsize', 'pack', 'pack_into', 'unpack', 'unpack_from',
+-    'iter_unpack',
+-
+     # Classes
+     'Struct',
+-
++    # Functions
++    'calcsize',
+     # Exceptions
+-    'error'
++    'error',
++    'iter_unpack',
++    'pack',
++    'pack_into',
++    'unpack',
++    'unpack_from',
+     ]
+ 
+ from _struct import *
+diff --git a/Lib/subprocess.py b/Lib/subprocess.py
+index d5bd9a9e31..228ca866e7 100644
+--- a/Lib/subprocess.py
++++ b/Lib/subprocess.py
+@@ -60,9 +60,21 @@
+     fcntl = None
+ 
+ 
+-__all__ = ["Popen", "PIPE", "STDOUT", "call", "check_call", "getstatusoutput",
+-           "getoutput", "check_output", "run", "CalledProcessError", "DEVNULL",
+-           "SubprocessError", "TimeoutExpired", "CompletedProcess"]
++__all__ = [
++    "CalledProcessError",
++    "CompletedProcess",
++    "DEVNULL",
++    "PIPE",
++    "Popen",
++    "STDOUT",
++    "SubprocessError",
++    "TimeoutExpired",
++    "call",
++    "check_call",
++    "check_output",
++    "getoutput",
++    "getstatusoutput",
++    "run",]
+            # NOTE: We intentionally exclude list2cmdline as it is
+            # considered an internal implementation detail.  issue10838.
+ 
+diff --git a/Lib/symtable.py b/Lib/symtable.py
+index 17f820abd5..dc2a4d31d4 100644
+--- a/Lib/symtable.py
++++ b/Lib/symtable.py
+@@ -7,7 +7,7 @@
+ 
+ import weakref
+ 
+-__all__ = ["symtable", "SymbolTable", "Class", "Function", "Symbol"]
++__all__ = ["Class", "Function", "Symbol", "SymbolTable", "symtable"]
+ 
+ def symtable(code, filename, compile_type):
+     """ Return the toplevel *SymbolTable* for the source code.
+diff --git a/Lib/tabnanny.py b/Lib/tabnanny.py
+index e2ac6837f1..6949a0cba8 100755
+--- a/Lib/tabnanny.py
++++ b/Lib/tabnanny.py
+@@ -24,7 +24,7 @@
+ import sys
+ import tokenize
+ 
+-__all__ = ["check", "NannyNag", "process_tokens"]
++__all__ = ["NannyNag", "check", "process_tokens"]
+ 
+ verbose = 0
+ filename_only = 0
+diff --git a/Lib/tarfile.py b/Lib/tarfile.py
+index 20e0394507..2153699522 100755
+--- a/Lib/tarfile.py
++++ b/Lib/tarfile.py
+@@ -62,13 +62,31 @@
+ symlink_exception = (AttributeError, NotImplementedError, OSError)
+ 
+ # from tarfile import *
+-__all__ = ["TarFile", "TarInfo", "is_tarfile", "TarError", "ReadError",
+-           "CompressionError", "StreamError", "ExtractError", "HeaderError",
+-           "ENCODING", "USTAR_FORMAT", "GNU_FORMAT", "PAX_FORMAT",
+-           "DEFAULT_FORMAT", "open","fully_trusted_filter", "data_filter",
+-           "tar_filter", "FilterError", "AbsoluteLinkError",
+-           "OutsideDestinationError", "SpecialFileError", "AbsolutePathError",
+-           "LinkOutsideDestinationError"]
++__all__ = [
++    "AbsoluteLinkError",
++    "AbsolutePathError",
++    "CompressionError",
++    "DEFAULT_FORMAT",
++    "ENCODING",
++    "ExtractError",
++    "FilterError",
++    "GNU_FORMAT",
++    "HeaderError",
++    "LinkOutsideDestinationError",
++    "OutsideDestinationError",
++    "PAX_FORMAT",
++    "ReadError",
++    "SpecialFileError",
++    "StreamError",
++    "TarError",
++    "TarFile",
++    "TarInfo",
++    "USTAR_FORMAT",
++    "data_filter",
++    "fully_trusted_filter",
++    "is_tarfile",
++    "open",
++    "tar_filter",]
+ 
+ 
+ #---------------------------------------------------------
+diff --git a/Lib/tempfile.py b/Lib/tempfile.py
+index b5a15f7b72..d7db702e13 100644
+--- a/Lib/tempfile.py
++++ b/Lib/tempfile.py
+@@ -24,13 +24,19 @@
+ """
+ 
+ __all__ = [
+-    "NamedTemporaryFile", "TemporaryFile", # high level safe interfaces
+-    "SpooledTemporaryFile", "TemporaryDirectory",
+-    "mkstemp", "mkdtemp",                  # low level safe interfaces
+-    "mktemp",                              # deprecated unsafe interface
+-    "TMP_MAX", "gettempprefix",            # constants
+-    "tempdir", "gettempdir",
+-    "gettempprefixb", "gettempdirb",
++    "NamedTemporaryFile",  # high level safe interfaces
++    "SpooledTemporaryFile",
++    "TMP_MAX",  # constants
++    "TemporaryDirectory",
++    "TemporaryFile",
++    "gettempdir",
++    "gettempdirb",
++    "gettempprefix",
++    "gettempprefixb",
++    "mkdtemp",
++    "mkstemp",  # low level safe interfaces
++    "mktemp",  # deprecated unsafe interface
++    "tempdir",
+    ]
+ 
+ 
+diff --git a/Lib/test/smtpd.py b/Lib/test/smtpd.py
+index 6052232ec2..e248ec3692 100755
+--- a/Lib/test/smtpd.py
++++ b/Lib/test/smtpd.py
+@@ -82,7 +82,10 @@
+ from email._header_value_parser import get_addr_spec, get_angle_addr
+ 
+ __all__ = [
+-    "SMTPChannel", "SMTPServer", "DebuggingServer", "PureProxy",
++    "DebuggingServer",
++    "PureProxy",
++    "SMTPChannel",
++    "SMTPServer",
+ ]
+ 
+ program = sys.argv[0]
+diff --git a/Lib/test/support/__init__.py b/Lib/test/support/__init__.py
+index e5fb725a30..7af54614f1 100644
+--- a/Lib/test/support/__init__.py
++++ b/Lib/test/support/__init__.py
+@@ -20,44 +20,95 @@
+ 
+ 
+ __all__ = [
+-    # globals
+-    "PIPE_MAX_SIZE", "verbose", "max_memuse", "use_resources", "failfast",
++    "ALWAYS_EQ",
++    "EXCEEDS_RECURSION_LIMIT",
+     # exceptions
+-    "Error", "TestFailed", "TestDidNotRun", "ResourceDenied",
+-    # io
+-    "record_original_stdout", "get_original_stdout", "captured_stdout",
+-    "captured_stdin", "captured_stderr",
+-    # unittest
+-    "is_resource_enabled", "requires", "requires_freebsd_version",
+-    "requires_linux_version", "requires_mac_ver",
+-    "check_syntax_error",
+-    "requires_gzip", "requires_bz2", "requires_lzma",
+-    "bigmemtest", "bigaddrspacetest", "cpython_only", "get_attribute",
+-    "requires_IEEE_754", "requires_zlib",
+-    "has_fork_support", "requires_fork",
+-    "has_subprocess_support", "requires_subprocess",
+-    "has_socket_support", "requires_working_socket",
+-    "anticipate_failure", "load_package_tests", "detect_api_mismatch",
+-    "check__all__", "skip_if_buggy_ucrt_strfptime",
+-    "check_disallow_instantiation", "check_sanitizer", "skip_if_sanitizer",
+-    "requires_limited_api", "requires_specialization",
++    "Error",
++    "INTERNET_TIMEOUT",
++    "LARGEST",
++    "LONG_TIMEOUT",
++    "LOOPBACK_TIMEOUT",
+     # sys
+-    "MS_WINDOWS", "is_jython", "is_android", "is_emscripten", "is_wasi",
+-    "check_impl_detail", "unix_shell", "setswitchinterval",
++    "MS_WINDOWS",
++    "Matcher",
++    "NEVER_EQ",
++    "PGO",
++    # globals
++    "PIPE_MAX_SIZE",
++    "Py_C_RECURSION_LIMIT",
++    "Py_DEBUG",
++    "ResourceDenied",
++    "SHORT_TIMEOUT",
++    "SMALLEST",
++    "SuppressCrashReport",
++    "TestDidNotRun",
++    "TestFailed",
++    "anticipate_failure",
++    "bigaddrspacetest",
++    "bigmemtest",
++    "captured_stderr",
++    "captured_stdin",
++    "captured_stdout",
++    "check__all__",
++    "check_disallow_instantiation",
++    "check_impl_detail",
++    "check_sanitizer",
++    "check_syntax_error",
++    "cpython_only",
++    "detect_api_mismatch",
++    "failfast",
++    "findfile",
++    "get_attribute",
++    "get_original_stdout",
+     # os
+     "get_pagesize",
++    "has_fork_support",
++    "has_socket_support",
++    "has_subprocess_support",
++    "infinite_recursion",
++    "is_android",
++    "is_emscripten",
++    "is_jython",
++    # unittest
++    "is_resource_enabled",
++    "is_wasi",
++    "load_package_tests",
++    "max_memuse",
++    "missing_compiler_executable",
+     # network
+     "open_urlresource",
+     # processes
+     "reap_children",
++    # io
++    "record_original_stdout",
++    "requires",
++    "requires_IEEE_754",
++    "requires_bz2",
++    "requires_fork",
++    "requires_freebsd_version",
++    "requires_gzip",
++    "requires_limited_api",
++    "requires_linux_version",
++    "requires_lzma",
++    "requires_mac_ver",
++    "requires_specialization",
++    "requires_subprocess",
++    "requires_working_socket",
++    "requires_zlib",
+     # miscellaneous
+-    "run_with_locale", "swap_item", "findfile", "infinite_recursion",
+-    "swap_attr", "Matcher", "set_memlimit", "SuppressCrashReport", "sortdict",
+-    "run_with_tz", "PGO", "missing_compiler_executable",
+-    "ALWAYS_EQ", "NEVER_EQ", "LARGEST", "SMALLEST",
+-    "LOOPBACK_TIMEOUT", "INTERNET_TIMEOUT", "SHORT_TIMEOUT", "LONG_TIMEOUT",
+-    "Py_DEBUG", "EXCEEDS_RECURSION_LIMIT", "Py_C_RECURSION_LIMIT",
++    "run_with_locale",
++    "run_with_tz",
++    "set_memlimit",
++    "setswitchinterval",
++    "skip_if_buggy_ucrt_strfptime",
++    "skip_if_sanitizer",
+     "skip_on_s390x",
++    "sortdict",
++    "swap_attr",
++    "swap_item",
++    "unix_shell",
++    "use_resources",
++    "verbose",
+     "without_optimizer",
+     ]
+ 
+diff --git a/Lib/test/support/_hypothesis_stubs/__init__.py b/Lib/test/support/_hypothesis_stubs/__init__.py
+index 6ba5bb814b..8a2b260cbe 100644
+--- a/Lib/test/support/_hypothesis_stubs/__init__.py
++++ b/Lib/test/support/_hypothesis_stubs/__init__.py
+@@ -3,15 +3,15 @@
+ import unittest
+ 
+ __all__ = [
+-    "given",
+-    "example",
++    "HealthCheck",
++    "Verbosity",
+     "assume",
+-    "reject",
++    "example",
++    "given",
+     "register_random",
+-    "strategies",
+-    "HealthCheck",
++    "reject",
+     "settings",
+-    "Verbosity",
++    "strategies",
+ ]
+ 
+ from . import strategies
+diff --git a/Lib/test/support/interpreters/__init__.py b/Lib/test/support/interpreters/__init__.py
+index 15a908e966..91cc0cc945 100644
+--- a/Lib/test/support/interpreters/__init__.py
++++ b/Lib/test/support/interpreters/__init__.py
+@@ -12,10 +12,19 @@
+ 
+ 
+ __all__ = [
+-    'get_current', 'get_main', 'create', 'list_all', 'is_shareable',
++    'ExecFailure',
+     'Interpreter',
+-    'InterpreterError', 'InterpreterNotFoundError', 'ExecFailure',
+-    'create_queue', 'Queue', 'QueueEmpty', 'QueueFull',
++    'InterpreterError',
++    'InterpreterNotFoundError',
++    'Queue',
++    'QueueEmpty',
++    'QueueFull',
++    'create',
++    'create_queue',
++    'get_current',
++    'get_main',
++    'is_shareable',
++    'list_all',
+ ]
+ 
+ 
+diff --git a/Lib/test/support/interpreters/channels.py b/Lib/test/support/interpreters/channels.py
+index 75a5a60f54..f801fed3c4 100644
+--- a/Lib/test/support/interpreters/channels.py
++++ b/Lib/test/support/interpreters/channels.py
+@@ -11,9 +11,13 @@
+ 
+ 
+ __all__ = [
+-    'create', 'list_all',
+-    'SendChannel', 'RecvChannel',
+-    'ChannelError', 'ChannelNotFoundError', 'ChannelEmptyError',
++    'ChannelEmptyError',
++    'ChannelError',
++    'ChannelNotFoundError',
++    'RecvChannel',
++    'SendChannel',
++    'create',
++    'list_all',
+ ]
+ 
+ 
+diff --git a/Lib/test/support/interpreters/queues.py b/Lib/test/support/interpreters/queues.py
+index aead0c40ca..a1eef3d021 100644
+--- a/Lib/test/support/interpreters/queues.py
++++ b/Lib/test/support/interpreters/queues.py
+@@ -11,9 +11,13 @@
+ )
+ 
+ __all__ = [
+-    'create', 'list_all',
+     'Queue',
+-    'QueueError', 'QueueNotFoundError', 'QueueEmpty', 'QueueFull',
++    'QueueEmpty',
++    'QueueError',
++    'QueueFull',
++    'QueueNotFoundError',
++    'create',
++    'list_all',
+ ]
+ 
+ 
+diff --git a/Lib/textwrap.py b/Lib/textwrap.py
+index 7ca393d1c3..dc2e27cee8 100644
+--- a/Lib/textwrap.py
++++ b/Lib/textwrap.py
+@@ -7,7 +7,7 @@
+ 
+ import re
+ 
+-__all__ = ['TextWrapper', 'wrap', 'fill', 'dedent', 'indent', 'shorten']
++__all__ = ['TextWrapper', 'dedent', 'fill', 'indent', 'shorten', 'wrap']
+ 
+ # Hardcode the recognized whitespace characters to the US-ASCII
+ # whitespace characters.  The main reason for doing this is that
+diff --git a/Lib/threading.py b/Lib/threading.py
+index 85aff58968..6ce99a9591 100644
+--- a/Lib/threading.py
++++ b/Lib/threading.py
+@@ -25,13 +25,34 @@
+ # with the multiprocessing module, which doesn't provide the old
+ # Java inspired names.
+ 
+-__all__ = ['get_ident', 'active_count', 'Condition', 'current_thread',
+-           'enumerate', 'main_thread', 'TIMEOUT_MAX',
+-           'Event', 'Lock', 'RLock', 'Semaphore', 'BoundedSemaphore', 'Thread',
+-           'Barrier', 'BrokenBarrierError', 'Timer', 'ThreadError',
+-           'setprofile', 'settrace', 'local', 'stack_size',
+-           'excepthook', 'ExceptHookArgs', 'gettrace', 'getprofile',
+-           'setprofile_all_threads','settrace_all_threads']
++__all__ = [
++    'Barrier',
++    'BoundedSemaphore',
++    'BrokenBarrierError',
++    'Condition',
++    'Event',
++    'ExceptHookArgs',
++    'Lock',
++    'RLock',
++    'Semaphore',
++    'TIMEOUT_MAX',
++    'Thread',
++    'ThreadError',
++    'Timer',
++    'active_count',
++    'current_thread',
++    'enumerate',
++    'excepthook',
++    'get_ident',
++    'getprofile',
++    'gettrace',
++    'local',
++    'main_thread',
++    'setprofile',
++    'setprofile_all_threads',
++    'settrace',
++    'settrace_all_threads',
++    'stack_size',]
+ 
+ # Rename some stuff so "from threading import *" is safe
+ _start_joinable_thread = _thread.start_joinable_thread
+diff --git a/Lib/timeit.py b/Lib/timeit.py
+index 02cfafaf36..1de40760af 100755
+--- a/Lib/timeit.py
++++ b/Lib/timeit.py
+@@ -54,7 +54,7 @@
+ import sys
+ import time
+ 
+-__all__ = ["Timer", "timeit", "repeat", "default_timer"]
++__all__ = ["Timer", "default_timer", "repeat", "timeit"]
+ 
+ dummy_src_name = "<timeit-src>"
+ default_number = 1000000
+diff --git a/Lib/tkinter/dnd.py b/Lib/tkinter/dnd.py
+index acec61ba71..84c7e270a7 100644
+--- a/Lib/tkinter/dnd.py
++++ b/Lib/tkinter/dnd.py
+@@ -101,7 +101,7 @@
+ 
+ import tkinter
+ 
+-__all__ = ["dnd_start", "DndHandler"]
++__all__ = ["DndHandler", "dnd_start"]
+ 
+ 
+ # The factory function
+diff --git a/Lib/tkinter/filedialog.py b/Lib/tkinter/filedialog.py
+index e2eff98e60..6a4fb1956e 100644
+--- a/Lib/tkinter/filedialog.py
++++ b/Lib/tkinter/filedialog.py
+@@ -11,10 +11,20 @@
+ directory dialogue available in Tk 8.3 and newer.
+ These interfaces were written by Fredrik Lundh, May 1997.
+ """
+-__all__ = ["FileDialog", "LoadFileDialog", "SaveFileDialog",
+-           "Open", "SaveAs", "Directory",
+-           "askopenfilename", "asksaveasfilename", "askopenfilenames",
+-           "askopenfile", "askopenfiles", "asksaveasfile", "askdirectory"]
++__all__ = [
++    "Directory",
++    "FileDialog",
++    "LoadFileDialog",
++    "Open",
++    "SaveAs",
++    "SaveFileDialog",
++    "askdirectory",
++    "askopenfile",
++    "askopenfilename",
++    "askopenfilenames",
++    "askopenfiles",
++    "asksaveasfile",
++    "asksaveasfilename",]
+ 
+ import fnmatch
+ import os
+diff --git a/Lib/tkinter/font.py b/Lib/tkinter/font.py
+index 3e24e28ef5..a66da5a8f5 100644
+--- a/Lib/tkinter/font.py
++++ b/Lib/tkinter/font.py
+@@ -7,8 +7,15 @@
+ import tkinter
+ 
+ __version__ = "0.9"
+-__all__ = ["NORMAL", "ROMAN", "BOLD", "ITALIC",
+-           "nametofont", "Font", "families", "names"]
++__all__ = [
++    "BOLD",
++    "Font",
++    "ITALIC",
++    "NORMAL",
++    "ROMAN",
++    "families",
++    "names",
++    "nametofont",]
+ 
+ # weight/slant
+ NORMAL = "normal"
+diff --git a/Lib/tkinter/messagebox.py b/Lib/tkinter/messagebox.py
+index 5f0343b660..73a3fc8d8e 100644
+--- a/Lib/tkinter/messagebox.py
++++ b/Lib/tkinter/messagebox.py
+@@ -24,9 +24,15 @@
+ 
+ from tkinter.commondialog import Dialog
+ 
+-__all__ = ["showinfo", "showwarning", "showerror",
+-           "askquestion", "askokcancel", "askyesno",
+-           "askyesnocancel", "askretrycancel"]
++__all__ = [
++    "askokcancel",
++    "askquestion",
++    "askretrycancel",
++    "askyesno",
++    "askyesnocancel",
++    "showerror",
++    "showinfo",
++    "showwarning",]
+ 
+ #
+ # constants
+diff --git a/Lib/tkinter/ttk.py b/Lib/tkinter/ttk.py
+index 5ca938a670..bddc745e3f 100644
+--- a/Lib/tkinter/ttk.py
++++ b/Lib/tkinter/ttk.py
+@@ -16,14 +16,34 @@
+ 
+ __author__ = "Guilherme Polo <ggpolo@gmail.com>"
+ 
+-__all__ = ["Button", "Checkbutton", "Combobox", "Entry", "Frame", "Label",
+-           "Labelframe", "LabelFrame", "Menubutton", "Notebook", "Panedwindow",
+-           "PanedWindow", "Progressbar", "Radiobutton", "Scale", "Scrollbar",
+-           "Separator", "Sizegrip", "Spinbox", "Style", "Treeview",
+-           # Extensions
+-           "LabeledScale", "OptionMenu",
+-           # functions
+-           "tclobjs_to_py", "setup_master"]
++__all__ = [
++    "Button",
++    "Checkbutton",
++    "Combobox",
++    "Entry",
++    "Frame",
++    "Label",
++    "LabelFrame",
++    # Extensions
++           "LabeledScale",
++    "Labelframe",
++    "Menubutton",
++    "Notebook",
++    "OptionMenu",
++    "PanedWindow",
++    "Panedwindow",
++    "Progressbar",
++    "Radiobutton",
++    "Scale",
++    "Scrollbar",
++    "Separator",
++    "Sizegrip",
++    "Spinbox",
++    "Style",
++    "Treeview",
++    "setup_master",
++    # functions
++           "tclobjs_to_py",]
+ 
+ import tkinter
+ from tkinter import _flatten, _join, _stringify, _splitdict
+diff --git a/Lib/token.py b/Lib/token.py
+index b620317106..a52a5ab33f 100644
+--- a/Lib/token.py
++++ b/Lib/token.py
+@@ -1,7 +1,7 @@
+ """Token constants."""
+ # Auto-generated by Tools/build/generate_token.py
+ 
+-__all__ = ['tok_name', 'ISTERMINAL', 'ISNONTERMINAL', 'ISEOF']
++__all__ = ['ISEOF', 'ISNONTERMINAL', 'ISTERMINAL', 'tok_name']
+ 
+ ENDMARKER = 0
+ NAME = 1
+diff --git a/Lib/tomllib/__init__.py b/Lib/tomllib/__init__.py
+index ef91cb9d25..9c60d3067d 100644
+--- a/Lib/tomllib/__init__.py
++++ b/Lib/tomllib/__init__.py
+@@ -2,7 +2,7 @@
+ # SPDX-FileCopyrightText: 2021 Taneli Hukkinen
+ # Licensed to PSF under a Contributor Agreement.
+ 
+-__all__ = ("loads", "load", "TOMLDecodeError")
++__all__ = ("TOMLDecodeError", "load", "loads")
+ 
+ from ._parser import TOMLDecodeError, load, loads
+ 
+diff --git a/Lib/trace.py b/Lib/trace.py
+index 7cb6f89763..252d0cae5b 100755
+--- a/Lib/trace.py
++++ b/Lib/trace.py
+@@ -47,7 +47,7 @@
+   r = tracer.results()
+   r.write_results(show_missing=True, coverdir="/tmp")
+ """
+-__all__ = ['Trace', 'CoverageResults']
++__all__ = ['CoverageResults', 'Trace']
+ 
+ import io
+ import linecache
+diff --git a/Lib/traceback.py b/Lib/traceback.py
+index 30b42a4f69..7aa1f76c63 100644
+--- a/Lib/traceback.py
++++ b/Lib/traceback.py
+@@ -10,12 +10,26 @@
+ import warnings
+ from contextlib import suppress
+ 
+-__all__ = ['extract_stack', 'extract_tb', 'format_exception',
+-           'format_exception_only', 'format_list', 'format_stack',
+-           'format_tb', 'print_exc', 'format_exc', 'print_exception',
+-           'print_last', 'print_stack', 'print_tb', 'clear_frames',
+-           'FrameSummary', 'StackSummary', 'TracebackException',
+-           'walk_stack', 'walk_tb']
++__all__ = [
++    'FrameSummary',
++    'StackSummary',
++    'TracebackException',
++    'clear_frames',
++    'extract_stack',
++    'extract_tb',
++    'format_exc',
++    'format_exception',
++    'format_exception_only',
++    'format_list',
++    'format_stack',
++    'format_tb',
++    'print_exc',
++    'print_exception',
++    'print_last',
++    'print_stack',
++    'print_tb',
++    'walk_stack',
++    'walk_tb',]
+ 
+ #
+ # Formatting and printing lists of traceback lines.
+diff --git a/Lib/tty.py b/Lib/tty.py
+index 283e5c334f..2326abb726 100644
+--- a/Lib/tty.py
++++ b/Lib/tty.py
+@@ -4,7 +4,7 @@
+ 
+ from termios import *
+ 
+-__all__ = ["cfmakeraw", "cfmakecbreak", "setraw", "setcbreak"]
++__all__ = ["cfmakecbreak", "cfmakeraw", "setcbreak", "setraw"]
+ 
+ # Indices for termios list.
+ IFLAG = 0
+diff --git a/Lib/typing.py b/Lib/typing.py
+index d278b4effc..7ea31d3f65 100644
+--- a/Lib/typing.py
++++ b/Lib/typing.py
+@@ -42,53 +42,73 @@
+ 
+ # Please keep __all__ alphabetized within each category.
+ __all__ = [
++    # ABCs (from collections.abc).
++    'AbstractSet',  # collections.abc.Set.
+     # Super-special typing primitives.
+     'Annotated',
+     'Any',
++    # One-off things.
++    'AnyStr',
++    'AsyncContextManager',
++    'AsyncGenerator',
++    'AsyncIterable',
++    'AsyncIterator',
++    'Awaitable',
++    # Other concrete types.
++    'BinaryIO',
++    'ByteString',
+     'Callable',
++    # Concrete collection types.
++    'ChainMap',
+     'ClassVar',
++    'Collection',
+     'Concatenate',
++    'Container',
++    'ContextManager',
++    'Coroutine',
++    'Counter',
++    'DefaultDict',
++    'Deque',
++    'Dict',
+     'Final',
+     'ForwardRef',
++    'FrozenSet',
++    'Generator',
+     'Generic',
+-    'Literal',
+-    'Optional',
+-    'ParamSpec',
+-    'Protocol',
+-    'Tuple',
+-    'Type',
+-    'TypeVar',
+-    'TypeVarTuple',
+-    'Union',
+-
+-    # ABCs (from collections.abc).
+-    'AbstractSet',  # collections.abc.Set.
+-    'ByteString',
+-    'Container',
+-    'ContextManager',
+     'Hashable',
++    'IO',
+     'ItemsView',
+     'Iterable',
+     'Iterator',
+     'KeysView',
++    'List',
++    'Literal',
++    'LiteralString',
+     'Mapping',
+     'MappingView',
++    'Match',
+     'MutableMapping',
+     'MutableSequence',
+     'MutableSet',
+-    'Sequence',
+-    'Sized',
+-    'ValuesView',
+-    'Awaitable',
+-    'AsyncIterator',
+-    'AsyncIterable',
+-    'Coroutine',
+-    'Collection',
+-    'AsyncGenerator',
+-    'AsyncContextManager',
+-
++    'NamedTuple',  # Not really a type.
++    'Never',
++    'NewType',
++    'NoReturn',
++    'NotRequired',
++    'Optional',
++    'OrderedDict',
++    'ParamSpec',
++    'ParamSpecArgs',
++    'ParamSpecKwargs',
++    'Pattern',
++    'Protocol',
++    'Required',
+     # Structural checks, a.k.a. protocols.
+     'Reversible',
++    'Self',
++    'Sequence',
++    'Set',
++    'Sized',
+     'SupportsAbs',
+     'SupportsBytes',
+     'SupportsComplex',
+@@ -96,32 +116,22 @@
+     'SupportsIndex',
+     'SupportsInt',
+     'SupportsRound',
+-
+-    # Concrete collection types.
+-    'ChainMap',
+-    'Counter',
+-    'Deque',
+-    'Dict',
+-    'DefaultDict',
+-    'List',
+-    'OrderedDict',
+-    'Set',
+-    'FrozenSet',
+-    'NamedTuple',  # Not really a type.
+-    'TypedDict',  # Not really a type.
+-    'Generator',
+-
+-    # Other concrete types.
+-    'BinaryIO',
+-    'IO',
+-    'Match',
+-    'Pattern',
++    'TYPE_CHECKING',
++    'Text',
+     'TextIO',
+-
+-    # One-off things.
+-    'AnyStr',
+-    'assert_type',
++    'Tuple',
++    'Type',
++    'TypeAlias',
++    'TypeAliasType',
++    'TypeGuard',
++    'TypeVar',
++    'TypeVarTuple',
++    'TypedDict',  # Not really a type.
++    'Union',
++    'Unpack',
++    'ValuesView',
+     'assert_never',
++    'assert_type',
+     'cast',
+     'clear_overloads',
+     'dataclass_transform',
+@@ -133,27 +143,12 @@
+     'get_type_hints',
+     'is_protocol',
+     'is_typeddict',
+-    'LiteralString',
+-    'Never',
+-    'NewType',
+     'no_type_check',
+     'no_type_check_decorator',
+-    'NoReturn',
+-    'NotRequired',
+     'overload',
+     'override',
+-    'ParamSpecArgs',
+-    'ParamSpecKwargs',
+-    'Required',
+     'reveal_type',
+     'runtime_checkable',
+-    'Self',
+-    'Text',
+-    'TYPE_CHECKING',
+-    'TypeAlias',
+-    'TypeGuard',
+-    'TypeAliasType',
+-    'Unpack',
+ ]
+ 
+ 
+diff --git a/Lib/unittest/__init__.py b/Lib/unittest/__init__.py
+index f1f6c911ef..d22508ba59 100644
+--- a/Lib/unittest/__init__.py
++++ b/Lib/unittest/__init__.py
+@@ -44,12 +44,29 @@ def testMultiply(self):
+ SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ """
+ 
+-__all__ = ['TestResult', 'TestCase', 'IsolatedAsyncioTestCase', 'TestSuite',
+-           'TextTestRunner', 'TestLoader', 'FunctionTestCase', 'main',
+-           'defaultTestLoader', 'SkipTest', 'skip', 'skipIf', 'skipUnless',
+-           'expectedFailure', 'TextTestResult', 'installHandler',
+-           'registerResult', 'removeResult', 'removeHandler',
+-           'addModuleCleanup', 'doModuleCleanups', 'enterModuleContext']
++__all__ = [
++    'FunctionTestCase',
++    'IsolatedAsyncioTestCase',
++    'SkipTest',
++    'TestCase',
++    'TestLoader',
++    'TestResult',
++    'TestSuite',
++    'TextTestResult',
++    'TextTestRunner',
++    'addModuleCleanup',
++    'defaultTestLoader',
++    'doModuleCleanups',
++    'enterModuleContext',
++    'expectedFailure',
++    'installHandler',
++    'main',
++    'registerResult',
++    'removeHandler',
++    'removeResult',
++    'skip',
++    'skipIf',
++    'skipUnless',]
+ 
+ __unittest = True
+ 
+diff --git a/Lib/unittest/mock.py b/Lib/unittest/mock.py
+index 93f4d9743e..fd201d558d 100644
+--- a/Lib/unittest/mock.py
++++ b/Lib/unittest/mock.py
+@@ -5,22 +5,22 @@
+ # https://pypi.org/project/mock
+ 
+ __all__ = (
+-    'Mock',
+-    'MagicMock',
+-    'patch',
+-    'sentinel',
+-    'DEFAULT',
+     'ANY',
+-    'call',
+-    'create_autospec',
+     'AsyncMock',
+-    'ThreadingMock',
++    'DEFAULT',
+     'FILTER_DIR',
+-    'NonCallableMock',
++    'MagicMock',
++    'Mock',
+     'NonCallableMagicMock',
+-    'mock_open',
++    'NonCallableMock',
+     'PropertyMock',
++    'ThreadingMock',
++    'call',
++    'create_autospec',
++    'mock_open',
++    'patch',
+     'seal',
++    'sentinel',
+ )
+ 
+ 
+diff --git a/Lib/urllib/error.py b/Lib/urllib/error.py
+index a9cd1ecadd..cdf90a8067 100644
+--- a/Lib/urllib/error.py
++++ b/Lib/urllib/error.py
+@@ -13,7 +13,7 @@
+ import io
+ import urllib.response
+ 
+-__all__ = ['URLError', 'HTTPError', 'ContentTooShortError']
++__all__ = ['ContentTooShortError', 'HTTPError', 'URLError']
+ 
+ 
+ class URLError(OSError):
+diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
+index c129b0d797..cd8ee6e4f3 100644
+--- a/Lib/urllib/parse.py
++++ b/Lib/urllib/parse.py
+@@ -39,12 +39,28 @@
+ import warnings
+ import ipaddress
+ 
+-__all__ = ["urlparse", "urlunparse", "urljoin", "urldefrag",
+-           "urlsplit", "urlunsplit", "urlencode", "parse_qs",
+-           "parse_qsl", "quote", "quote_plus", "quote_from_bytes",
+-           "unquote", "unquote_plus", "unquote_to_bytes",
+-           "DefragResult", "ParseResult", "SplitResult",
+-           "DefragResultBytes", "ParseResultBytes", "SplitResultBytes"]
++__all__ = [
++    "DefragResult",
++    "DefragResultBytes",
++    "ParseResult",
++    "ParseResultBytes",
++    "SplitResult",
++    "SplitResultBytes",
++    "parse_qs",
++    "parse_qsl",
++    "quote",
++    "quote_from_bytes",
++    "quote_plus",
++    "unquote",
++    "unquote_plus",
++    "unquote_to_bytes",
++    "urldefrag",
++    "urlencode",
++    "urljoin",
++    "urlparse",
++    "urlsplit",
++    "urlunparse",
++    "urlunsplit",]
+ 
+ # A classification of schemes.
+ # The empty string classifies URLs with no scheme specified,
+diff --git a/Lib/urllib/request.py b/Lib/urllib/request.py
+index 1d03259b91..e4fdc7a2ed 100644
+--- a/Lib/urllib/request.py
++++ b/Lib/urllib/request.py
+@@ -115,20 +115,42 @@
+     _have_ssl = True
+ 
+ __all__ = [
++    'AbstractBasicAuthHandler',
++    'AbstractDigestAuthHandler',
++    'BaseHandler',
++    'CacheFTPHandler',
++    'DataHandler',
++    'FTPHandler',
++    'FancyURLopener',
++    'FileHandler',
++    'HTTPBasicAuthHandler',
++    'HTTPCookieProcessor',
++    'HTTPDefaultErrorHandler',
++    'HTTPDigestAuthHandler',
++    'HTTPErrorProcessor',
++    'HTTPHandler',
++    'HTTPPasswordMgr',
++    'HTTPPasswordMgrWithDefaultRealm',
++    'HTTPPasswordMgrWithPriorAuth',
++    'HTTPRedirectHandler',
++    'OpenerDirector',
++    'ProxyBasicAuthHandler',
++    'ProxyDigestAuthHandler',
++    'ProxyHandler',
+     # Classes
+-    'Request', 'OpenerDirector', 'BaseHandler', 'HTTPDefaultErrorHandler',
+-    'HTTPRedirectHandler', 'HTTPCookieProcessor', 'ProxyHandler',
+-    'HTTPPasswordMgr', 'HTTPPasswordMgrWithDefaultRealm',
+-    'HTTPPasswordMgrWithPriorAuth', 'AbstractBasicAuthHandler',
+-    'HTTPBasicAuthHandler', 'ProxyBasicAuthHandler', 'AbstractDigestAuthHandler',
+-    'HTTPDigestAuthHandler', 'ProxyDigestAuthHandler', 'HTTPHandler',
+-    'FileHandler', 'FTPHandler', 'CacheFTPHandler', 'DataHandler',
+-    'UnknownHandler', 'HTTPErrorProcessor',
++    'Request',
++    'URLopener',
++    'UnknownHandler',
++    'build_opener',
++    'getproxies',
++    'install_opener',
++    'pathname2url',
++    'url2pathname',
++    'urlcleanup',
+     # Functions
+-    'urlopen', 'install_opener', 'build_opener',
+-    'pathname2url', 'url2pathname', 'getproxies',
++    'urlopen',
+     # Legacy interface
+-    'urlretrieve', 'urlcleanup', 'URLopener', 'FancyURLopener',
++    'urlretrieve',
+ ]
+ 
+ # used in User-Agent header sent
+diff --git a/Lib/warnings.py b/Lib/warnings.py
+index 4ad6ad0271..50141dff72 100644
+--- a/Lib/warnings.py
++++ b/Lib/warnings.py
+@@ -3,9 +3,16 @@
+ import sys
+ 
+ 
+-__all__ = ["warn", "warn_explicit", "showwarning",
+-           "formatwarning", "filterwarnings", "simplefilter",
+-           "resetwarnings", "catch_warnings", "deprecated"]
++__all__ = [
++    "catch_warnings",
++    "deprecated",
++    "filterwarnings",
++    "formatwarning",
++    "resetwarnings",
++    "showwarning",
++    "simplefilter",
++    "warn",
++    "warn_explicit",]
+ 
+ def showwarning(message, category, filename, lineno, file=None, line=None):
+     """Hook to write a warning to a file; replace if you like."""
+diff --git a/Lib/wave.py b/Lib/wave.py
+index a34af244c3..c4f2ad3557 100644
+--- a/Lib/wave.py
++++ b/Lib/wave.py
+@@ -77,7 +77,7 @@
+ import sys
+ 
+ 
+-__all__ = ["open", "Error", "Wave_read", "Wave_write"]
++__all__ = ["Error", "Wave_read", "Wave_write", "open"]
+ 
+ class Error(Exception):
+     pass
+diff --git a/Lib/weakref.py b/Lib/weakref.py
+index 25b70927e2..f103336717 100644
+--- a/Lib/weakref.py
++++ b/Lib/weakref.py
+@@ -27,10 +27,20 @@
+ 
+ ProxyTypes = (ProxyType, CallableProxyType)
+ 
+-__all__ = ["ref", "proxy", "getweakrefcount", "getweakrefs",
+-           "WeakKeyDictionary", "ReferenceType", "ProxyType",
+-           "CallableProxyType", "ProxyTypes", "WeakValueDictionary",
+-           "WeakSet", "WeakMethod", "finalize"]
++__all__ = [
++    "CallableProxyType",
++    "ProxyType",
++    "ProxyTypes",
++    "ReferenceType",
++    "WeakKeyDictionary",
++    "WeakMethod",
++    "WeakSet",
++    "WeakValueDictionary",
++    "finalize",
++    "getweakrefcount",
++    "getweakrefs",
++    "proxy",
++    "ref",]
+ 
+ 
+ _collections_abc.MutableSet.register(WeakSet)
+diff --git a/Lib/webbrowser.py b/Lib/webbrowser.py
+index 636e8ca459..a4bb520f2a 100755
+--- a/Lib/webbrowser.py
++++ b/Lib/webbrowser.py
+@@ -9,7 +9,7 @@
+ import subprocess
+ import threading
+ 
+-__all__ = ["Error", "open", "open_new", "open_new_tab", "get", "register"]
++__all__ = ["Error", "get", "open", "open_new", "open_new_tab", "register"]
+ 
+ class Error(Exception):
+     pass
+diff --git a/Lib/wsgiref/handlers.py b/Lib/wsgiref/handlers.py
+index cafe872c7a..91e960385c 100644
+--- a/Lib/wsgiref/handlers.py
++++ b/Lib/wsgiref/handlers.py
+@@ -6,8 +6,12 @@
+ import sys, os, time
+ 
+ __all__ = [
+-    'BaseHandler', 'SimpleHandler', 'BaseCGIHandler', 'CGIHandler',
+-    'IISCGIHandler', 'read_environ'
++    'BaseCGIHandler',
++    'BaseHandler',
++    'CGIHandler',
++    'IISCGIHandler',
++    'SimpleHandler',
++    'read_environ',
+ ]
+ 
+ # Weekday and month names for HTTP date/time formatting; always English!
+diff --git a/Lib/wsgiref/simple_server.py b/Lib/wsgiref/simple_server.py
+index a0f2397fcf..2c79d4cb38 100644
+--- a/Lib/wsgiref/simple_server.py
++++ b/Lib/wsgiref/simple_server.py
+@@ -17,7 +17,7 @@
+ from platform import python_implementation
+ 
+ __version__ = "0.2"
+-__all__ = ['WSGIServer', 'WSGIRequestHandler', 'demo_app', 'make_server']
++__all__ = ['WSGIRequestHandler', 'WSGIServer', 'demo_app', 'make_server']
+ 
+ 
+ server_version = "WSGIServer/" + __version__
+diff --git a/Lib/wsgiref/types.py b/Lib/wsgiref/types.py
+index ef0aead5b2..523829fb29 100644
+--- a/Lib/wsgiref/types.py
++++ b/Lib/wsgiref/types.py
+@@ -5,12 +5,12 @@
+ from typing import Any, Protocol, TypeAlias
+ 
+ __all__ = [
+-    "StartResponse",
+-    "WSGIEnvironment",
+-    "WSGIApplication",
+-    "InputStream",
+     "ErrorStream",
+     "FileWrapper",
++    "InputStream",
++    "StartResponse",
++    "WSGIApplication",
++    "WSGIEnvironment",
+ ]
+ 
+ _ExcInfo: TypeAlias = tuple[type[BaseException], BaseException, TracebackType]
+diff --git a/Lib/wsgiref/util.py b/Lib/wsgiref/util.py
+index 63b9233173..4dd5b4a785 100644
+--- a/Lib/wsgiref/util.py
++++ b/Lib/wsgiref/util.py
+@@ -3,8 +3,13 @@
+ import posixpath
+ 
+ __all__ = [
+-    'FileWrapper', 'guess_scheme', 'application_uri', 'request_uri',
+-    'shift_path_info', 'setup_testing_defaults', 'is_hop_by_hop',
++    'FileWrapper',
++    'application_uri',
++    'guess_scheme',
++    'is_hop_by_hop',
++    'request_uri',
++    'setup_testing_defaults',
++    'shift_path_info',
+ ]
+ 
+ 
+diff --git a/Lib/xml/__init__.py b/Lib/xml/__init__.py
+index bf6d8ddfd0..2deecd392a 100644
+--- a/Lib/xml/__init__.py
++++ b/Lib/xml/__init__.py
+@@ -17,4 +17,4 @@
+ """
+ 
+ 
+-__all__ = ["dom", "parsers", "sax", "etree"]
++__all__ = ["dom", "etree", "parsers", "sax"]
+diff --git a/Lib/xml/dom/minicompat.py b/Lib/xml/dom/minicompat.py
+index 5d6fae9a25..597d8c7ede 100644
+--- a/Lib/xml/dom/minicompat.py
++++ b/Lib/xml/dom/minicompat.py
+@@ -40,7 +40,7 @@
+ #                    defproperty() should be used for each version of
+ #                    the relevant _get_<property>() function.
+ 
+-__all__ = ["NodeList", "EmptyNodeList", "StringTypes", "defproperty"]
++__all__ = ["EmptyNodeList", "NodeList", "StringTypes", "defproperty"]
+ 
+ import xml.dom
+ 
+diff --git a/Lib/xml/etree/ElementTree.py b/Lib/xml/etree/ElementTree.py
+index 42574eefd8..95d9d8b6f6 100644
+--- a/Lib/xml/etree/ElementTree.py
++++ b/Lib/xml/etree/ElementTree.py
+@@ -71,23 +71,33 @@
+ # --------------------------------------------------------------------
+ 
+ __all__ = [
++    "C14NWriterTarget",
+     # public symbols
+     "Comment",
+-    "dump",
+-    "Element", "ElementTree",
+-    "fromstring", "fromstringlist",
+-    "indent", "iselement", "iterparse",
+-    "parse", "ParseError",
+-    "PI", "ProcessingInstruction",
++    "Element",
++    "ElementTree",
++    "PI",
++    "ParseError",
++    "ProcessingInstruction",
+     "QName",
+     "SubElement",
+-    "tostring", "tostringlist",
+     "TreeBuilder",
+     "VERSION",
+-    "XML", "XMLID",
+-    "XMLParser", "XMLPullParser",
++    "XML",
++    "XMLID",
++    "XMLParser",
++    "XMLPullParser",
++    "canonicalize",
++    "dump",
++    "fromstring",
++    "fromstringlist",
++    "indent",
++    "iselement",
++    "iterparse",
++    "parse",
+     "register_namespace",
+-    "canonicalize", "C14NWriterTarget",
++    "tostring",
++    "tostringlist",
+     ]
+ 
+ VERSION = "1.3.0"
+diff --git a/Lib/zipfile/__init__.py b/Lib/zipfile/__init__.py
+index 1d8a607fc7..e3ec9e424f 100644
+--- a/Lib/zipfile/__init__.py
++++ b/Lib/zipfile/__init__.py
+@@ -31,10 +31,20 @@
+ except ImportError:
+     lzma = None
+ 
+-__all__ = ["BadZipFile", "BadZipfile", "error",
+-           "ZIP_STORED", "ZIP_DEFLATED", "ZIP_BZIP2", "ZIP_LZMA",
+-           "is_zipfile", "ZipInfo", "ZipFile", "PyZipFile", "LargeZipFile",
+-           "Path"]
++__all__ = [
++    "BadZipFile",
++    "BadZipfile",
++    "LargeZipFile",
++    "Path",
++    "PyZipFile",
++    "ZIP_BZIP2",
++    "ZIP_DEFLATED",
++    "ZIP_LZMA",
++    "ZIP_STORED",
++    "ZipFile",
++    "ZipInfo",
++    "error",
++    "is_zipfile",]
+ 
+ class BadZipFile(Exception):
+     pass
+diff --git a/Lib/zoneinfo/__init__.py b/Lib/zoneinfo/__init__.py
+index f5510ee049..8679d9c2da 100644
+--- a/Lib/zoneinfo/__init__.py
++++ b/Lib/zoneinfo/__init__.py
+@@ -1,10 +1,10 @@
+ __all__ = [
+-    "ZoneInfo",
+-    "reset_tzpath",
+-    "available_timezones",
++    "InvalidTZPathWarning",
+     "TZPATH",
++    "ZoneInfo",
+     "ZoneInfoNotFoundError",
+-    "InvalidTZPathWarning",
++    "available_timezones",
++    "reset_tzpath",
+ ]
+ 
+ from . import _tzpath
+diff --git a/Parser/asdl.py b/Parser/asdl.py
+index e3e6c34d2a..6931388eb2 100644
+--- a/Parser/asdl.py
++++ b/Parser/asdl.py
+@@ -23,8 +23,18 @@
+ import re
+ 
+ __all__ = [
+-    'builtin_types', 'parse', 'AST', 'Module', 'Type', 'Constructor',
+-    'Field', 'Sum', 'Product', 'VisitorBase', 'Check', 'check']
++    'AST',
++    'Check',
++    'Constructor',
++    'Field',
++    'Module',
++    'Product',
++    'Sum',
++    'Type',
++    'VisitorBase',
++    'builtin_types',
++    'check',
++    'parse',]
+ 
+ # The following classes define nodes into which the ASDL description is parsed.
+ # Note: this is a "meta-AST". ASDL files (such as Python.asdl) describe the AST
