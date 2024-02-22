@@ -1,0 +1,30 @@
+(fast-cpython-venv) C:\Users\alexw\coding>python pyperformance/pyperformance/data-files/benchmarks/bm_typing_runtime_protocols/run_benchmark.py
+.....................
+typing_runtime_protocols: Mean +- std dev: 181 us +- 3 us
+
+C:\Users\alexw\coding\fast-cpython>python bench.py
+Running PGUpdate|x64 interpreter...
+Protocols with no callable members
+
+Empty class with no attributes: 1.50
+Subclass registered using ABCMeta.register: 0.49
+Class with a property x: 0.80
+Class with a ClassVar x: 0.79
+Class with an instance var x: 0.92
+Class that explicitly subclasses HasX: 0.18
+
+Protocols with only callable members
+
+Empty class with no attributes: 1.99
+Subclass registered using ABCMeta.register: 3.64
+Class with an __int__ method: 0.61
+Class that explicitly subclasses SupportsInt: 0.60
+
+Protocols with callable and non-callable members
+
+Empty class with no attributes: 5.34
+Subclass registered using ABCMeta.register: 1.76
+Class with a property x and an __int__ method: 4.81
+Class with a ClassVar x and an __int__ method: 5.23
+Class with an instance var x and an __int__ method: 5.20
+Class that explicitly subclasses NominalXWithInt: 0.60
