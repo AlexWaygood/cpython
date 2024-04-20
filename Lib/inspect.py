@@ -157,6 +157,7 @@ import token
 import types
 import functools
 import builtins
+import weakref
 from keyword import iskeyword
 from operator import attrgetter
 from collections import namedtuple, OrderedDict
@@ -1815,6 +1816,7 @@ def trace(context=1):
 _sentinel = object()
 _static_getmro = type.__dict__['__mro__'].__get__
 _get_dunder_dict_of_class = type.__dict__["__dict__"].__get__
+_SHADOWED_DICT_CACHE = {}
 
 
 def _check_instance(obj, attr):
@@ -1832,7 +1834,7 @@ def _check_class(klass, attr):
             return entry.__dict__[attr]
     return _sentinel
 
-@functools.lru_cache()
+
 def _shadowed_dict_from_mro_tuple(mro):
     for entry in mro:
         dunder_dict = _get_dunder_dict_of_class(entry)
@@ -1844,8 +1846,21 @@ def _shadowed_dict_from_mro_tuple(mro):
                 return class_dict
     return _sentinel
 
+
 def _shadowed_dict(klass):
-    return _shadowed_dict_from_mro_tuple(_static_getmro(klass))
+    mro = _static_getmro(klass)
+
+    try:
+        weakref_mro = tuple(map(weakref.ref, mro))
+    except TypeError:
+        # is it possible to have a class that can't be weakref'd?
+        # not sure -- but better to be safe than sorry
+        return _shadowed_dict_from_mro_tuple(mro)
+
+    if weakref_mro not in _SHADOWED_DICT_CACHE:
+        _SHADOWED_DICT_CACHE[weakref_mro] = _shadowed_dict_from_mro_tuple(mro)
+    return _SHADOWED_DICT_CACHE[weakref_mro]
+
 
 def getattr_static(obj, attr, default=_sentinel):
     """Retrieve attributes without triggering dynamic lookup via the
