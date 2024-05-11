@@ -508,6 +508,7 @@ class _CallableGenericAlias(GenericAlias):
             new_args = (t_args, t_result)
         return _CallableGenericAlias(Callable, tuple(new_args))
 
+
 def _is_param_expr(obj):
     """Checks if obj matches either a list of types, ``...``, ``ParamSpec`` or
     ``_ConcatenateGenericAlias`` from typing.py
@@ -520,6 +521,7 @@ def _is_param_expr(obj):
     names = ('ParamSpec', '_ConcatenateGenericAlias')
     return obj.__module__ == 'typing' and any(obj.__name__ == name for name in names)
 
+
 def _type_repr(obj):
     """Return the repr() of an object, special-casing types (internal helper).
 
@@ -527,15 +529,17 @@ def _type_repr(obj):
     shouldn't depend on that module.
     (Keep this roughly in sync with the typing version.)
     """
-    if isinstance(obj, type):
-        if obj.__module__ == 'builtins':
+    match obj:
+        case type(__module__="builtins"):
             return obj.__qualname__
-        return f'{obj.__module__}.{obj.__qualname__}'
-    if obj is Ellipsis:
-        return '...'
-    if isinstance(obj, FunctionType):
-        return obj.__name__
-    return repr(obj)
+        case type():
+            return f'{obj.__module__}.{obj.__qualname__}'
+        case EllipsisType():
+            return '...'
+        case FunctionType():
+            return obj.__name__
+        case _:
+            return repr(obj)
 
 
 class Callable(metaclass=ABCMeta):
