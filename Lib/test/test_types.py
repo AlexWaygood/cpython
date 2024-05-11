@@ -24,7 +24,7 @@ class Example:
 class Forward: ...
 
 def clear_typing_caches():
-    for f in typing._cleanups:
+    for f in typing._CACHE_CLEANUPS:
         f()
 
 

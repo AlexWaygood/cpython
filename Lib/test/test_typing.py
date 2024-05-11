@@ -71,7 +71,7 @@ class BaseTestCase(TestCase):
             raise self.failureException(message)
 
     def clear_caches(self):
-        for f in typing._cleanups:
+        for f in typing._CACHE_CLEANUPS:
             f()
 
 
@@ -6398,10 +6398,10 @@ class OverloadTests(BaseTestCase):
 
     @cpython_only  # gh-98713
     def test_overload_on_compiled_functions(self):
-        with patch("typing._overload_registry",
+        with patch("typing._OVERLOAD_REGISTRY",
                    defaultdict(lambda: defaultdict(dict))):
             # The registry starts out empty:
-            self.assertEqual(typing._overload_registry, {})
+            self.assertEqual(typing._OVERLOAD_REGISTRY, {})
 
             # This should just not fail:
             overload(sum)
@@ -6430,14 +6430,14 @@ class OverloadTests(BaseTestCase):
         return blah, [overload1, overload2]
 
     # Make sure we don't clear the global overload registry
-    @patch("typing._overload_registry",
+    @patch("typing._OVERLOAD_REGISTRY",
         defaultdict(lambda: defaultdict(dict)))
     def test_overload_registry(self):
         # The registry starts out empty
-        self.assertEqual(typing._overload_registry, {})
+        self.assertEqual(typing._OVERLOAD_REGISTRY, {})
 
         impl, overloads = self.set_up_overloads()
-        self.assertNotEqual(typing._overload_registry, {})
+        self.assertNotEqual(typing._OVERLOAD_REGISTRY, {})
         self.assertEqual(list(get_overloads(impl)), overloads)
 
         def some_other_func(): pass
@@ -6452,13 +6452,13 @@ class OverloadTests(BaseTestCase):
         # Make sure that after we clear all overloads, the registry is
         # completely empty.
         clear_overloads()
-        self.assertEqual(typing._overload_registry, {})
+        self.assertEqual(typing._OVERLOAD_REGISTRY, {})
         self.assertEqual(get_overloads(impl), [])
 
         # Querying a function with no overloads shouldn't change the registry.
         def the_only_one(): pass
         self.assertEqual(get_overloads(the_only_one), [])
-        self.assertEqual(typing._overload_registry, {})
+        self.assertEqual(typing._OVERLOAD_REGISTRY, {})
 
     def test_overload_registry_repeated(self):
         for _ in range(2):

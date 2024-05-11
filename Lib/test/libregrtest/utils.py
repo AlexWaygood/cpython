@@ -260,7 +260,7 @@ def clear_caches():
     except KeyError:
         pass
     else:
-        for f in typing._cleanups:
+        for f in typing._CACHE_CLEANUPS:
             f()
 
     try:
