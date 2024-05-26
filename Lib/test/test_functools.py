@@ -1938,6 +1938,16 @@ class TestLRUC(TestLRU, unittest.TestCase):
 
 
 class TestSingleDispatch(unittest.TestCase):
+    def assertStartsWith(self, string, expected_prefix, msg=None):
+        if not string.startswith(expected_prefix):
+            standardMsg = f"{string!r} does not start with {expected_prefix!r}"
+            self.fail(self._formatMessage(msg, standardMsg))
+
+    def assertEndsWith(self, string, expected_suffix, msg=None):
+        if not string.endswith(expected_suffix):
+            standardMsg = f"{string!r} does not end with {expected_suffix!r}"
+            self.fail(self._formatMessage(msg, standardMsg))
+
     def test_simple_overloads(self):
         @functools.singledispatch
         def g(obj):
@@ -2846,16 +2856,16 @@ class TestSingleDispatch(unittest.TestCase):
             @i.register(42)
             def _(arg):
                 return "I annotated with a non-type"
-        self.assertTrue(str(exc.exception).startswith(msg_prefix + "42"))
-        self.assertTrue(str(exc.exception).endswith(msg_suffix))
+        self.assertStartsWith(str(exc.exception), msg_prefix + "42")
+        self.assertEndsWith(str(exc.exception), msg_suffix)
         with self.assertRaises(TypeError) as exc:
             @i.register
             def _(arg):
                 return "I forgot to annotate"
-        self.assertTrue(str(exc.exception).startswith(msg_prefix +
+        self.assertStartsWith(str(exc.exception), (msg_prefix +
             "<function TestSingleDispatch.test_invalid_registrations.<locals>._"
         ))
-        self.assertTrue(str(exc.exception).endswith(msg_suffix))
+        self.assertEndsWith(str(exc.exception), msg_suffix)
 
         with self.assertRaises(TypeError) as exc:
             @i.register
@@ -2865,23 +2875,21 @@ class TestSingleDispatch(unittest.TestCase):
                 # types from `typing`. Instead, annotate with regular types
                 # or ABCs.
                 return "I annotated with a generic collection"
-        self.assertTrue(str(exc.exception).startswith(
-            "Invalid annotation for 'arg'."
-        ))
-        self.assertTrue(str(exc.exception).endswith(
-            'typing.Iterable[str] is not a class.'
-        ))
+        self.assertStartsWith(str(exc.exception), "Invalid annotation for 'arg'.")
+        self.assertEndsWith(
+            str(exc.exception),
+            'typing.Iterable[str] is neither a class nor a union of classes.'
+        )
 
         with self.assertRaises(TypeError) as exc:
             @i.register
             def _(arg: typing.Union[int, typing.Iterable[str]]):
                 return "Invalid Union"
-        self.assertTrue(str(exc.exception).startswith(
-            "Invalid annotation for 'arg'."
-        ))
-        self.assertTrue(str(exc.exception).endswith(
-            'typing.Union[int, typing.Iterable[str]] not all arguments are classes.'
-        ))
+        self.assertStartsWith(str(exc.exception), "Invalid annotation for 'arg'.")
+        self.assertEndsWith(
+            str(exc.exception),
+            'Not all items in typing.Union[int, typing.Iterable[str]] are classes.',
+        )
 
     def test_invalid_positional_argument(self):
         @functools.singledispatch

@@ -810,6 +810,59 @@ def _find_impl(cls, registry):
             match = t
     return registry.get(match)
 
+def _is_union_type(cls):
+    import types
+    from typing import get_origin, Union
+    return get_origin(cls) in {Union, types.UnionType}
+
+def _allows_issubclass(cls):
+    try:
+        issubclass(object, cls)
+    except Exception:
+        # Some classes will throw exceptions
+        # if you try to call issubclass() against them
+        # (e.g. non-runtime-checkable `typing.Protocol`s).
+        # Catch these early to provide a better error message for users.
+        return False
+    else:
+        return True
+
+class _DispatchArgClassification:
+    VALID = 0
+    INVALID = 1
+    DEPRECATED_PROTOCOL = 2
+
+def _check_dispatch_arg(cls):
+    """Return an appropriate error message if `cls` is invalid to be dispatched against.
+
+    If `cls` is a valid object to be dispatched against, return `None`.
+    """
+    if isinstance(cls, type):
+        if _allows_issubclass(cls):
+            return _DispatchArgClassification.VALID, ""
+        typing_mod = sys.modules.get("typing")
+        if typing_mod is not None:
+            if issubclass(cls, typing.Protocol):
+                return _DispatchArgClassification.DEPRECATED_PROTOCOL, ""
+        return (
+            f"{cls.__qualname__!r} is a class but throws an exception"
+            "when `issubclass()` is called against it"
+        )
+
+    if _is_union_type(cls):
+        for arg in cls.__args__:
+            if isinstance(arg, type):
+                if not _allows_issubclass(arg):
+                    return (
+                        f"Not all items in {cls!r} permit `issubclass()` "
+                        "to be called against them"
+                    )
+            else:
+                return f"Not all items in {cls!r} are classes"
+        return None
+
+    return f"{cls!r} is neither a class nor a union of classes"
+
 def singledispatch(func):
     """Single-dispatch generic function decorator.
 
@@ -851,17 +904,6 @@ def singledispatch(func):
             dispatch_cache[cls] = impl
         return impl
 
-    def _is_union_type(cls):
-        from typing import get_origin, Union
-        return get_origin(cls) in {Union, types.UnionType}
-
-    def _is_valid_dispatch_type(cls):
-        if isinstance(cls, type):
-            return True
-        from typing import get_args
-        return (_is_union_type(cls) and
-                all(isinstance(arg, type) for arg in get_args(cls)))
-
     def register(cls, func=None):
         """generic_func.register(cls, func) -> func
 
@@ -869,14 +911,15 @@ def singledispatch(func):
 
         """
         nonlocal cache_token
-        if _is_valid_dispatch_type(cls):
+        cls_validity, error_for_invalid_dispatch = _check_dispatch_arg(cls)
+        if cls_validity == _DispatchArgClassification.VALID:
             if func is None:
                 return lambda f: register(cls, f)
         else:
             if func is not None:
                 raise TypeError(
                     f"Invalid first argument to `register()`. "
-                    f"{cls!r} is not a class or union type."
+                    f"{error_for_invalid_dispatch}."
                 )
             ann = getattr(cls, '__annotations__', {})
             if not ann:
@@ -890,17 +933,12 @@ def singledispatch(func):
             # only import typing if annotation parsing is necessary
             from typing import get_type_hints
             argname, cls = next(iter(get_type_hints(func).items()))
-            if not _is_valid_dispatch_type(cls):
-                if _is_union_type(cls):
-                    raise TypeError(
-                        f"Invalid annotation for {argname!r}. "
-                        f"{cls!r} not all arguments are classes."
-                    )
-                else:
-                    raise TypeError(
-                        f"Invalid annotation for {argname!r}. "
-                        f"{cls!r} is not a class."
-                    )
+            error_for_invalid_dispatch = _check_dispatch_arg(cls)
+            if error_for_invalid_dispatch is not None:
+                raise TypeError(
+                    f"Invalid annotation for {argname!r}. "
+                    f"{error_for_invalid_dispatch}."
+                )
 
         if _is_union_type(cls):
             from typing import get_args
