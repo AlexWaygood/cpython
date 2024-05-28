@@ -608,6 +608,19 @@ def _init_param(f):
     return f'{f.name}:__dataclass_type_{f.name}__{default}'
 
 
+def _type_sans_initvar(field):
+    if field._field_type is not _FIELD_INITVAR:
+        return field.type
+    if isinstance(field.type, InitVar):
+        return field.type.type
+    if not isinstance(field.type, str):
+        return field.type
+    match = re.fullmatch(r"(dataclasses)?\.InitVar\[(.+)\]", field.type)
+    if match is None:
+        return field.type
+    return match[2]
+
+
 def _init_fn(fields, std_fields, kw_only_fields, frozen, has_post_init,
              self_name, func_builder, slots):
     # fields contains both real fields and InitVar pseudo-fields.
@@ -628,7 +641,7 @@ def _init_fn(fields, std_fields, kw_only_fields, frozen, has_post_init,
                 raise TypeError(f'non-default argument {f.name!r} '
                                 f'follows default argument {seen_default.name!r}')
 
-    locals = {**{f'__dataclass_type_{f.name}__': f.type for f in fields},
+    locals = {**{f'__dataclass_type_{f.name}__': _type_sans_initvar(f) for f in fields},
               **{'__dataclass_HAS_DEFAULT_FACTORY__': _HAS_DEFAULT_FACTORY,
                  '__dataclass_builtins_object__': object,
                  }
