@@ -167,42 +167,38 @@ __all__ = ['dataclass',
 # tuple of __init__ parameter names; non-init fields must be matched by keyword.
 
 
-# Raised when an attempt is made to modify a frozen class.
-class FrozenInstanceError(AttributeError): pass
+class FrozenInstanceError(AttributeError):
+    """Raised when an attempt is made to modify a frozen class."""
+
+class _Sentinel:
+    """Simple factory for creating sentinel objects with nice reprs."""
+
+    __slots__ = ('_name',)
+
+    def __init__(self, name, /):
+        self._name = name
+
+    def __repr__(self):
+        return self._name
 
 # A sentinel object for default values to signal that a default
-# factory will be used.  This is given a nice repr() which will appear
-# in the function signature of dataclasses' constructors.
-class _HAS_DEFAULT_FACTORY_CLASS:
-    def __repr__(self):
-        return '<factory>'
-_HAS_DEFAULT_FACTORY = _HAS_DEFAULT_FACTORY_CLASS()
+# factory will be used.
+_HAS_DEFAULT_FACTORY = _Sentinel("<factory>")
 
-# A sentinel object to detect if a parameter is supplied or not.  Use
-# a class to give it a better repr.
-class _MISSING_TYPE:
-    pass
-MISSING = _MISSING_TYPE()
+# Sentinel object to detect if a parameter is supplied or not.
+MISSING = _Sentinel('<MISSING>')
 
-# A sentinel object to indicate that following fields are keyword-only by
-# default.  Use a class to give it a better repr.
-class _KW_ONLY_TYPE:
-    pass
-KW_ONLY = _KW_ONLY_TYPE()
+# Sentinel object to indicate that following fields are keyword-only by default.
+KW_ONLY = _Sentinel('<KW_ONLY_MARKER>')
 
 # Since most per-field metadata will be unused, create an empty
 # read-only proxy that can be shared among all fields.
 _EMPTY_METADATA = types.MappingProxyType({})
 
 # Markers for the various kinds of fields and pseudo-fields.
-class _FIELD_BASE:
-    def __init__(self, name):
-        self.name = name
-    def __repr__(self):
-        return self.name
-_FIELD = _FIELD_BASE('_FIELD')
-_FIELD_CLASSVAR = _FIELD_BASE('_FIELD_CLASSVAR')
-_FIELD_INITVAR = _FIELD_BASE('_FIELD_INITVAR')
+_FIELD = _Sentinel('_FIELD')
+_FIELD_CLASSVAR = _Sentinel('_FIELD_CLASSVAR')
+_FIELD_INITVAR = _Sentinel('_FIELD_INITVAR')
 
 # The name of an attribute on the class where we store the Field
 # objects.  Also used to check if a class is a Data Class.
@@ -306,16 +302,16 @@ class Field:
     def __repr__(self):
         return ('Field('
                 f'name={self.name!r},'
-                f'type={self.type!r},'
-                f'default={self.default!r},'
-                f'default_factory={self.default_factory!r},'
-                f'init={self.init!r},'
-                f'repr={self.repr!r},'
-                f'hash={self.hash!r},'
-                f'compare={self.compare!r},'
-                f'metadata={self.metadata!r},'
-                f'kw_only={self.kw_only!r},'
-                f'_field_type={self._field_type}'
+                f' type={self.type!r},'
+                f' default={self.default!r},'
+                f' default_factory={self.default_factory!r},'
+                f' init={self.init!r},'
+                f' repr={self.repr!r},'
+                f' hash={self.hash!r},'
+                f' compare={self.compare!r},'
+                f' metadata={self.metadata!r},'
+                f' kw_only={self.kw_only!r},'
+                f' _field_type={self._field_type}'
                 ')')
 
     # This is used to support the PEP 487 __set_name__ protocol in the
@@ -366,15 +362,15 @@ class _DataclassParams:
     def __repr__(self):
         return ('_DataclassParams('
                 f'init={self.init!r},'
-                f'repr={self.repr!r},'
-                f'eq={self.eq!r},'
-                f'order={self.order!r},'
-                f'unsafe_hash={self.unsafe_hash!r},'
-                f'frozen={self.frozen!r},'
-                f'match_args={self.match_args!r},'
-                f'kw_only={self.kw_only!r},'
-                f'slots={self.slots!r},'
-                f'weakref_slot={self.weakref_slot!r}'
+                f' repr={self.repr!r},'
+                f' eq={self.eq!r},'
+                f' order={self.order!r},'
+                f' unsafe_hash={self.unsafe_hash!r},'
+                f' frozen={self.frozen!r},'
+                f' match_args={self.match_args!r},'
+                f' kw_only={self.kw_only!r},'
+                f' slots={self.slots!r},'
+                f' weakref_slot={self.weakref_slot!r}'
                 ')')
 
 
