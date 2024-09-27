@@ -49,25 +49,30 @@ The :mod:`runpy` module provides two functions:
    below are defined in *init_globals*, those definitions are
    overridden by :func:`run_module`.
 
-   The special global variables ``__name__``, ``__spec__``, ``__file__``,
-   ``__cached__``, ``__loader__`` and ``__package__`` are set in the globals
+   The special global variables :attr:`~module.__name__`,
+   :attr:`~module.__spec__`, :attr:`~module.__file__`,
+   :attr:`~module.__cached__`, :attr:`~module.__loader__` and
+   :attr:`~module.__package__` are set in the globals
    dictionary before the module code is executed. (Note that this is a
    minimal set of variables - other variables may be set implicitly as an
    interpreter implementation detail.)
 
-   ``__name__`` is set to *run_name* if this optional argument is not
-   :const:`None`, to ``mod_name + '.__main__'`` if the named module is a
+   :attr:`~module.__name__` is set to *run_name* if this optional argument is
+   not ``None``, to ``mod_name + '.__main__'`` if the named module is a
    package and to the *mod_name* argument otherwise.
 
-   ``__spec__`` will be set appropriately for the *actually* imported
-   module (that is, ``__spec__.name`` will always be *mod_name* or
-   ``mod_name + '.__main__'``, never *run_name*).
+   :attr:`~module.__spec__` will be set appropriately for the *actually*
+   imported module (that is,
+   :attr:`__spec__.name <importlib.machinery.ModuleSpec.name>` will always be
+   *mod_name* or ``mod_name + '.__main__'``, never *run_name*).
 
-   ``__file__``, ``__cached__``, ``__loader__`` and ``__package__`` are
-   :ref:`set as normal <import-mod-attrs>` based on the module spec.
+   :attr:`~module.__file__`, :attr:`~module.__cached__`,
+   :attr:`~module.__loader__` and :attr:`~module.__package__` are
+   :ref:`set as normal <import-mod-attrs>` based on the
+   :ref:`module spec <module-specs>`.
 
-   If the argument *alter_sys* is supplied and evaluates to :const:`True`,
-   then ``sys.argv[0]`` is updated with the value of ``__file__`` and
+   If the argument *alter_sys* is supplied and evaluates to ``True``,
+   then ``sys.argv[0]`` is updated with the value of :attr:`~module.__file__` and
    ``sys.modules[__name__]`` is updated with a temporary module object for the
    module being executed. Both ``sys.argv[0]`` and ``sys.modules[__name__]``
    are restored to their original values before the function returns.
@@ -85,17 +90,18 @@ The :mod:`runpy` module provides two functions:
       Added ability to execute packages by looking for a :mod:`__main__` submodule.
 
    .. versionchanged:: 3.2
-      Added ``__cached__`` global variable (see :pep:`3147`).
+      Added :attr:`~module.__cached__` global variable (see :pep:`3147`).
 
    .. versionchanged:: 3.4
       Updated to take advantage of the module spec feature added by
-      :pep:`451`. This allows ``__cached__`` to be set correctly for modules
-      run this way, as well as ensuring the real module name is always
-      accessible as ``__spec__.name``.
+      :pep:`451`. This allows :attr:`~module.__cached__` to be set correctly
+      for modules run this way, as well as ensuring the real module name is
+      always accessible as
+      :attr:`__spec__.name <importlib.machinery.ModuleSpec.name>`.
 
    .. versionchanged:: 3.12
-      The setting of ``__cached__``, ``__loader__``, and
-      ``__package__`` are deprecated. See
+      The setting of :attr:`~module.__cached__`, :attr:`~module.__loader__`,
+      and :attr:`~module.__package__` are deprecated. See
       :class:`~importlib.machinery.ModuleSpec` for alternatives.
 
 .. function:: run_path(path_name, init_globals=None, run_name=None)
@@ -124,25 +130,31 @@ The :mod:`runpy` module provides two functions:
    below are defined in *init_globals*, those definitions are
    overridden by :func:`run_path`.
 
-   The special global variables ``__name__``, ``__spec__``, ``__file__``,
-   ``__cached__``, ``__loader__`` and ``__package__`` are set in the globals
+   The special global variables :attr:`~module.__name__`,
+   :attr:`~module.__spec__`, :attr:`~module.__file__`,
+   :attr:`~module.__cached__`, :attr:`~module.__loader__` and
+   :attr:`~module.__package__` are set in the globals
    dictionary before the module code is executed. (Note that this is a
    minimal set of variables - other variables may be set implicitly as an
    interpreter implementation detail.)
 
-   ``__name__`` is set to *run_name* if this optional argument is not
-   :const:`None` and to ``'<run_path>'`` otherwise.
+   :attr:`~module.__name__` is set to *run_name* if this optional argument is
+   not ``None`` and to ``'<run_path>'`` otherwise.
 
    If *file_path* directly references a script file (whether as source
-   or as precompiled byte code), then ``__file__`` will be set to
-   *file_path*, and ``__spec__``, ``__cached__``, ``__loader__`` and
-   ``__package__`` will all be set to :const:`None`.
+   or as precompiled byte code), then :attr:`~module.__file__` will be set to
+   *file_path*, and :attr:`~module.__spec__`, :attr:`~module.__cached__`,
+   :attr:`~module.__loader__` and :attr:`~module.__package__` will all be set
+   to ``None``.
 
    If *file_path* is a reference to a valid :data:`sys.path` entry, then
-   ``__spec__`` will be set appropriately for the imported :mod:`__main__`
-   module (that is, ``__spec__.name`` will always be ``__main__``).
-   ``__file__``, ``__cached__``, ``__loader__`` and ``__package__`` will be
-   :ref:`set as normal <import-mod-attrs>` based on the module spec.
+   :attr:`~module.__spec__` will be set appropriately for the importe
+   :mod:`__main__` module (that is,
+   :attr:`__spec__.name <importlib.machinery.ModuleSpec.name>` will always be
+   ``__main__``). :attr:`~module.__file__`, :attr:`~module.__cached__`,
+   :attr:`~module.__loader__` and :attr:`~module.__package__` will be
+   :ref:`set as normal <import-mod-attrs>` based on the
+   :ref:`module spec <module-specs>`.
 
    A number of alterations are also made to the :mod:`sys` module. Firstly,
    :data:`sys.path` may be altered as described above. ``sys.argv[0]`` is updated
@@ -164,14 +176,15 @@ The :mod:`runpy` module provides two functions:
    .. versionadded:: 3.2
 
    .. versionchanged:: 3.4
-      Updated to take advantage of the module spec feature added by
-      :pep:`451`. This allows ``__cached__`` to be set correctly in the
+      Updated to take advantage of the :ref:`module spec <module-specs>`
+      feature added by :pep:`451`. This allows :attr:`~module.__cached__` to be
+      set correctly in the
       case where ``__main__`` is imported from a valid :data:`sys.path` entry rather
       than being executed directly.
 
    .. versionchanged:: 3.12
-      The setting of ``__cached__``, ``__loader__``, and
-      ``__package__`` are deprecated.
+      The setting of :attr:`~module.__cached__`, :attr:`~module.__loader__`,
+      and :attr:`~module.__package__` are deprecated.
 
 .. seealso::
 
