@@ -1369,7 +1369,7 @@ DocTestFinder objects
 
       The optional argument *name* specifies the object's name; this name will be
       used to construct names for the returned :class:`DocTest`\ s.  If *name* is
-      not specified, then ``obj.__name__`` is used.
+      not specified, then :attr:`obj.__name__ <definition.__name__>` is used.
 
       The optional parameter *module* is the module that contains the given object.
       If the module is not specified or is ``None``, then the test finder will attempt

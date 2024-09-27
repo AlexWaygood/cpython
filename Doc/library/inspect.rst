@@ -567,7 +567,8 @@ attributes (see :ref:`import-mod-attrs` for module attributes):
    Examples are properties (defined in Python), getsets, and members.  The
    latter two are defined in C and there are more specific tests available for
    those types, which is robust across Python implementations.  Typically, data
-   descriptors will also have :attr:`~definition.__name__` and :attr:`!__doc__` attributes
+   descriptors will also have :attr:`~definition.__name__` and
+   :attr:`~definition.__doc__` attributes
    (properties, getsets, and members have both of these attributes), but this is
    not guaranteed.
 

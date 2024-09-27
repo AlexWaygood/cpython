@@ -5542,7 +5542,8 @@ types, where they are relevant.  Some of these are not reported by the
 
 .. attribute:: definition.__doc__
 
-   The documentation string of a class or function, or ``None`` if undefined.
+   The documentation string of a class, function, or other object.
+   ``None`` if no documentation string was defined.
 
 
 .. attribute:: definition.__type_params__

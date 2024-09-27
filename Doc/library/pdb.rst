@@ -755,4 +755,4 @@ can be overridden by the local file.
 .. rubric:: Footnotes
 
 .. [1] Whether a frame is considered to originate in a certain module
-       is determined by the ``__name__`` in the frame globals.
+       is determined by the :attr:`~module.__name__` in the frame globals.

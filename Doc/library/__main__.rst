@@ -24,7 +24,7 @@ below.  If you're new to Python modules, see the tutorial section
 ``__name__ == '__main__'``
 ---------------------------
 
-When a Python module or package is imported, ``__name__`` is set to the
+When a Python module or package is imported, :attr:`~module.__name__` is set to the
 module's name.  Usually, this is the name of the Python file itself without the
 ``.py`` extension::
 
@@ -32,7 +32,7 @@ module's name.  Usually, this is the name of the Python file itself without the
     >>> configparser.__name__
     'configparser'
 
-If the file is part of a package, ``__name__`` will also include the parent
+If the file is part of a package, :attr:`!__name__` will also include the parent
 package's path::
 
     >>> from concurrent.futures import process
@@ -40,7 +40,7 @@ package's path::
     'concurrent.futures.process'
 
 However, if the module is executed in the top-level code environment,
-its ``__name__`` is set to the string ``'__main__'``.
+its :attr:`!__name__` is set to the string ``'__main__'``.
 
 What is the "top-level code environment"?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -94,11 +94,11 @@ The top-level code environment can be:
      Explicit is better than implicit.
      ...
 
-In each of these situations, the top-level module's ``__name__`` is set to
-``'__main__'``.
+In each of these situations, the top-level module's :attr:`~module.__name__` is
+set to ``'__main__'``.
 
 As a result, a module can discover whether or not it is running in the
-top-level environment by checking its own ``__name__``, which allows a common
+top-level environment by checking its own :attr:`!__name__`, which allows a common
 idiom for conditionally executing code when the module is not initialized from
 an import statement::
 
@@ -108,8 +108,8 @@ an import statement::
 
 .. seealso::
 
-   For a more detailed look at how ``__name__`` is set in all situations, see
-   the tutorial section :ref:`tut-modules`.
+   For a more detailed look at how :attr:`~module.__name__` is set in all
+   situations, see the tutorial section :ref:`tut-modules`.
 
 
 Idiomatic Usage
@@ -244,7 +244,7 @@ short and import functions to execute from other modules.  Those other modules c
 easily unit-tested and are properly reusable.
 
 If used, an ``if __name__ == '__main__'`` block will still work as expected
-for a ``__main__.py`` file within a package, because its ``__name__``
+for a ``__main__.py`` file within a package, because its :attr:`~module.__name__`
 attribute will include the package's path if imported::
 
     >>> import asyncio.__main__
@@ -253,7 +253,7 @@ attribute will include the package's path if imported::
 
 This won't work for ``__main__.py`` files in the root directory of a
 ``.zip`` file though.  Hence, for consistency, a minimal ``__main__.py``
-without a ``__name__`` check is preferred.
+without a :attr:`!__name__` check is preferred.
 
 .. seealso::
 
@@ -361,8 +361,8 @@ defined in the REPL becomes part of the ``__main__`` scope::
     >>> namely.print_user_name()
     Jabberwocky
 
-Note that in this case the ``__main__`` scope doesn't contain a ``__file__``
-attribute as it's interactive.
+Note that in this case the ``__main__`` scope doesn't contain a
+:attr:`~module.__file__` attribute as it's interactive.
 
 The ``__main__`` scope is used in the implementation of :mod:`pdb` and
 :mod:`rlcompleter`.
