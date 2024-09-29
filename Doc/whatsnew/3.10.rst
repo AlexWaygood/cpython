@@ -1077,7 +1077,8 @@ on Windows.
 doctest
 -------
 
-When a module does not define ``__loader__``, fall back to ``__spec__.loader``.
+When a module does not define :attr:`~module.__loader__`, fall back to
+:attr:`__spec__.loader <importlib.machinery.ModuleSpec.loader>`.
 (Contributed by Brett Cannon in :issue:`42133`.)
 
 encodings
@@ -1212,7 +1213,8 @@ for resolving top-level Python modules and packages to their
 inspect
 -------
 
-When a module does not define ``__loader__``, fall back to ``__spec__.loader``.
+When a module does not define :attr:`~module.__loader__`, fall back to
+:attr:`__spec__.loader <importlib.machinery.ModuleSpec.loader>`.
 (Contributed by Brett Cannon in :issue:`42133`.)
 
 Add :func:`inspect.get_annotations`, which safely computes the annotations
@@ -1239,7 +1241,8 @@ Add :func:`itertools.pairwise`.
 linecache
 ---------
 
-When a module does not define ``__loader__``, fall back to ``__spec__.loader``.
+When a module does not define :attr:`~module.__loader__`, fall back to
+:attr:`__spec__.loader <importlib.machinery.ModuleSpec.loader>`.
 (Contributed by Brett Cannon in :issue:`42133`.)
 
 os
@@ -1338,7 +1341,8 @@ Add :func:`~statistics.covariance`, Pearson's
 site
 ----
 
-When a module does not define ``__loader__``, fall back to ``__spec__.loader``.
+When a module does not define :attr:`~module.__loader__`, fall back to
+:attr:`__spec__.loader <importlib.machinery.ModuleSpec.loader>`.
 (Contributed by Brett Cannon in :issue:`42133`.)
 
 socket
@@ -1624,11 +1628,14 @@ Deprecated
   :meth:`~importlib.abc.Loader.load_module`
   (superseded by :meth:`~importlib.abc.Loader.exec_module`),
   :meth:`!module_repr` (which the import system
-  takes care of for you), the ``__package__`` attribute
-  (superseded by ``__spec__.parent``), the ``__loader__`` attribute
-  (superseded by ``__spec__.loader``), and the ``__cached__`` attribute
-  (superseded by ``__spec__.cached``) will slowly be removed (as well
-  as other classes and methods in :mod:`importlib`).
+  takes care of for you), the :attr:`~module.__package__` attribute
+  (superseded by
+  :attr:`__spec__.parent <importlib.machinery.ModuleSpec.parent>`), the
+  :attr:`~module.__loader__` attribute (superseded by
+  :attr:`__spec__.loader <importlib.machinery.ModuleSpec.loader>`), and the
+  :attr:`~module.__cached__` attribute (superseded by
+  :attr:`__spec__.cached <importlib.machinery.ModuleSpec.cached>`) will slowly
+  be removed (as well as other classes and methods in :mod:`importlib`).
   :exc:`ImportWarning` and/or :exc:`DeprecationWarning` will be raised
   as appropriate to help identify code which needs updating during
   this transition.
@@ -1703,8 +1710,8 @@ Deprecated
   previous versions of Python).
   (Contributed by Brett Cannon in :issue:`43720`.)
 
-* The import system now uses the ``__spec__`` attribute on modules before
-  falling back on :meth:`!module_repr` for a module's
+* The import system now uses the :attr:`~module.__spec__` attribute on modules
+  before falling back on :meth:`!module_repr` for a module's
   ``__repr__()`` method. Removal of the use of ``module_repr()`` is scheduled
   for Python 3.12.
   (Contributed by Brett Cannon in :issue:`42137`.)

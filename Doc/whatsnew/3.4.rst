@@ -410,7 +410,7 @@ Some smaller changes made to the core Python language are:
 
 * Module objects are now :ref:`weakly referenceable <mod-weakref>`.
 
-* Module ``__file__`` attributes (and related values) should now always
+* Module :attr:`~module.__file__` attributes (and related values) should now always
   contain absolute paths by default, with the sole exception of
   ``__main__.__file__`` when a script has been executed directly using
   a relative path.  (Contributed by Brett Cannon in :issue:`18416`.)
@@ -784,7 +784,8 @@ new options, ``-o`` and ``-f``.  ``-o`` allows :ref:`doctest options
 shorthand for ``-o FAIL_FAST`` (to parallel the similar option supported by the
 :mod:`unittest` CLI).  (Contributed by R. David Murray in :issue:`11390`.)
 
-:mod:`doctest` will now find doctests in extension module ``__doc__`` strings.
+:mod:`doctest` will now find doctests in extension module
+:attr:`~module.__doc__` strings.
 (Contributed by Zachary Ware in :issue:`3158`.)
 
 
@@ -1146,7 +1147,7 @@ inherit unneeded handles/file descriptors from their parents (part of
 :issue:`8713`).
 
 :mod:`multiprocessing` now relies on :mod:`runpy` (which implements the
-``-m`` switch) to initialise ``__main__`` appropriately in child processes
+``-m`` switch) to initialise :mod:`__main__` appropriately in child processes
 when using the ``spawn`` or ``forkserver`` start methods. This resolves some
 edge cases where combining multiprocessing, the ``-m`` command line switch,
 and explicit relative imports could cause obscure failures in child
@@ -2277,28 +2278,33 @@ Changes in the Python API
   in a backwards-compatible fashion, use e.g.
   ``getattr(module, '__loader__', None) is not None``.  (:issue:`17115`.)
 
-* :meth:`!importlib.util.module_for_loader` now sets ``__loader__`` and
-  ``__package__`` unconditionally to properly support reloading. If this is not
+* :meth:`!importlib.util.module_for_loader` now sets :attr:`~module.__loader__`
+  and :attr:`~module.__package__` unconditionally to properly support
+  reloading. If this is not
   desired then you will need to set these attributes manually. You can use
   :func:`importlib.util.module_to_load` for module management.
 
-* Import now resets relevant attributes (e.g. ``__name__``, ``__loader__``,
-  ``__package__``, ``__file__``, ``__cached__``) unconditionally when reloading.
+* Import now resets relevant attributes (such as :attr:`~module.__name__`,
+  :attr:`~module.__loader__`, :attr:`~module.__package__`,
+  :attr:`~module.__file__` and :attr:`~module.__cached__`) unconditionally when
+  reloading.
   Note that this restores a pre-3.3 behavior in that it means a module is
   re-found when re-loaded (:issue:`19413`).
 
-* Frozen packages no longer set ``__path__`` to a list containing the package
+* Frozen packages no longer set :attr:`~module.__path__` to a list containing
+  the package
   name, they now set it to an empty list.  The previous behavior could cause
   the import system to do the wrong thing on submodule imports if there was
   also a directory with the same name as the frozen package.  The correct way
   to determine if a module is a package or not is to use ``hasattr(module,
   '__path__')`` (:issue:`18065`).
 
-* Frozen modules no longer define a ``__file__`` attribute. It's semantically
-  incorrect for frozen modules to set the attribute as they are not loaded from
-  any explicit location. If you must know that a module comes from frozen code
-  then you can see if the module's ``__spec__.location`` is set to ``'frozen'``,
-  check if the loader is a subclass of
+* Frozen modules no longer define a :attr:`~module.__file__` attribute. It's
+  semantically incorrect for frozen modules to set the attribute as they are
+  not loaded from any explicit location. If you must know that a module comes
+  from frozen code then you can see if the module's
+  :attr:`__spec__.location <importlib.machinery.ModuleSpec.location>` is set to
+  ``'frozen'``, check if the loader is a subclass of
   :class:`importlib.machinery.FrozenImporter`,
   or if Python 2 compatibility is necessary you can use :func:`!imp.is_frozen`.
 
@@ -2338,12 +2344,11 @@ Changes in the Python API
   directory to objects in :data:`sys.path_hooks` for the empty string. This
   results in :data:`sys.path_importer_cache` never containing ``''``, thus
   iterating through :data:`sys.path_importer_cache` based on :data:`sys.path`
-  will not find all keys. A module's ``__file__`` when imported in the current
-  working directory will also now have an absolute path, including when using
-  ``-m`` with the interpreter (except for ``__main__.__file__`` when a script
-  has been executed directly using a relative path) (Contributed by Brett
-  Cannon in :issue:`18416`).  is specified on the command-line)
-  (:issue:`18416`).
+  will not find all keys. A module's :attr:`~module.__file__` when imported in
+  the current working directory will also now have an absolute path, including
+  when using ``-m`` with the interpreter (except for ``__main__.__file__`` when
+  a script has been executed directly using a relative path). (Contributed by
+  Brett Cannon in :issue:`18416`.)
 
 * The removal of the *strict* argument to :class:`~http.client.HTTPConnection`
   and :class:`~http.client.HTTPSConnection` changes the meaning of the
@@ -2469,7 +2474,8 @@ Changes in the Python API
   will matter only if you have tests that are doing white-space-sensitive
   comparisons of such output (:issue:`16333`).
 
-* :mod:`doctest` now looks for doctests in extension module ``__doc__``
+* :mod:`doctest` now looks for doctests in extension module
+  :attr:`~module.__doc__`
   strings, so if your doctest test discovery includes extension modules that
   have things that look like doctests in them you may see test failures you've
   never seen before when running your tests (:issue:`3158`).

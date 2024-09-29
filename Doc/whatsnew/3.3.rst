@@ -753,13 +753,14 @@ hooks used by import.  Previously the finders were implicit and hidden within
 the C code of import instead of being directly exposed. This means that one can
 now easily remove or change the order of the various finders to fit one's needs.
 
-Another change is that all modules have a ``__loader__`` attribute, storing the
+Another change is that all modules have a :attr:`~module.__loader__` attribute,
+storing the
 loader used to create the module. :pep:`302` has been updated to make this
 attribute mandatory for loaders to implement, so in the future once 3rd-party
 loaders have been updated people will be able to rely on the existence of the
 attribute. Until such time, though, import is setting the module post-load.
 
-Loaders are also now expected to set the ``__package__`` attribute from
+Loaders are also now expected to set the :attr:`~module.__package__` attribute from
 :pep:`366`. Once again, import itself is already setting this on all loaders
 from :mod:`importlib` and import itself is setting the attribute post-load.
 

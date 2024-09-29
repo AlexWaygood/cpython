@@ -79,8 +79,8 @@ regular modules.
 
 It's important to keep in mind that all packages are modules, but not all
 modules are packages.  Or put another way, packages are just a special kind of
-module.  Specifically, any module that contains a ``__path__`` attribute is
-considered a package.
+module.  Specifically, any module that contains a :attr:`~module.__path__`
+attribute is considered a package.
 
 All modules have a name.  Subpackage names are separated from their parent
 package name by a dot, akin to Python's standard attribute access syntax.  Thus
@@ -138,7 +138,7 @@ during import.  Namespace packages may or may not correspond directly to
 objects on the file system; they may be virtual modules that have no concrete
 representation.
 
-Namespace packages do not use an ordinary list for their ``__path__``
+Namespace packages do not use an ordinary list for their :attr:`~module.__path__`
 attribute. They instead use a custom iterable type which will automatically
 perform a new search for package portions on the next import attempt within
 that package if the path of their parent package (or :data:`sys.path` for a
@@ -298,7 +298,8 @@ qualified name of the module being imported, for example ``foo.bar.baz``.
 The second argument is the path entries to use for the module search.  For
 top-level modules, the second argument is ``None``, but for submodules or
 subpackages, the second argument is the value of the parent package's
-``__path__`` attribute. If the appropriate ``__path__`` attribute cannot
+:attr:`~module.__path__` attribute. If the appropriate :attr:`!__path__`
+attribute cannot
 be accessed, a :exc:`ModuleNotFoundError` is raised.  The third argument
 is an existing module object that will be the target of loading later.
 The import system passes in a target module only during reload.
@@ -483,8 +484,8 @@ import machinery will create the new module itself.
 Submodules
 ----------
 
-When a submodule is loaded using any mechanism (e.g. ``importlib`` APIs, the
-``import`` or ``import-from`` statements, or built-in ``__import__()``) a
+When a submodule is loaded using any mechanism (e.g. :mod:`importlib` APIs, the
+``import`` or ``import-from`` statements, or built-in :func:`__import__`) a
 binding is placed in the parent module's namespace to the submodule object.
 For example, if package ``spam`` has a submodule ``foo``, after importing
 ``spam.foo``, ``spam`` will have an attribute ``foo`` which is bound to the
@@ -532,7 +533,7 @@ whereas without a module spec the loader had that responsibility.
 The module's spec is exposed as :attr:`module.__spec__`. Setting
 :attr:`!__spec__` appropriately applies equally to
 :ref:`modules initialized during interpreter startup <programs>`.
-The one exception is ``__main__``, where :attr:`!__spec__` is
+The one exception is :mod:`__main__`, where :attr:`!__spec__` is
 :ref:`set to None in some cases <main_spec>`.
 
 See :class:`~importlib.machinery.ModuleSpec` for details on the contents of
@@ -576,26 +577,32 @@ By default, all modules have a usable repr, however depending on the
 attributes set above, and in the module's spec, you can more explicitly
 control the repr of module objects.
 
-If the module has a spec (``__spec__``), the import machinery will try
+If the module has a spec (:attr:`module.__spec__`), the import machinery will try
 to generate a repr from it.  If that fails or there is no spec, the import
 system will craft a default repr using whatever information is available
-on the module.  It will try to use the ``module.__name__``,
-``module.__file__``, and ``module.__loader__`` as input into the repr,
+on the module.  It will try to use the :attr:`module.__name__`,
+:attr:`module.__file__`, and :attr:`module.__loader__` as input into the repr,
 with defaults for whatever information is missing.
 
 Here are the exact rules used:
 
-* If the module has a ``__spec__`` attribute, the information in the spec
-  is used to generate the repr.  The "name", "loader", "origin", and
-  "has_location" attributes are consulted.
+* If the module has a :attr:`~module.__spec__` attribute, the information in
+  the spec
+  is used to generate the repr.  The
+  :attr:`~importlib.machinery.ModuleSpec.name`,
+  :attr:`~importlib.machinery.ModuleSpec.loader`,
+  :attr:`~importlib.machinery.ModuleSpec.origin` and
+  :attr:`~importlib.machinery.ModuleSpec.has_location` attributes are
+  consulted.
 
-* If the module has a ``__file__`` attribute, this is used as part of the
-  module's repr.
+* If the module has a :attr:`~module.__file__` attribute, this is used as part
+  of the module's repr.
 
-* If the module has no ``__file__`` but does have a ``__loader__`` that is not
-  ``None``, then the loader's repr is used as part of the module's repr.
+* If the module has no :attr:`~module.__file__` but does have a
+  :attr:`~module.__loader__` that is not ``None``, then the loader's repr is
+  used as part of the module's repr.
 
-* Otherwise, just use the module's ``__name__`` in the repr.
+* Otherwise, just use the module's :attr:`~module.__name__` in the repr.
 
 .. versionchanged:: 3.12
    Use of :meth:`!module_repr`, having been deprecated since Python 3.4, was
@@ -699,7 +706,8 @@ described, however it exposes additional hooks that can be used to
 customize how modules are found and loaded from the :term:`import path`.
 
 Three variables are used by the :term:`path based finder`, :data:`sys.path`,
-:data:`sys.path_hooks` and :data:`sys.path_importer_cache`.  The ``__path__``
+:data:`sys.path_hooks` and :data:`sys.path_importer_cache`.  The
+:attr:`~module.__path__`
 attributes on package objects are also used.  These provide additional ways
 that the import machinery can be customized.
 
@@ -715,10 +723,10 @@ URLs, or database queries.  Only strings should be present on
 The :term:`path based finder` is a :term:`meta path finder`, so the import
 machinery begins the :term:`import path` search by calling the path
 based finder's :meth:`~importlib.machinery.PathFinder.find_spec` method as
-described previously.  When the ``path`` argument to
+described previously.  When the *path* argument to
 :meth:`~importlib.machinery.PathFinder.find_spec` is given, it will be a
-list of string paths to traverse - typically a package's ``__path__``
-attribute for an import within that package.  If the ``path`` argument is
+list of string paths to traverse - typically a package's :attr:`~module.__path__`
+attribute for an import within that package.  If the *path* argument is
 ``None``, this indicates a top level import and :data:`sys.path` is used.
 
 The path based finder iterates over every entry in the search path, and
@@ -905,8 +913,9 @@ __main__.__spec__
 Depending on how :mod:`__main__` is initialized, ``__main__.__spec__``
 gets set appropriately or to ``None``.
 
-When Python is started with the :option:`-m` option, ``__spec__`` is set
-to the module spec of the corresponding module or package. ``__spec__`` is
+When Python is started with the :option:`-m` option, :attr:`~module.__spec__`
+is set to the module spec of the corresponding module or package.
+:attr:`!__spec__` is
 also populated when the ``__main__`` module is loaded as part of executing a
 directory, zipfile or other :data:`sys.path` entry.
 
@@ -946,12 +955,12 @@ subsequent extension in :pep:`420`.
 Python 3.3.  :pep:`420` also introduced the :meth:`!find_loader` protocol as an
 alternative to :meth:`!find_module`.
 
-:pep:`366` describes the addition of the ``__package__`` attribute for
-explicit relative imports in main modules.
+:pep:`366` describes the addition of the :attr:`~module.__package__` attribute
+for explicit relative imports in main modules.
 
 :pep:`328` introduced absolute and explicit relative imports and initially
-proposed ``__name__`` for semantics :pep:`366` would eventually specify for
-``__package__``.
+proposed :attr:`~module.__name__` for semantics :pep:`366` would eventually
+specify for :attr:`~module.__package__`.
 
 :pep:`338` defines executing modules as scripts.
 
