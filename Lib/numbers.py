@@ -1,9 +1,8 @@
 # Copyright 2007 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
-"""Abstract Base Classes (ABCs) for numbers, according to PEP 3141.
-
-TODO: Fill out more detailed documentation on the operators."""
+# TODO: Fill out more detailed documentation on the operators
+"""Abstract Base Classes (ABCs) for numbers, according to PEP 3141."""
 
 ############ Maintenance notes #########################################
 #

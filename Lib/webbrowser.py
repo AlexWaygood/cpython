@@ -646,19 +646,19 @@ if sys.platform == 'darwin':
         return 'com.apple.Safari'
 
     class MacOS(BaseBrowser):
-        """Launcher class for macOS browsers, using /usr/bin/open.
+        """Launcher class for macOS browsers, using `/usr/bin/open`.
 
-        For http/https URLs with the default browser, /usr/bin/open is called
+        For http/https URLs with the default browser, `/usr/bin/open` is called
         directly; macOS routes these to the registered browser.
 
-        For all other URL schemes (e.g. file://) and for named browsers,
-        /usr/bin/open -b <bundle-id> is used so that the URL is always passed
+        For all other URL schemes (e.g. `file://`) and for named browsers,
+        `/usr/bin/open -b <bundle-id>` is used so that the URL is always passed
         to a browser application rather than dispatched by the OS file handler.
-        This prevents file injection attacks where a file:// URL pointing to an
+        This prevents file injection attacks where a `file://` URL pointing to an
         executable bundle could otherwise be launched by the OS.
 
-        Named browsers with known bundle IDs use -b; unknown names fall back
-        to -a.
+        Named browsers with known bundle IDs use `-b`; unknown names fall back
+        to `-a`.
         """
 
         _BUNDLE_IDS = {

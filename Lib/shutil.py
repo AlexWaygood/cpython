@@ -1507,16 +1507,16 @@ def get_terminal_size(fallback=(80, 24)):
     the value is a positive integer, it is used.
 
     When COLUMNS or LINES is not defined, which is the common case,
-    the terminal connected to sys.__stdout__ is queried
-    by invoking os.get_terminal_size.
+    the terminal connected to `sys.__stdout__` is queried
+    by invoking `os.get_terminal_size`.
 
     If the terminal size cannot be successfully queried, either because
     the system doesn't support querying, or because we are not
-    connected to a terminal, the value given in fallback parameter
-    is used. Fallback defaults to (80, 24) which is the default
+    connected to a terminal, the value given in *fallback* parameter
+    is used. *fallback* defaults to `(80, 24)` which is the default
     size used by many terminal emulators.
 
-    The value returned is a named tuple of type os.terminal_size.
+    The value returned is a named tuple of type `os.terminal_size`.
     """
     # columns, lines are the working values
     try:

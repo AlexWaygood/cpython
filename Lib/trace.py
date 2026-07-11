@@ -28,22 +28,24 @@
 """program/module to trace Python program or function execution
 
 Sample use, command line:
-  trace.py -c -f counts --ignore-dir '$prefix' spam.py eggs
-  trace.py -t --ignore-dir '$prefix' spam.py eggs
-  trace.py --trackcalls spam.py eggs
 
-Sample use, programmatically
-  import sys
+    trace.py -c -f counts --ignore-dir '$prefix' spam.py eggs
+    trace.py -t --ignore-dir '$prefix' spam.py eggs
+    trace.py --trackcalls spam.py eggs
 
-  # create a Trace object, telling it what to ignore, and whether to
-  # do tracing or line-counting or both.
-  tracer = trace.Trace(ignoredirs=[sys.base_prefix, sys.base_exec_prefix,],
-                       trace=0, count=1)
-  # run the new command using the given tracer
-  tracer.run('main()')
-  # make a report, placing output in /tmp
-  r = tracer.results()
-  r.write_results(show_missing=True, coverdir="/tmp")
+Sample use, programmatically:
+
+    import sys
+
+    # create a Trace object, telling it what to ignore, and whether to
+    # do tracing or line-counting or both.
+    tracer = trace.Trace(ignoredirs=[sys.base_prefix, sys.base_exec_prefix,],
+                         trace=0, count=1)
+    # run the new command using the given tracer
+    tracer.run('main()')
+    # make a report, placing output in /tmp
+    r = tracer.results()
+    r.write_results(show_missing=True, coverdir="/tmp")
 """
 __all__ = ['Trace', 'CoverageResults']
 

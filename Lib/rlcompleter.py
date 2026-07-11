@@ -47,16 +47,14 @@ class Completer:
     def __init__(self, namespace = None):
         """Create a new completer for the command line.
 
-        Completer([namespace]) -> completer instance.
-
         If unspecified, the default namespace where completions are performed
-        is __main__ (technically, __main__.__dict__). Namespaces should be
+        is `__main__` (technically, `__main__.__dict__`). Namespaces should be
         given as dictionaries.
 
         Completer instances should be used as the completion mechanism of
-        readline via the set_completer() call:
+        readline via the `set_completer()` call:
 
-        readline.set_completer(Completer(my_namespace).complete)
+            readline.set_completer(Completer(my_namespace).complete)
         """
 
         if namespace and not isinstance(namespace, dict):
@@ -142,17 +140,17 @@ class Completer:
         return matches
 
     def attr_matches(self, text):
-        """Compute matches when text contains a dot.
+        """Compute matches when *text* contains a dot.
 
-        Assuming the text is of the form NAME.NAME....[NAME], and is
-        evaluable in self.namespace, it will be evaluated and its attributes
-        (as revealed by dir()) are used as possible completions.  (For class
+        Assuming the text is of the form `NAME.NAME....[NAME]`, and is
+        evaluable in `self.namespace`, it will be evaluated and its attributes
+        (as revealed by `dir()`) are used as possible completions.  (For class
         instances, class members are also considered.)
 
         WARNING: this can still invoke arbitrary C code, if an object
-        with a __getattr__ hook is evaluated.
-
+        with a `__getattr__` hook is evaluated.
         """
+
         m = re.match(r"(\w+(\.\w+)*)\.(\w*)", text)
         if not m:
             return []

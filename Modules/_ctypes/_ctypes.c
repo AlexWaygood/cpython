@@ -3248,7 +3248,7 @@ static PyMethodDef PyCData_methods[] = {
 static PyType_Slot pycdata_slots[] = {
     {Py_tp_dealloc, PyCData_dealloc},
     {Py_tp_hash, PyCData_nohash},
-    {Py_tp_doc, PyDoc_STR("XXX to be provided")},
+    // XXX add docstring
     {Py_tp_traverse, PyCData_traverse},
     {Py_tp_clear, PyCData_clear},
     {Py_tp_methods, PyCData_methods},
@@ -5543,7 +5543,7 @@ Simple_repr(PyObject *self)
 
 static PyType_Slot pycsimple_slots[] = {
     {Py_tp_repr, &Simple_repr},
-    {Py_tp_doc, PyDoc_STR("XXX to be provided")},
+    // XXX add docstring
     {Py_tp_methods, Simple_methods},
     {Py_tp_getset, Simple_getsets},
     {Py_tp_init, Simple_init},
@@ -5984,7 +5984,7 @@ Pointer_bool(PyObject *self)
 }
 
 static PyType_Slot pycpointer_slots[] = {
-    {Py_tp_doc, (void *)PyDoc_STR("XXX to be provided")},
+    // XXX add docstring
     {Py_tp_getset, Pointer_getsets},
     {Py_tp_init, Pointer_init},
     {Py_tp_new, Pointer_new},

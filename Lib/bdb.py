@@ -217,7 +217,7 @@ class Bdb:
 
         For real filenames, the canonical form is a case-normalized (on
         case insensitive filesystems) absolute path.  'Filenames' with
-        angle brackets, such as "<stdin>", generated in interactive
+        angle brackets, such as `"<stdin>"`, generated in interactive
         mode, are returned unchanged.
         """
         if filename == "<" + filename[1:-1] + ">":
@@ -845,12 +845,12 @@ class Bdb:
     def format_stack_entry(self, frame_lineno, lprefix=': '):
         """Return a string with information about a stack entry.
 
-        The stack entry frame_lineno is a (frame, lineno) tuple.  The
-        return string contains the canonical filename, the function name
-        or '<lambda>', the input arguments, the return value, and the
+        The stack entry frame_lineno is a `(frame, lineno)` tuple.  The
+        returned string contains the canonical filename, the function name
+        or `'<lambda>'`, the input arguments, the return value, and the
         line of code (if it exists).
-
         """
+
         import linecache, reprlib
         frame, lineno = frame_lineno
         filename = self.canonic(frame.f_code.co_filename)
@@ -887,10 +887,11 @@ class Bdb:
     # Both can be given as a string, or a code object.
 
     def run(self, cmd, globals=None, locals=None):
-        """Debug a statement executed via the exec() function.
+        """Debug a statement executed via the `exec()` function.
 
-        globals defaults to __main__.dict; locals defaults to globals.
+        *globals* defaults to `__main__.dict`; *locals* defaults to *globals*.
         """
+
         if globals is None:
             import __main__
             globals = __main__.__dict__
@@ -909,9 +910,9 @@ class Bdb:
             self.stop_trace()
 
     def runeval(self, expr, globals=None, locals=None):
-        """Debug an expression executed via the eval() function.
+        """Debug an expression executed via the `eval()` function.
 
-        globals defaults to __main__.dict; locals defaults to globals.
+        *globals* defaults to `__main__.dict`; *locals* defaults to *globals*.
         """
         if globals is None:
             import __main__

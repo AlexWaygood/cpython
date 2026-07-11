@@ -960,7 +960,7 @@ PyDoc_STRVAR(builtin_pow__doc__,
 "pow($module, /, base, exp, mod=None)\n"
 "--\n"
 "\n"
-"Equivalent to base**exp with 2 arguments or base**exp % mod with 3 arguments\n"
+"Equivalent to `base**exp` with 2 arguments or `base**exp % mod` with 3 arguments\n"
 "\n"
 "Some types, such as ints, are able to use a more efficient algorithm\n"
 "when invoked using the three argument form.");
@@ -1387,4 +1387,4 @@ builtin_issubclass(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=84efa9c5cc737ce5 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=7ad8b7cd7b5ee223 input=a9049054013a1b77]*/

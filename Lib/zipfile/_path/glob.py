@@ -76,7 +76,7 @@ class Translator:
 
     def restrict_rglob(self, pattern):
         """
-        Raise ValueError if ** appears in anything but a full path segment.
+        Raise ValueError if `**` appears in anything but a full path segment.
 
         >>> Translator().translate('**foo')
         Traceback (most recent call last):
@@ -90,7 +90,7 @@ class Translator:
 
     def star_not_empty(self, pattern):
         """
-        Ensure that * will not match an empty segment.
+        Ensure that `*` will not match an empty segment.
         """
 
         def handle_segment(match):

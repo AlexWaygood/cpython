@@ -28,16 +28,16 @@ def _parents(path):
     Given a path with elements separated by
     posixpath.sep, generate all parents of that path.
 
-    >>> list(_parents('b/d'))
-    ['b']
-    >>> list(_parents('/b/d/'))
-    ['/b']
-    >>> list(_parents('b/d/f/'))
-    ['b/d', 'b']
-    >>> list(_parents('b'))
-    []
-    >>> list(_parents(''))
-    []
+        >>> list(_parents('b/d'))
+        ['b']
+        >>> list(_parents('/b/d/'))
+        ['/b']
+        >>> list(_parents('b/d/f/'))
+        ['b/d', 'b']
+        >>> list(_parents('b'))
+        []
+        >>> list(_parents(''))
+        []
     """
     return itertools.islice(_ancestry(path), 1, None)
 
@@ -47,21 +47,21 @@ def _ancestry(path):
     Given a path with elements separated by
     posixpath.sep, generate all elements of that path.
 
-    >>> list(_ancestry('b/d'))
-    ['b/d', 'b']
-    >>> list(_ancestry('/b/d/'))
-    ['/b/d', '/b']
-    >>> list(_ancestry('b/d/f/'))
-    ['b/d/f', 'b/d', 'b']
-    >>> list(_ancestry('b'))
-    ['b']
-    >>> list(_ancestry(''))
-    []
+        >>> list(_ancestry('b/d'))
+        ['b/d', 'b']
+        >>> list(_ancestry('/b/d/'))
+        ['/b/d', '/b']
+        >>> list(_ancestry('b/d/f/'))
+        ['b/d/f', 'b/d', 'b']
+        >>> list(_ancestry('b'))
+        ['b']
+        >>> list(_ancestry(''))
+        []
 
     Multiple separators are treated like a single.
 
-    >>> list(_ancestry('//b//d///f//'))
-    ['//b//d///f', '//b//d', '//b']
+        >>> list(_ancestry('//b//d///f//'))
+        ['//b//d///f', '//b//d', '//b']
     """
     path = path.rstrip(posixpath.sep)
     while path.rstrip(posixpath.sep):
@@ -103,10 +103,10 @@ class CompleteDirs(InitializedState, zipfile.ZipFile):
     A ZipFile subclass that ensures that implied directories
     are always included in the namelist.
 
-    >>> list(CompleteDirs._implied_dirs(['foo/bar.txt', 'foo/bar/baz.txt']))
-    ['foo/', 'foo/bar/']
-    >>> list(CompleteDirs._implied_dirs(['foo/bar.txt', 'foo/bar/baz.txt', 'foo/bar/']))
-    ['foo/']
+        >>> list(CompleteDirs._implied_dirs(['foo/bar.txt', 'foo/bar/baz.txt']))
+        ['foo/', 'foo/bar/']
+        >>> list(CompleteDirs._implied_dirs(['foo/bar.txt', 'foo/bar/baz.txt', 'foo/bar/']))
+        ['foo/']
     """
 
     @staticmethod
@@ -220,91 +220,91 @@ class Path:
             └── d
                 └── e.txt
 
-    >>> data = io.BytesIO()
-    >>> zf = ZipFile(data, 'w')
-    >>> zf.writestr('a.txt', 'content of a')
-    >>> zf.writestr('b/c.txt', 'content of c')
-    >>> zf.writestr('b/d/e.txt', 'content of e')
-    >>> zf.filename = 'mem/abcde.zip'
+        >>> data = io.BytesIO()
+        >>> zf = ZipFile(data, 'w')
+        >>> zf.writestr('a.txt', 'content of a')
+        >>> zf.writestr('b/c.txt', 'content of c')
+        >>> zf.writestr('b/d/e.txt', 'content of e')
+        >>> zf.filename = 'mem/abcde.zip'
 
     Path accepts the zipfile object itself or a filename
 
-    >>> path = Path(zf)
+        >>> path = Path(zf)
 
     From there, several path operations are available.
 
     Directory iteration (including the zip file itself):
 
-    >>> a, b = path.iterdir()
-    >>> a
-    Path('mem/abcde.zip', 'a.txt')
-    >>> b
-    Path('mem/abcde.zip', 'b/')
+        >>> a, b = path.iterdir()
+        >>> a
+        Path('mem/abcde.zip', 'a.txt')
+        >>> b
+        Path('mem/abcde.zip', 'b/')
 
     name property:
 
-    >>> b.name
-    'b'
+        >>> b.name
+        'b'
 
     join with divide operator:
 
-    >>> c = b / 'c.txt'
-    >>> c
-    Path('mem/abcde.zip', 'b/c.txt')
-    >>> c.name
-    'c.txt'
+        >>> c = b / 'c.txt'
+        >>> c
+        Path('mem/abcde.zip', 'b/c.txt')
+        >>> c.name
+        'c.txt'
 
     Read text:
 
-    >>> c.read_text(encoding='utf-8')
-    'content of c'
+        >>> c.read_text(encoding='utf-8')
+        'content of c'
 
     existence:
 
-    >>> c.exists()
-    True
-    >>> (b / 'missing.txt').exists()
-    False
+        >>> c.exists()
+        True
+        >>> (b / 'missing.txt').exists()
+        False
 
     Coercion to string:
 
-    >>> import os
-    >>> str(c).replace(os.sep, posixpath.sep)
-    'mem/abcde.zip/b/c.txt'
+        >>> import os
+        >>> str(c).replace(os.sep, posixpath.sep)
+        'mem/abcde.zip/b/c.txt'
 
     At the root, ``name``, ``filename``, and ``parent``
     resolve to the zipfile.
 
-    >>> str(path)
-    'mem/abcde.zip/'
-    >>> path.name
-    'abcde.zip'
-    >>> path.filename == pathlib.Path('mem/abcde.zip')
-    True
-    >>> str(path.parent)
-    'mem'
+        >>> str(path)
+        'mem/abcde.zip/'
+        >>> path.name
+        'abcde.zip'
+        >>> path.filename == pathlib.Path('mem/abcde.zip')
+        True
+        >>> str(path.parent)
+        'mem'
 
     If the zipfile has no filename, such attributes are not
     valid and accessing them will raise an Exception.
 
-    >>> zf.filename = None
-    >>> path.name
-    Traceback (most recent call last):
-    ...
-    TypeError: ...
+        >>> zf.filename = None
+        >>> path.name
+        Traceback (most recent call last):
+        ...
+        TypeError: ...
 
-    >>> path.filename
-    Traceback (most recent call last):
-    ...
-    TypeError: ...
+        >>> path.filename
+        Traceback (most recent call last):
+        ...
+        TypeError: ...
 
-    >>> path.parent
-    Traceback (most recent call last):
-    ...
-    TypeError: ...
+        >>> path.parent
+        Traceback (most recent call last):
+        ...
+        TypeError: ...
 
-    # workaround python/cpython#106763
-    >>> pass
+        # workaround python/cpython#106763
+        >>> pass
     """
 
     __repr = "{self.__class__.__name__}({self.root.filename!r}, {self.at!r})"
@@ -314,7 +314,7 @@ class Path:
         Construct a Path from a ZipFile or filename.
 
         Note: When the source is an existing ZipFile object,
-        its type (__class__) will be mutated to a
+        its type (`__class__`) will be mutated to a
         specialized type. If the caller wishes to retain the
         original type, the caller should either create a
         separate ZipFile object or pass a filename.

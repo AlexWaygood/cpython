@@ -6719,7 +6719,7 @@ _decimal.Context.power
     b as exp: object
     modulo as mod: object = None
 
-Compute a**b.
+Compute `a**b`.
 
 If 'a' is negative, then 'b' must be integral. The result will be
 inexact unless 'a' is integral and the result is finite and can be
@@ -6727,20 +6727,20 @@ expressed exactly in 'precision' digits.  In the Python version the
 result is always correctly rounded, in the C version the result is
 almost always correctly rounded.
 
-If modulo is given, compute (a**b) % modulo. The following
+If modulo is given, compute `(a**b) % modulo`. The following
 restrictions hold:
 
     * all three arguments must be integral
     * 'b' must be nonnegative
     * at least one of 'a' or 'b' must be nonzero
-    * modulo must be nonzero and less than 10**prec in absolute
+    * modulo must be nonzero and less than `10**prec` in absolute
       value
 [clinic start generated code]*/
 
 static PyObject *
 _decimal_Context_power_impl(PyObject *context, PyTypeObject *cls,
                             PyObject *base, PyObject *exp, PyObject *mod)
-/*[clinic end generated code: output=d06d40c37cdd69dc input=178a254468ec189b]*/
+/*[clinic end generated code: output=d06d40c37cdd69dc input=bedbcdec244d92d8]*/
 {
     PyObject *a, *b, *c = NULL;
     PyObject *result;

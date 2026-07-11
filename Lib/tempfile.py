@@ -433,7 +433,7 @@ def mktemp(suffix="", prefix=template, dir=None):
 
 class _TemporaryFileCloser:
     """A separate object allowing proper closing of a temporary file's
-    underlying file object, without adding a __del__ method to the
+    underlying file object, without adding a `__del__` method to the
     temporary file."""
 
     cleanup_called = False

@@ -5325,7 +5325,7 @@ PyDoc_STRVAR(_decimal_Context_power__doc__,
 "power($self, /, a, b, modulo=None)\n"
 "--\n"
 "\n"
-"Compute a**b.\n"
+"Compute `a**b`.\n"
 "\n"
 "If \'a\' is negative, then \'b\' must be integral. The result will be\n"
 "inexact unless \'a\' is integral and the result is finite and can be\n"
@@ -5333,13 +5333,13 @@ PyDoc_STRVAR(_decimal_Context_power__doc__,
 "result is always correctly rounded, in the C version the result is\n"
 "almost always correctly rounded.\n"
 "\n"
-"If modulo is given, compute (a**b) % modulo. The following\n"
+"If modulo is given, compute `(a**b) % modulo`. The following\n"
 "restrictions hold:\n"
 "\n"
 "    * all three arguments must be integral\n"
 "    * \'b\' must be nonnegative\n"
 "    * at least one of \'a\' or \'b\' must be nonzero\n"
-"    * modulo must be nonzero and less than 10**prec in absolute\n"
+"    * modulo must be nonzero and less than `10**prec` in absolute\n"
 "      value");
 
 #define _DECIMAL_CONTEXT_POWER_METHODDEF    \
@@ -6984,4 +6984,4 @@ exit:
 #ifndef _DECIMAL_CONTEXT_APPLY_METHODDEF
     #define _DECIMAL_CONTEXT_APPLY_METHODDEF
 #endif /* !defined(_DECIMAL_CONTEXT_APPLY_METHODDEF) */
-/*[clinic end generated code: output=0eb835634388294e input=a9049054013a1b77]*/
+/*[clinic end generated code: output=a90fa6ed2fa3af6b input=a9049054013a1b77]*/

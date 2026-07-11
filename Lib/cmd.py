@@ -259,10 +259,10 @@ class Cmd:
         return [a[3:] for a in self.get_names() if a.startswith(dotext)]
 
     def complete(self, text, state):
-        """Return the next possible completion for 'text'.
+        """Return the next possible completion for *text*.
 
         If a command has not been entered, then complete against command list.
-        Otherwise try to call complete_<command> to get list of completions.
+        Otherwise try to call `complete_<command>` to get list of completions.
         """
         if state == 0:
             import readline
